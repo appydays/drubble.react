@@ -53,7 +53,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
 
         fetchPlayerData(); // Invoke the async function
 
-    }, [playerId]);
+    }, [playerId, makeRequest]);
 
     const handlePlayClick = () => {
         onPlayAsGuest(); // Assumes this leads to game start regardless of guest/logged in
@@ -74,18 +74,18 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
     return (
         <div className="welcome-full-screen-container">
             <div className="welcome-app-header">
-                <img src="/scramair.png" alt="Logo Scramair" className="welcome-logo"/>
+                <img src="/drubble.png" alt="Drubble Logo" className="welcome-logo"/>
             </div>
 
             <div className="welcome-main-content">
-                <h2 className="welcome-title">Croeso i Scramair!</h2> {/* Added a prominent title */}
+                <h2 className="welcome-title">Welcome to Drubble!</h2>
                 {/* Core Game Intro (Condensed) */}
                 <div className="welcome-section welcome-intro">
                     {!hasPlayedToday &&
                         <>
-                            <p>Paratowch i roi eich geirfa ar y prawf eithaf!</p>
-                            <p>Yn yr her eiriau ddyddiol hon, cewch <b>5 munud</b> i ddod o hyd i <b>5 gair</b> dros <b>5 rownd</b> o <b>9 llythyren</b> yr un.</p>
-                            <p>Ffeindiwch y gair hiraf posibl i sgorio'n fawr, a defnyddiwch lythrennau llai cyffredin am bwyntiau bonws!</p>
+                            <p>Get ready to put your vocabulary to the ultimate test!</p>
+                            <p>In this daily word challenge, you have <b>5 minutes</b> to find <b>5 words</b> over <b>5 rounds</b> of <b>9 letters</b> each.</p>
+                            <p>Find the longest possible word to score big, and use less common letters for bonus points!</p>
                         </>
                     }
 
@@ -114,19 +114,19 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                         {playerName ? (
                             <>
                                 <button onClick={handlePlayClick} className="welcome-button play-button">
-                                    Chwarae fel {playerName}
+                                    Play as {playerName}
                                 </button>
                                 <button onClick={handleLogout} className="welcome-button secondary-button">
-                                    Allgofnodi
+                                    Log out
                                 </button>
                             </>
                         ) : (
                             <>
                                 <button onClick={handlePlayClick} className="welcome-button play-button">
-                                    Chwarae fel gwestai
+                                    Play as a guest
                                 </button>
                                 <button onClick={onLoginClick} className="welcome-button primary-button">
-                                    Cofrestru neu Mewngofnodi
+                                    Register or Sign In
                                 </button>
                             </>
                         )}
@@ -139,39 +139,32 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                 {/* Expandable Sections for more info */}
                 <div className="welcome-section welcome-details">
                     <h2 className="section-title" onClick={() => setShowHowToPlay(!showHowToPlay)}>
-                        Sut i Chwarae <span className="toggle-icon">{showHowToPlay ? '▲' : '▼'}</span>
+                        How to play <span className="toggle-icon">{showHowToPlay ? '▲' : '▼'}</span>
                     </h2>
                     {showHowToPlay && (
                         <div className="section-content expanded">
-                            <div>Bob dydd, mae pob chwaraewr yn gweithio o'r <b>union un pecyn o 9 llythyren ar hap</b>. Eich cenhadaeth? I ddod o hyd i'r <b>gair hiraf posibl</b> y gallwch ei greu o'r llythrennau hynny. Po hiraf yw'r gair, yr uchaf fydd eich sgôr yn dringo! Ond nid dyna'r cyfan – mae chwarae strategol yn allweddol. Cadwch lygad am y llythrennau llai cyffredin hynny; bydd eu defnyddio yn rhoi hyd yn oed mwy o bwyntiau i chi ac yn rhoi hwb i'ch sgôr gyffredinol.</div>
+                            <div>Each day, every player works from the <b>same pack of random letters</b>. Your mission? To find the <b>longest possible word</b> you can create from those letters. The longer the word, the higher your score will climb! But that's not all - strategic play is key. Keep an eye out for those less common letters; using them will give you even more points and boost your overall score.</div>
                             <br/>
-                            <div>Allwch chi drechu'r gystadleuaeth ddyddiol a hawlio teitl y <b>prif sgoriwr</b>? Neu efallai y byddwch chi'n gosod record bersonol, neu fyd-eang, newydd drwy lunio'r <b>gair â'r sgôr uchaf</b> erioed? Mae pob gêm yn gyfle i brofi eich camp ieithyddol! Cofiwch, gallwch chi chwarae am hwyl a cheisio eto, ond dim ond eich <b>sgôr cyntaf</b> un y diwrnod fydd yn cyfrif tuag at y byrddau arweinwyr dyddiol a'ch goreuon personol.</div>
+                                <div>Can you beat the daily competition and claim the title of <b>top scorer</b>? Or maybe you'll set a new personal, or Drubble record by coming up with the <b>highest scoring word</b> ever? Each game is an opportunity to test your linguistic skill! Remember, you can play for fun and try again, but only your <b>first score</b> of the day will count towards the daily leaderboards and your personal bests.</div>
                         </div>
                     )}
 
                     <h2 className="section-title" onClick={() => setShowWhyRegister(!showWhyRegister)}>
-                        Pam Cofrestru? <span className="toggle-icon">{showWhyRegister ? '▲' : '▼'}</span>
+                        Why register? <span className="toggle-icon">{showWhyRegister ? '▲' : '▼'}</span>
                     </h2>
                     {showWhyRegister && (
                         <div className="section-content expanded">
-                            <div><b>Chwaraewch fel gwestai i neidio’n syth i’r hwyl</b>, neu <b>cofrestrwch am ddim i ddatgloi mwy!</b> Gall chwaraewyr cofrestredig gymryd rhan yn y byrddau arweinwyr dyddiol, olrhain eu hanes gêm, a gweld eu hystadegau personol manwl.</div>
+                            <div><b>Play as a guest to jump right into the fun</b>, or <b>register for free to unlock more!</b> Registered players can participate in daily leaderboards, track their game history, and view their detailed personal statistics.</div>
                             <br/>
-                            <div>Ar ôl i chi gwblhau eich her ddyddiol, gwnewch yn siŵr eich bod chi'n rhannu eich sgôr gyda ffrindiau ac yn gweld pwy sy'n teyrnasu'n oruchaf! P'un a ydych chi'n chwilio am ymennydd cyflym, ffordd hwyliog o dreulio'r amser, neu gystadleuaeth gyfeillgar gyda'ch ffrindiau, Scramair yn cynnig oriau di-ddiwedd o chwarae gafaelgar. Miniogwch eich meddwl, ehangwch eich geirfa, a heriwch eich hun i ddod yn feistr geiriau pennaf!</div>
+                            <div>After you complete your daily challenge, be sure to share your score with friends and see who reigns supreme! Whether you're looking for a quick brain teaser, a fun way to pass the time, or a friendly competition with your friends, Scramair offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate wordsmith!</div>
                         </div>
                     )}
                 </div>
 
-                {/* Space for Ads - See Monetization section below */}
-                {/*<div className="ad-placement-welcome">*/}
-                    {/* Your AdSense ad unit code goes here */}
-                    {/* Example placeholder */}
-                {/*    <div className="placeholder-ad-unit">Hysbyseb yma</div>*/}
-                {/*</div>*/}
-
                 {/* Footer or additional links */}
                 <div className="welcome-footer">
                     {/* Add links to Privacy Policy, Terms of Service etc. */}
-                    <p>&copy; 2025 Scramair. Cedwir pob hawl.</p>
+                    <p>&copy; 2025 Drubble. All rights reserved.</p>
                 </div>
             </div>
         </div>
