@@ -1,0 +1,213 @@
+.welcome-full-screen-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f8ff; /* Light blue background */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.welcome-app-header {
+    background-color: #3498db;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-app-header img {
+    max-width: 90%;
+    width:400px;
+}
+
+.welcome-logo {
+    max-width: 150px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.welcome-title {
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.welcome-main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 800px; /* Constrain content width */
+    margin: 0 auto; /* Center content */
+}
+
+.welcome-section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.welcome-intro p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.welcome-cta-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons on small screens */
+    gap: 15px;
+    margin-bottom: 30px;
+    width: 100%; /* Take full width of parent */
+}
+
+.welcome-button {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.play-button {
+    background-color: #3498db;
+    color: white;
+}
+.play-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.primary-button { /* For Register/Login */
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+.primary-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.secondary-button { /* For Logout */
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+.secondary-button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Accordion Styling */
+.section-title {
+    font-size: 1.4em;
+    color: #007bff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.section-title:hover {
+    color: #0056b3;
+}
+
+.toggle-icon {
+    font-size: 0.8em;
+    transition: transform 0.2s ease;
+}
+
+.section-content {
+    font-size: 0.95em;
+    line-height: 1.5;
+     /*Optional: Add height transition for smooth accordion opening */
+     max-height: 0;
+     overflow: hidden;
+     transition: max-height 0.3s ease-out;
+}
+
+/* Optional: Animation for expanding content (needs a bit more JS logic to apply classes) */
+.section-content.expanded {
+    max-height: 500px;
+}
+
+
+.ad-placement-welcome {
+    background-color: #e9ecef; /* Light grey for ad background */
+    border: 1px dashed #ced4da;
+    min-height: 100px; /* Minimum height for ad unit */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.placeholder-ad-unit {
+    padding: 10px;
+    text-align: center;
+}
+
+.welcome-footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.85em;
+    color: #6c757d;
+    background-color: #f8f9fa; /* Lighter footer background */
+    width: 100%;
+    margin-top: auto; /* Pushes footer to the bottom */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 600px) {
+    .welcome-cta-buttons {
+        flex-direction: row; /* Buttons side-by-side on larger screens */
+        justify-content: center;
+    }
+    .welcome-button {
+        width: auto; /* Let buttons size naturally */
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .welcome-app-header img {
+        width: 380px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-app-header {
+        padding: 15px;
+    }
+    .welcome-app-header img {
+        max-width: 280px;
+        height:auto;
+    }
+
+}
+
+.info-box {
+    background-color: #fff8dc;
+    padding: 1em;
+    border-left: 4px solid orange;
+    margin: 1em 0;
+    border-radius: 4px;
+}
+
+.warning {
+    color: #cc0000;
+    font-weight: bold;
+}

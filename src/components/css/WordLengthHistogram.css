@@ -1,0 +1,57 @@
+.word-length-histogram {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+}
+
+.word-length-histogram h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.histogram-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px; /* Space between label and bar */
+}
+
+.length-label {
+    flex-shrink: 0;
+    font-weight: bold;
+    color: #555;
+    width: 25px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.bar-container {
+    flex-grow: 1; /* Allow container to take available space */
+    display: flex;
+    align-items: center;
+    background-color: #e0e0e0; /* Background for the bar track */
+    border-radius: 4px;
+    height: 25px; /* Height of the bar */
+    overflow: hidden; /* Ensure bar doesn't overflow its container */
+}
+
+.histogram-bar {
+    background-color: #4CAF50; /* Green bar color */
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
+    min-width: 2px; /* Ensure even very small bars are visible */
+}
+
+.count-label {
+    flex-shrink: 0;
+    margin-left: 10px; /* Space between bar and count */
+    font-size: 0.9em;
+    color: #666;
+    min-width: 25px; /* Ensure count label has enough space */
+}
