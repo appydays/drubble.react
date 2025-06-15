@@ -6,14 +6,14 @@ import { faStar, faBook, faGraduationCap } from '@fortawesome/free-solid-svg-ico
 
 const LanguageLevelSelect = ({ onLevelChange, initialLevel }) => {
     const languageLevels = {
-        1: { label: 'Dechreuwr', icon: faBook, description: 'Beginner' },
-        2: { label: 'Canolradd', icon: faGraduationCap, description: 'Intermediate' },
-        3: { label: 'Uwch', icon: faStar, description: 'Advanced' },
+        1: { label: 'Beginner', icon: faBook, description: 'In the process of learning the language' },
+        2: { label: 'Intermediate', icon: faGraduationCap, description: 'Can read, write and speak the language but is not yet fluent' },
+        3: { label: 'Advanced', icon: faStar, description: 'First language or now fluent in the language' },
     };
 
     return (
         <div className="language-level-select">
-            <p>Eich lefel iaith:</p>
+            <p>Your language level:</p>
             <div className="radio-group">
                 {Object.entries(languageLevels).map(([level, data]) => (
                     <label key={level} className="custom-radio-label icon-radio-label">

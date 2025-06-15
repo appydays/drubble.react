@@ -380,7 +380,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 type="text"
                                 className={`${errors.nickname ? "error" : ""}`}
                                 value={nickname}
-                                placeholder="Llysenw unigryw"
+                                placeholder="Unique nickname"
                                 onChange={(e) => setNickname(e.target.value)}
                             />
                             {errors.nickname && <span className="error-message">{errors.nickname}</span>}

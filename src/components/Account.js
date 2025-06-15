@@ -380,7 +380,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                         }}/>
                     </div>
                 )}
-                <div className="support-link">For assistance, please contact us by email at <a href="mailto:support@drubble.uk">support@drublle.uk</a></div>
+                <div className="support-link">For assistance, please contact us by email at <a href="mailto:support@drubble.uk">support@drubble.uk</a></div>
             </div>
         </Modal>
     );

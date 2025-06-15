@@ -435,7 +435,7 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 <div className="letter-action-container">
                     {/* Shuffle Button */}
                     <button className="shuffle-button" onClick={shuffleLetters} disabled={isGameOver}>
-                        <ShuffleIcon/>&nbsp;Siffrwd
+                        <ShuffleIcon/>&nbsp;Shuffle
                     </button>
 
                     {/* Delete Letters Button */}
