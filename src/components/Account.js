@@ -98,25 +98,25 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
             }
 
             Swal.fire({
-                title: "Cais Data",
-                text: "Byddwn yn prosesu'ch cais data. Ydych chi'n siŵr?",
+                title: "Data Request",
+                text: "We will process your data request. are you sure?",
                 icon: "info",
                 showCancelButton: true,
-                confirmButtonText: "Ie, cadarnhau",
-                cancelButtonText: "Na, canslo"
+                confirmButtonText: "Yes",
+                cancelButtonText: "No, cancel"
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
                         const responseData = await makeRequest(`/players/${playerId}/data-request`, 'POST', {});
-                        Swal.fire('Llwyddiant!', responseData.message || 'Mae eich cais data wedi cael ei brosesu.', 'success');
+                        Swal.fire('Success!', responseData.message || 'Your data request has been processed,  you will receive an email shortly.', 'success');
                     } catch (err) {
-                        Swal.fire('Gwall!', err.message || 'Methodd eich cais data.', 'error');
+                        Swal.fire('Error!', err.message || 'Your data request failed, please try again later or contact us for assistance.', 'error');
                     }
                 }
             });
         } catch (error) {
             console.error("Error making data request:", error);
-            Swal.fire('Gwall Rhwydwaith!', 'Methu cysylltu â’r gweinydd.', 'error');
+            Swal.fire('Network Error!', 'Unable to connect to the server.', 'error');
         } finally {
             setIsLoading(false);
         }
@@ -124,14 +124,14 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
 
     const handleDeleteAccount = () => {
         Swal.fire({
-            title: "Ydych chi'n siŵr?",
-            text: "Bydd dileu eich cyfrif yn dileu eich holl ddata defnyddiwr yn barhaol ac ni fydd unrhyw hanes o'ch cyfrif yn cael ei gadw. Ni ellir dadwneud hyn!",
+            title: "Are you sure?",
+            text: "Deleting your account will permanently delete all your user data and no history of your account will be kept. This cannot be undone!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ie, dilëwch fy nghyfrif!",
-            cancelButtonText: "Na, peidiwch â dileu"
+            confirmButtonText: "Yes, delete my account!",
+            cancelButtonText: "No, don't delete"
         }).then(async (result) => {
             if (result.isConfirmed) {
                 setIsLoading(true);
@@ -141,12 +141,12 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                         throw new Error("Cannot delete account: Player ID not found.");
                     }
                     const responseData = await makeRequest(`/players/${player.id}/delete-account`, 'DELETE', {});
-                    Swal.fire('Wedi Dileu!', responseData.message || 'Mae eich cyfrif wedi cael ei ddileu.', 'success');
+                    Swal.fire('Deleted!', responseData.message || 'Your account has been deleted.', 'success');
                     onClose();
                     // Clear local storage for user data
                     clearClientSideData(); // Re-use the existing clear function
                 } catch (err) {
-                    Swal.fire('Gwall!', err.message || 'Methodd y dileu cyfrif.', 'error');
+                    Swal.fire('Error!', err.message || 'Account deletion failed. Please try again later, if the problem persists, please let us know and we can process this request.', 'error');
                 } finally {
                     setIsLoading(false);
                 }
@@ -158,17 +158,17 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
         event.preventDefault();
 
         if (!player || !player.id) {
-            alert("Rhaid mewngofnodi i ddiweddaru'r proffil.");
+            alert("You must login to update your profile.");
             return;
         }
 
         let newErrors = {};
         if (!nickname.trim()) {
-            newErrors.nickname = "Mae angen llysenw";
+            newErrors.nickname = "Nickname is required";
         }
         // Basic frontend validation for languageLevel
         if (typeof languageLevel !== 'number' || !Number.isInteger(languageLevel) || languageLevel < 1 || languageLevel > 3) {
-            newErrors.language_level = "Mae lefel iaith yn ofynnol ac rhaid iddo fod yn rhif dilys.";
+            newErrors.language_level = "Language level is required and must be a valid number.";
         }
         setErrors(newErrors);
 
@@ -200,18 +200,18 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                     };
                     onPlayerUpdate(updatedPlayer);
                 }
-                Swal.fire('Diweddarwyd!', 'Mae eich proffil wedi cael ei ddiweddaru.', 'success'); // Success message
+                Swal.fire('Updated!', 'Your profile has been updated.', 'success'); // Success message
                 onClose();
             } else {
                 // If backend sends specific errors, display them
                 if (data && data.errors) {
                     setErrors(data.errors);
                 } else {
-                    Swal.fire('Gwall!', data?.message || 'Digwyddodd gwall wrth ddiweddaru.', 'error');
+                    Swal.fire('Error!', data?.message || 'An error occurred while updating.', 'error');
                 }
             }
         } catch (error) {
-            Swal.fire('Gwall!', 'Digwyddodd gwall. ' + error.message || error, 'error');// Display error message from makeRequest hook
+            Swal.fire('Error!', 'An unexpected error has occurred. ' + error.message || error, 'error');// Display error message from makeRequest hook
         }
     };
 
@@ -250,13 +250,13 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                 <form onSubmit={handleSubmit} className="profile">
                                     <>
                                         <div className="nickname">
-                                            <h5>Llysenw (Eich Enw Defnyddiwr)</h5>
+                                            <h5>Nickname (Your Username)</h5>
                                             <label>
                                                 <input
                                                     type="text"
                                                     className={`${errors.nickname ? "error" : ""}`}
                                                     value={nickname}
-                                                    placeholder="Llysenw unigryw"
+                                                    placeholder="A unique nickname"
                                                     onChange={(e) => setNickname(e.target.value)}
                                                 />
                                             </label>
@@ -274,15 +274,15 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
 
 
                                         <div className="preferences">
-                                            <h5>Dewisiadau Cyfathrebu</h5>
+                                            <h5>Communication Preferences</h5>
                                             <div className="inputs">
                                                 <label>
                                                     <input
                                                         type="checkbox"
                                                         checked={playerPrefReceiveNewsletter}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceiveNewsletter)}
-                                                    />A hoffech chi gael y newyddion diweddaraf am ScramAir ac a ydych chi'n
-                                                    hapus i dderbyn cylchlythyrau achlysurol drwy e-bost?
+                                                    />Would you like to receive the latest news about Drubble and are you
+                                                    happy to receive occasional newsletters by email?
                                                 </label>
                                                 {errors.pref_receive_newsletter && <span className="error">{errors.pref_receive_newsletter}</span>}
                                                 <label>
@@ -290,7 +290,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                         type="checkbox"
                                                         checked={playerPrefReceivePrompts}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceivePrompts)}
-                                                    />Hoffech chi dderbyn awgrymiadau ac atgofion i chwarae ScramAir?
+                                                    />Would you like to receive tips and reminders to play Drubble?
                                                 </label>
                                                 {errors.pref_receive_prompts && <span className="error">{errors.pref_receive_prompts}</span>}
                                             </div>
@@ -298,7 +298,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
 
                                         <button type="submit"
                                                 className="submit"
-                                        >Diweddaru Proffil
+                                        >Update Profile
                                         </button>
                                     </>
                                 </form>
@@ -312,8 +312,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                     borderRadius: '8px',
                                     boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                                 }}>
-                                    <h3 style={{textAlign: 'center', marginBottom: '25px', color: '#333'}}>Eich
-                                        cyfrif</h3>
+                                    <h3 style={{textAlign: 'center', marginBottom: '25px', color: '#333'}}>Your Account</h3>
 
                                     <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
                                         <button
@@ -330,7 +329,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                 transition: 'background-color 0.3s ease',
                                             }}
                                         >
-                                            {isLoading ? 'Yn Prosesu...' : 'Gwneud Cais Data'}
+                                            {isLoading ? 'Processing...' : 'Make data request'}
                                         </button>
 
                                         <button
@@ -347,7 +346,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                 transition: 'background-color 0.3s ease',
                                             }}
                                         >
-                                            {isLoading ? 'Yn Dileu...' : 'Dileu Cyfrif'}
+                                            {isLoading ? 'Deleting...' : 'Delete Account'}
                                         </button>
                                     </div>
 
@@ -358,12 +357,12 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                             )}
                             {activeTab === "logout" && (
                                 <div className="logout-container">
-                                    <p className="mb-4">Hoffech chi allgofnodi?</p>
+                                    <p className="mb-4">Would you like to logout?</p>
                                     <button
                                         className="key special logout"
                                         onClick={handleLogout}
                                     >
-                                        <LogoutIcon/>&nbsp;Allgofnodi
+                                        <LogoutIcon/>&nbsp;Logout
                                     </button>
                                 </div>
                             )}
@@ -371,17 +370,17 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                     </div>
                 ) : (
                     <div>
-                        <h3>Mewngofnodwch neu cofrestrwch</h3>
-                        <p>Trwy gofrestru a llofnodi i mewn i chwarae, byddwch yn gallu gweld eich ystadegau gêm a bydd
-                            eich sgôr yn cael ei ychwanegu at ein bwrdd arweinwyr dyddiol. Gweld a allwch chi gyrraedd
-                            brig y bwrdd arweinwyr!</p>
+                        <h3>Log in or register</h3>
+                        <p>By registering and signing in to play, you will be able to see your game statistics and
+                            your score is added to our daily leaderboard. See if you can get to
+                            top of the leaderboard!</p>
                         <AuthTabs onSignupSuccess={onSignupSuccess} onLoginSuccess={(playerData) => {
                             onLoginSuccess(playerData);
                             onClose();
                         }}/>
                     </div>
                 )}
-                <div className="support-link">Am gymorth, cysylltwch â ni drwy e-bost yn <a href="mailto:cymorth@scramair.cymru">cymorth@scramair.cymru</a></div>
+                <div className="support-link">For assistance, please contact us by email at <a href="mailto:support@drubble.uk">support@drublle.uk</a></div>
             </div>
         </Modal>
     );

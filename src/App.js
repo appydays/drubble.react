@@ -162,7 +162,7 @@ function App() {
                 // Render the main app content only if not showing the welcome page
                 <>
                     <header className="App-header">
-                <img src="/scramair.png" alt={"ScramAir"}/>
+                <img src="/drubble.png" alt={"Drubble"}/>
             </header>
 
                     <Panagram
@@ -180,23 +180,23 @@ function App() {
                                                                                              color="#333"/>
                         </button>
                         {/* --- Use playerName state for display --- */}
-                        <p>{playerName ? playerName : `Chwaraewr ${playerId}`}</p>
+                        <p>{playerName ? playerName : `Player ${playerId}`}</p>
                     </div>
                 ) : (
                     <div className="mobile-footer__account">
                         <button className="user signup"
                                 onClick={() => setIsAccountModalOpen(true)}><AccountIcon isLoggedIn={!!player}/>
                         </button>
-                        <p>Cyfrif</p>
+                        <p>Account</p>
                     </div>
                 )}
                 <div className="mobile-footer__settings">
                     <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen}/>
-                    <p>Gosodiadau</p>
+                    <p>Settings</p>
                 </div>
                 <div className="mobile-footer__leaderboard">
                     <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen}/>
-                    <p>Bwrdd arweinwyr</p>
+                    <p>Leaderboard</p>
                 </div>
                 <div className="mobile-footer__help">
                     <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen}/>

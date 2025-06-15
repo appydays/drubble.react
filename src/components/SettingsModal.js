@@ -14,19 +14,18 @@ function SettingsModal({ isOpen, onClose }) {
                 <h2>Gosodiadau</h2>
                 <div className="settings-container">
                     <div className="setting-item">
-                        <div>Thema (Golau / Tywyll)</div>
+                        <div>Theme (Light / Dark)</div>
                         <ThemeToggle/>
 
                     </div>
                     <div className="setting-item">
-                        <div>Cyferbyniad Uchel</div>
+                        <div>High Contrast</div>
                         <ContrastToggle/>
                     </div>
                     <hr/>
                     <div className="feedback-button-container">
-                        <p>Os oes gennych chi broblem ac eisiau riportio byg, neu os oes gennych chi unrhyw adborth ar yr hyn rydych chi'n ei hoffi neu
-                            peidiwch â rhoi dolen ar ScramAir, na chael rhywbeth yr hoffech chi ei weld yn ScramAir, byddwn i wrth fy modd
-                            i glywed oddi wrthych.</p>
+                        <p>If you have a problem and want to report a bug, or if you have any feedback on what you like or
+                            don't like, or have something you'd like to see on Drubble, We'd love to hear from you.</p>
                         <FeedbackButton onClick={() => {
                             setIsFeedbackModalOpen(true);
                             onClose();

@@ -8,7 +8,7 @@ const CookieSettingsButton = () => {
         <div className="cookie-settings-btn-container">
             {/* Add the cky-banner-element class to your button */}
             <button className="cky-banner-element">
-                Rheoli Dewisiadau Cwcis
+                Manage Cookie Preferences
             </button>
         </div>
     );

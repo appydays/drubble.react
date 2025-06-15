@@ -156,7 +156,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                         <div className="section-content expanded">
                             <div><b>Play as a guest to jump right into the fun</b>, or <b>register for free to unlock more!</b> Registered players can participate in daily leaderboards, track their game history, and view their detailed personal statistics.</div>
                             <br/>
-                            <div>After you complete your daily challenge, be sure to share your score with friends and see who reigns supreme! Whether you're looking for a quick brain teaser, a fun way to pass the time, or a friendly competition with your friends, Scramair offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate wordsmith!</div>
+                            <div>After you complete your daily challenge, be sure to share your score with friends and see who reigns supreme! Whether you're looking for a quick brain teaser, a fun way to pass the time, or a friendly competition with your friends, Drubble offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate wordsmith!</div>
                         </div>
                     )}
                 </div>

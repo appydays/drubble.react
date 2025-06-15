@@ -7,10 +7,10 @@ import ReplaceIcon from "./atoms/ReplaceIcon";
 import SocialShare from "./SocialShare";
 
 const letterWeights = {
-    'A': 9, 'E' : 14, 'I' : 12, 'O' : 10, 'U' : 3, 'W' : 6, 'Y' : 8,
-    'B' : 4, 'C' : 5, 'D' : 7, 'F' : 5,  //'DD' : 2, 'FF' : 1.5, 'CH' : 2,
-    'G' : 3, 'H' : 7, 'J' : 1, 'L' : 8, 'M' : 4, //'NG' : 1, 'LL' : 4,
-    'N' : 7, 'P' : 3, 'R' : 8, 'S' : 5, 'T' : 6,  //'PH' : 1, 'RH' : 1, 'TH' : 1,
+    'A' : 12, 'E' : 16, 'I' : 9, 'O' : 8, 'U' : 4,
+    'B' : 2, 'C' : 3, 'D' : 4, 'F' : 2, 'G' : 3, 'H' : 3, 'J' : 1, 'K' : 2,
+    'L' : 4, 'M' : 2, 'N' : 6, 'P' : 2, 'Q' : 1, 'R' : 5, 'S' : 6, 'T' : 6,
+    'V' : 1, 'W' : 2, 'X' : 1, 'Y' : 2, 'Z' : 1
 };
 
 const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
@@ -159,12 +159,12 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
             const isValid = await validateWord(word);
 
             if (isValid) {
-                setMessage({ text: `✅ "${word}" yn air dilys!`, autoDismiss: 3, isError: false });
+                setMessage({ text: `✅ "${word}" is a valid word!`, autoDismiss: 3, isError: false });
                 setSubmittedWords([...submittedWords, word]);
                 setLastSubmittedWord(word);
             } else {
 
-                setMessage({ text: `❌ "${word}" nid yw'n air dilys..`, autoDismiss: 3, isError: true });
+                setMessage({ text: `❌ "${word}" is not a valid word..`, autoDismiss: 3, isError: true });
             }
             setClickedLetters([]);
             setUsedLetters({});
@@ -259,19 +259,19 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
                         // Check if current word beat personal best
                         if (word_score_updated) {
-                            highestWordBeatMessage = `<p>🚀 Newydd: Rydych chi newydd osod record bersonol newydd am y gair sgoer uchaf gyda'r gair "${word}" a sgôr o ${word_score}!</p>`;
+                            highestWordBeatMessage = `<p>🚀 Great News: You just set a new personal record for the highest word score with the word "${word}" and a score of ${word_score}!</p>`;
                         } else {
                             // Display overall highest word if not beaten this turn
-                            highestWordBeatMessage = `<p>Eich gair uchaf erioed yw "${word}" gyda sgôr o ${word_score}.</p>`;
+                            highestWordBeatMessage = `<p>Your highest scoring is "${word}" with a score of ${word_score}.</p>`;
                         }
 
                         // Check if current game score beat personal best
                         // `updatedData.game.score` is the final score for the completed game
                         if (game_score_updated) {
-                            gameScoreBeatMessage = `<p>🏆 Newydd: Rydych chi newydd osod record gêm bersonol newydd gyda sgôr o ${game_score}!</p>`;
+                            gameScoreBeatMessage = `<p>🏆 Great News!: You just set a new personal game record with a score of ${game_score}!</p>`;
                         } else {
                             // Display overall highest game score if not beaten this turn
-                            gameScoreBeatMessage = `<p>Eich sgôr gêm uchaf erioed yw ${game_score}.</p>`;
+                            gameScoreBeatMessage = `<p>Your best game score is ${game_score}.</p>`;
                         }
                     }
 
@@ -279,8 +279,8 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     setMessage({
                         text: (
                             <div>
-                                <p>Gêm wedi gorffen!</p>
-                                <p>🎉 Llongyfarchiadau! Rydych chi wedi cyflwyno'r 5 gair i gyd. Eich sgôr yw {score}.</p>
+                                <p>Game over!</p>
+                                <p>🎉 Congratulations! You have submitted all 5 words. Your score is {score}.</p>
                                 {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
                                 {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
 
@@ -398,8 +398,8 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
             {
                 text: (
                     <div>
-                        <p>Gêm wedi gorffen!</p>
-                        <p>Mae'n ddrwg gennym eich bod wedi rhedeg allan o amser, rydych wedi cyflwyno {submittedWords.length} geiriau. Eich sgôr yw {score}</p>
+                        <p>Game over!</p>
+                        <p>We're sorry you ran out of time, you've submitted {submittedWords.length} words. Your score is {score}</p>
 
                         <SocialShare score={score} playerName={playerName} />
 
@@ -439,14 +439,14 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     </button>
 
                     {/* Delete Letters Button */}
-                    <button className="delete" onClick={handleDelete} disabled={isGameOver}>⌫<span> Dileu Llythyr</span></button>
+                    <button className="delete" onClick={handleDelete} disabled={isGameOver}>⌫<span> Delete letter</span></button>
 
                     {/* Exchange Letters Button */}
                     <button className="exchange-button"
                             onClick={handleExchange}
                             disabled={isGameOver || (inputLetters.length === 0)}
                     >
-                        <ReplaceIcon/>&nbsp;Cyfnewid
+                        <ReplaceIcon/>&nbsp;Exchange
                     </button>
                 </div>
 
@@ -467,7 +467,7 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 </div>
 
                 <div className="keyboard-row">
-                    <button className="key special enter" onClick={handleEnter} disabled={isGameOver || isValidating}>{isValidating ? "Gwirio gair..." : "⏎ Anfon"}</button>
+                    <button className="key special enter" onClick={handleEnter} disabled={isGameOver || isValidating}>{isValidating ? "Checking word..." : "⏎ Submit"}</button>
                 </div>
 
             </div>
@@ -477,14 +477,14 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
             {/* Display 5 word blocks for submitted words */}
             <div className="submitted-words">
-                <h3>Eich geiriau a gyflwynwyd heddiw</h3>
+                <h3>Your words submitted today</h3>
                 <div className="word-blocks">
                     {[...Array(5)].map((_, index) => (
                         <div
                             key={index}
                             className={`word-block ${submittedWords[index] === "WORD-SKIPPED" ? "skipped" : submittedWords[index] ? "filled" : "empty"}`}
                         >
-                            {submittedWords[index] === "WORD-SKIPPED" ? "Cyfnewidiwyd" : submittedWords[index] || ""}
+                            {submittedWords[index] === "WORD-SKIPPED" ? "Exchanged" : submittedWords[index] || ""}
                         </div>
                     ))}
                 </div>

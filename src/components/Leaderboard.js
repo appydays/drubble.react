@@ -5,6 +5,7 @@ import WordLengthHistogram from './WordLengthHistogram'; // Adjust path if neede
 import PlayerStats from "./PlayerStats";
 import useApiRequest from './useApiRequest';
 import TopStatTable from "./TopStatTable";
+import Swal from 'sweetalert2';
 
 
 function LeaderboardModal({ playerId, isOpen, onClose }) {
@@ -45,10 +46,10 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     setDailyLeaderboardData(data.daily);
                     setMonthlyLeaderboardData(data.monthly);
                 } else {
-                    alert('Wedi methu â nôl y bwrdd arweinwyr.');
+                    Swal.fire('Error','Unable to load the leaderboard', 'error');
                 }
             } catch (error) {
-                alert('Digwyddodd gwall.');
+                Swal.fire('Error','Unexpected error occurred', 'error');
             }
         };
 
@@ -77,11 +78,11 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     } else {
                         const errorText = await response.message;
                         console.error("Error fetching word length histogram:", errorText);
-                        setHistogramError(`Wedi methu â nôl data histogram: ${errorText}`);
+                        setHistogramError(`Failed to fetch histogram data: ${errorText}`);
                     }
                 } catch (err) {
                     console.error("Network error fetching word length histogram:", err);
-                    setHistogramError(err.message || 'Digwyddodd gwall rhwydwaith wrth lwytho data histogram.');
+                    setHistogramError(err.message || 'A network error occurred while loading histogram data.');
                 } finally {
                     setIsHistogramLoading(false);
                     setIsPlayerStatsLoading(false);
@@ -115,11 +116,11 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     } else {
                         const errorText = await response.message;
                         console.error("Error fetching global record stats:", errorText);
-                        setRecordStatsError(`Wedi methu â nôl data histogram: ${errorText}`);
+                        setRecordStatsError(`Failed to fetch histogram data: ${errorText}`);
                     }
                 } catch (err) {
                     console.error("Network error fetching record stats data:", err);
-                    setRecordStatsError(err.message || 'Digwyddodd gwall rhwydwaith wrth lwytho data histogram.');
+                    setRecordStatsError(err.message || 'A network error occurred while loading histogram data.');
                 } finally {
                     setIsRecordStatsLoading(false);
                 }
@@ -174,9 +175,9 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         <table style={{width: '100%'}}>
                             <thead>
                             <tr>
-                                <th className="rank">Safle</th>
-                                <th className="name">Llysenw</th>
-                                <th className="score">Sgôr</th>
+                                <th className="rank">Position</th>
+                                <th className="name">Nickname</th>
+                                <th className="score">Score</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -191,7 +192,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tbody>
                         </table>
                     ) : (
-                        <p>Wrthi'n llwytho bwrdd arweinwyr dyddiol...</p>
+                        <p>Loading daily leaderboard...</p>
                     )}
                 </div>
             )}
@@ -202,9 +203,9 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         <table style={{width: '100%'}}>
                             <thead>
                             <tr>
-                                <th className="rank">Safle</th>
-                                <th className="name">Llysenw</th>
-                                <th className="score">Sgôr</th>
+                                <th className="rank">Position</th>
+                                <th className="name">Nickname</th>
+                                <th className="score">Score</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -219,7 +220,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tbody>
                         </table>
                     ) : (
-                        <p>Wrthi'n llwytho bwrdd arweinwyr misol...</p>
+                        <p>Loading monthly leaderboard...</p>
                     )}
                 </div>
 
@@ -228,29 +229,29 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
             {activeTab === 'player' && (
                 <div id="player-statistics" className="tab-content">
                     {/* Conditional rendering for histogram */}
-                    <h3>Eich Ystadegau Scramair</h3>
+                    <h3>Your Drubble Stats</h3>
                     {!playerId ? (
-                        <p>Mewngofnodwch i weld eich ystadegau gair.</p>
+                        <p>Log in to see your word statistics.</p>
                     ) : (
                         <>
-                            {isPlayerStatsLoading && <p>Yn llwytho data hyd gair...</p>}
+                            {isPlayerStatsLoading && <p>Loading your game stats...</p>}
                             {playerStatsError &&
-                                <p style={{color: 'red'}}>Gwall wrth lwytho ystadegau: {playerStatsError}</p>}
+                                <p style={{color: 'red'}}>Error loading statistics: {playerStatsError}</p>}
                             {playerStatsData && <PlayerStats stats={playerStatsData}/>}
                             {!isPlayerStatsLoading && !playerStatsError && !playerStatsData &&
-                                <p>Dim data hyd gair ar gael eto. Chwarae rhai gemau!</p>}
+                                <p>No word length data available yet. Play some games!</p>}
                         </>
                     )}
                     {!playerId ? (
-                        <p>Mewngofnodwch i weld eich ystadegau gair.</p>
+                        <p>Log in to see your word statistics.</p>
                     ) : (
                         <>
-                            {isHistogramLoading && <p>Yn llwytho data hyd gair...</p>}
+                            {isHistogramLoading && <p>Loading word length histogram data...</p>}
                             {histogramError &&
-                                <p style={{color: 'red'}}>Gwall wrth lwytho ystadegau: {histogramError}</p>}
+                                <p style={{color: 'red'}}>Error loading statistics: {histogramError}</p>}
                             {wordLengthData && <WordLengthHistogram data={wordLengthData}/>}
                             {!isHistogramLoading && !histogramError && !wordLengthData &&
-                                <p>Dim data hyd gair ar gael eto. Chwarae rhai gemau!</p>}
+                                <p>No word length data available yet. Play some games!</p>}
                         </>
                     )}
                 </div>
@@ -259,9 +260,9 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
             {activeTab === 'global' && (
                 <div id="global-statistics" className="tab-content">
                     <>
-                        {isRecordStatsLoading && <p>Yn llwytho data hyd gair...</p>}
+                        {isRecordStatsLoading && <p>Loading global record stats...</p>}
                         {recordStatsError &&
-                            <p style={{color: 'red'}}>Gwall wrth lwytho ystadegau: {recordStatsError}</p>}
+                            <p style={{color: 'red'}}>Error loading statistics: {recordStatsError}</p>}
                         {recordStatsData &&
                             <>
                             <div className="stats-grid">
@@ -297,7 +298,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </>
                         }
                         {!isRecordStatsLoading && !recordStatsError && !recordStatsData &&
-                            <p>Dim data hyd gair ar gael eto. Chwarae rhai gemau!</p>}
+                            <p>No word length data available yet. Play some games!</p>}
                     </>
                 </div>
             )}

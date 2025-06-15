@@ -19,23 +19,23 @@ function FeedbackModal({ isOpen, onClose }) {
         const newErrors = {};
 
         if (!feedback.trim()) {
-            newErrors.feedback = "Mae angen adborth."; // Feedback is required.
+            newErrors.feedback = "Feedback is required."; // Feedback is required.
         } else {
             // Option 1: Disallow < and > characters
             // This is a simple regex that checks if the string contains either '<' or '>'.
             // If it does, it's considered invalid for "standard text".
-            if (/<|>/.test(feedback)) {
-                newErrors.feedback = "Ni chaniateir nodau fel '<' neu '>'."; // Characters like '<' or '>' are not allowed.
-            }
+            // if (/<|>/.test(feedback)) {
+            //     newErrors.feedback = "Characters such as '<' or '>' are not allowed."; // Characters like '<' or '>' are not allowed.
+            // }
 
             // Option 2 (More Restrictive): Allow only alphanumeric, common punctuation, and spaces
             // If you want to be more strict, you can define a whitelist of allowed characters.
             // This regex allows letters, numbers, spaces, and common punctuation.
             // Adjust the allowed punctuation inside the [] as needed.
             // Example: /^[a-zA-Z0-9\s.,!?'"()\-&]+$/
-            // if (!/^[a-zA-Z0-9\s.,!?'"()\-&]+$/.test(feedback)) {
-            //     newErrors.feedback = "Dim ond testun safonol sy'n cael ei dderbyn."; // Only standard text is accepted.
-            // }
+            if (!/^[a-zA-Z0-9\s.,!?'"()\-&]+$/.test(feedback)) {
+                newErrors.feedback = "Only standard text is accepted."; // Only standard text is accepted.
+            }
         }
 
 
@@ -64,10 +64,10 @@ function FeedbackModal({ isOpen, onClose }) {
                 setErrors({});
                 onClose();
             } else {
-                alert(data.message || 'Methodd yr adborth.');
+                alert(data.message || 'The feedback failed.');
             }
         } catch (error) {
-            alert('Digwyddodd gwall: ' + error.message);
+            alert('Unexpected error: ' + error.message);
         }
     };
 
@@ -81,13 +81,13 @@ function FeedbackModal({ isOpen, onClose }) {
                         <textarea
                             name="feedback"
                             rows="15"
-                            placeholder="Rhowch adborth, gan gynnwys gwelliannau, syniadau a materion"
+                            placeholder="Please provide feedback, including improvements, ideas and issues"
                             className={`${errors.feedback ? "error" : ""}`}
                             onChange={(e) => setFeedback(e.target.value)}
                         >{feedback}</textarea>
                     </label>
                     {errors.feedback && <span className="error">{errors.feedback}</span>}
-                    <button className="submit" type="submit">Cyflwyno Adborth</button>
+                    <button className="submit" type="submit">Submit Feedback</button>
                 </form>
             </div>
         </Modal>

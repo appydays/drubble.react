@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"; // Import useEffect
 import useApiRequest from './useApiRequest'; // Assuming this hook is still used elsewhere
+import Swal from 'sweetalert2';
 import GoogleLoginButton from './GoogleLoginButton';
 import LanguageLevelSelect from "./LanguageLevelSelect"; // Ensure this import path is correct
 
@@ -52,7 +53,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             onSignupSuccess(data.user.id);
             onLoginSuccess(data.user);
         } else {
-            const errorMessage = data.message || "Methodd mewngofnodi. Ceisiwch eto.";
+            const errorMessage = data.message || "Login failed. Please try again.";
             console.warn("Server rejected Social login:", errorMessage);
             setErrors({ credentials: errorMessage });
         }
@@ -70,43 +71,43 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
             if (activeTab === "signup") {
                 if (!name.trim()) {
-                    newErrors.name = "Mae enw'n ofynnol.";
+                    newErrors.name = "A name is required.";
                 } else if (!/^[a-zA-Z0-9_]+$/.test(name)) {
-                    newErrors.name = "Dim ond llythrennau, rhifau ac underscores sy'n cael eu caniatau.";
+                    newErrors.name = "Only letters, numbers and underscores are allowed.";
                 }
 
                 if (!nickname.trim()) {
-                    newErrors.nickname = "Mae llysenw'n ofynnol.";
+                    newErrors.nickname = "A nickname is required.";
                 } else if (!/^[a-zA-Z0-9_]+$/.test(nickname)) {
-                    newErrors.nickname = "Dim ond llythrennau, rhifau ac underscores sy'n cael eu caniatau.";
+                    newErrors.nickname = "Only letters, numbers and underscores are allowed.";
                 }
 
                 if (!email.trim()) {
-                    newErrors.email = "Mae e-bost yn ofynnol.";
+                    newErrors.email = "An e-mail is required";
                 } else if (!/\S+@\S+\.\S+/.test(email)) {
-                    newErrors.email = "Nid yw fformat yr e-bost yn ddilys.";
+                    newErrors.email = "The email format is not valid.";
                 }
 
                 if (!password.trim()) {
-                    newErrors.password = "Mae cyfrinair yn ofynnol.";
+                    newErrors.password = "A password is required";
                 } else {
                     if (password.length < 8) {
-                        newErrors.password = "Rhaid i'r cyfrinair fod o leiaf 8 nod.";
+                        newErrors.password = "The password must be at least 8 characters.";
                     }
                     if ((!/[A-Z]/.test(password)) || (!/[a-z]/.test(password)) || (!/\d/.test(password)) || (!/[^a-zA-Z0-9<>]/.test(password))) {
-                        newErrors.password = (newErrors.password ? newErrors.password + " " : "") + "Rhaid iddo gynnwys o leiaf un llythyren fawr, un llythyren fach, un rhif ac un symbol (ac eithrio < neu >).";
+                        newErrors.password = (newErrors.password ? newErrors.password + " " : "") + "It must contain at least one uppercase letter, one lowercase letter, one number and one symbol (except < or >).";
                     }
                 }
 
                 // Language Level validation (ensure it's a number and within expected range)
                 if (typeof languageLevel !== 'number' || !Number.isInteger(languageLevel) || languageLevel < 1 || languageLevel > 3) {
-                    newErrors.language_level = "Mae lefel iaith yn ofynnol ac rhaid iddo fod yn rhif dilys."; // Language level is required and must be a valid number.
+                    newErrors.language_level = "Language level is required."; // Language level is required and must be a valid number.
                 }
 
                 // Newsletter checkbox validation (required)
-                if (!pref_receive_newsletter) {
-                    newErrors.pref_receive_newsletter = "Rhaid i chi gytuno i dderbyn y cylchlythyr."; // You must agree to receive the newsletter.
-                }
+                // if (!pref_receive_newsletter) {
+                //     newErrors.pref_receive_newsletter = "Rhaid i chi gytuno i dderbyn y cylchlythyr."; // You must agree to receive the newsletter.
+                // }
 
 
                 if (Object.keys(newErrors).length > 0) {
@@ -117,9 +118,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             else if (activeTab === "reset") {
                 const newErrors = {};
                 if (!email.trim()) {
-                    newErrors.email = "Mae e-bost yn ofynnol.";
+                    newErrors.email = "Email is required.";
                 } else if (!/\S+@\S+\.\S+/.test(email)) {
-                    newErrors.email = "Nid yw fformat yr e-bost yn ddilys.";
+                    newErrors.email = "The email format is not valid.";
                 }
 
                 if (Object.keys(newErrors).length > 0) {
@@ -130,14 +131,14 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             // --- Frontend Validation END ---
 
             if (!window.grecaptcha || !window.grecaptcha.execute) {
-                setErrors({ recaptcha: "Nid yw reCAPTCHA ar gael. Ceisiwch eto yn nes ymlaen." });
+                setErrors({ recaptcha: "reCAPTCHA is not available. Try again later." });
                 return;
             }
 
             const token = await window.grecaptcha.execute("6LfrxB0rAAAAAK8bda-2GoskR_F7ALS9DmgZ2kdb", { action: "login" });
 
             if (!token) {
-                setErrors({ recaptcha: "Methodd dilysu reCAPTCHA. Ceisiwch eto." });
+                setErrors({ recaptcha: "ReCAPTCHA verification failed. Try again." });
                 return;
             }
 
@@ -167,7 +168,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     data = text ? JSON.parse(text) : null;
 
                     if (!response.ok || !data) {
-                        const errorMessage = data?.message || "Aeth rhywbeth o'i le. Ceisiwch eto.";
+                        const errorMessage = data?.message || "Something went wrong. Please try again.";
                         console.error("Login failed:", response.status, data);
                         setErrors({ credentials: errorMessage });
                         return;
@@ -182,13 +183,13 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         onSignupSuccess(data.user.id);
                         onLoginSuccess(data.user);
                     } else {
-                        const errorMessage = data.message || "Methodd mewngofnodi. Ceisiwch eto.";
+                        const errorMessage = data.message || "Login failed. Please try again.";
                         console.warn("Server rejected login:", errorMessage);
                         setErrors({ credentials: errorMessage });
                     }
                 } catch (err) {
                     console.error("Network error or fetch threw an exception:", err);
-                    setErrors({ network: "Methu cysylltu. Ceisiwch eto yn nes ymlaen." });
+                    setErrors({ network: "Unable to connect. Try again later." });
                 }
 
             } else if (activeTab === "reset") {
@@ -207,7 +208,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         if (!response.ok) {
                             // Check if data is available for specific messages
                             const errorData = await response.json().catch(() => ({}));
-                            setErrors({email: errorData.message || "Aeth rhywbeth o'i le"});
+                            setErrors({email: errorData.message || "Something went wrong"});
                             console.error("Failed to send password reset link:", response.status, errorData);
                             return;
                         }
@@ -215,20 +216,20 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         data = await response.json();
 
                         if (data.success) {
-                            alert("Gwiriwch eich e-bost am y cod ailosod");
+                            Swal.fire('Reset Request accepted', 'Check your email for the reset code.', 'success');
                             setResetStep("verify");
                         } else {
-                            setErrors({email: data.message || "Aeth rhywbeth o'i le"});
+                            setErrors({email: data.message || "Something went wrong"});
                             console.error("Error response:", data);
                         }
                     } catch (err) {
                         console.error("Request failed:", err);
-                        setErrors({email: "Wedi methu ag anfon cais ailosod"});
+                        setErrors({email: "Failed to send reset request"});
                         return;
                     }
                 } else {
                     if (password !== passwordConfirm) {
-                        setErrors({passwordConfirm: "Nid yw cyfrineiriau yn cyfateb"});
+                        setErrors({passwordConfirm: "Passwords do not match"});
                         return;
                     }
 
@@ -247,7 +248,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                         if (!response.ok) {
                             const errorData = await response.json().catch(() => ({}));
-                            setErrors({credentials: errorData.message || "Methodd ailosod cyfrinair. Ceisiwch eto."});
+                            setErrors({credentials: errorData.message || "Password reset failed. Please try again."});
                             console.error("Password reset error:", response.status, errorData);
                             return;
                         }
@@ -255,7 +256,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         data = await response.json();
 
                         if (data.success) {
-                            alert("Ailosod cyfrinair yn llwyddiannus!");
+                            Swal.fire('Password reset successful', 'Your password has been reset.', 'success');
                             setActiveTab("signin");
                             setResetStep("request");
                             setEmail("");
@@ -263,12 +264,12 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             setPasswordConfirm("");
                             setVerificationCode("");
                         } else {
-                            setErrors({credentials: data.message || "Methodd ailosod cyfrinair. Ceisiwch eto."});
+                            setErrors({credentials: data.message || "Password reset failed. Please try again."});
                             console.error("Password reset error:", data);
                         }
                     } catch (err) {
                         console.error("Request failed:", err);
-                        setErrors({credentials: "Wedi methu ag ailosod cyfrinair"});
+                        setErrors({credentials: "Failed to reset password"});
                     }
                 }
                 return; // Ensure return after reset logic
@@ -305,17 +306,17 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         // No need to setPassword here, handled by useEffect on tab switch
                         // setActiveTab("signin"); // This will happen via onLoginSuccess leading to route change
                     } else {
-                        setErrors(data.errors || { credentials: data.message || "Methodd y cofrestriad. Ceisiwch eto." });
+                        setErrors(data.errors || { credentials: data.message || "The registration failed. Please try again." });
                         console.error("Registration error (backend):", response.status, data);
                     }
                 } else {
                     try {
                         const errorData = await response.json();
-                        setErrors(errorData.errors || { credentials: errorData.message || "Methodd y cofrestriad. Gwall gweinydd." });
+                        setErrors(errorData.errors || { credentials: errorData.message || "The registration failed. Server error." });
                         console.error("Registration failed (non-2xx):", response.status, errorData);
                     } catch (jsonErr) {
                         console.error("Registration failed and non-JSON response:", response.status, jsonErr);
-                        setErrors({ credentials: "Methodd y cofrestriad. Gwall gweinydd." });
+                        setErrors({ credentials: "The registration failed. Server error." });
                     }
                 }
             }
@@ -323,7 +324,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             console.error("Error in handleSubmit", err);
             setErrors((prev) => ({
                 ...prev,
-                credentials: err?.message || "Digwyddodd gwall anhysbys.",
+                credentials: err?.message || "An unexpected error occurred.",
             }));
         }
     };
@@ -344,11 +345,11 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             <div className="tabs auth-tabs">
                 <button className={activeTab === "signin" ? "active key special" : "key special"}
                         onClick={() => setActiveTab("signin")}>
-                    Mewngofnodwch
+                    Login
                 </button>
                 <button className={activeTab === "signup" ? "active key special" : "key special"}
                         onClick={() => setActiveTab("signup")}>
-                    Cofrestrwch
+                    Register
                 </button>
             </div>
 
@@ -362,19 +363,19 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     // Group name and nickname for responsive layout
                     <div className="form-field-group signup">
                         <label>
-                            <span>Enw (Eich Enw Cyflawn)</span>
+                            <span>Name (Your Full Name)</span>
                             <input
                                 type="text"
                                 className={`${errors.name ? "error" : ""}`}
                                 value={name}
-                                placeholder="Eich enw cyflawn"
+                                placeholder="Your full name"
                                 onChange={(e) => setName(e.target.value)}
                             />
                             {errors.name && <span className="error-message">{errors.name}</span>}
                         </label>
 
                         <label>
-                            <span>Llysenw (Eich Enw Defnyddiwr)</span>
+                            <span>Nickname (your username)</span>
                             <input
                                 type="text"
                                 className={`${errors.nickname ? "error" : ""}`}
@@ -391,24 +392,24 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     // Group email and password for responsive layout
                     <div className="form-field-group signup signin">
                         <label>
-                            <span>E-bost</span>
+                            <span>E-mail</span>
                             <input
                                 type="email"
                                 className={`${errors.email ? "error" : ""}`}
                                 value={email}
-                                placeholder="E-Bost"
+                                placeholder="E-Mail"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             {errors.email && <span className="error-message">{errors.email}</span>}
                         </label>
 
                         <label>
-                            <span>Cyfrinair</span>
+                            <span>Password</span>
                             <input
                                 type="password"
                                 className={`${errors.password ? "error" : ""}`}
                                 value={password}
-                                placeholder="Cyfrinair"
+                                placeholder="Password"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             {errors.password && <span className="error-message">{errors.password}</span>}
@@ -430,7 +431,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                         {/* Communication Preferences */}
                         <div>
-                            <h3>Dewisiadau Cyfathrebu</h3>
+                            <h3>Communication preferences</h3>
                         </div>
                         <label class="choices">
                             <input
@@ -439,8 +440,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 onChange={handleCheckboxChange(setPrefReceiveNewsletter)}
                                 required
                             />
-                            A hoffech chi gael y newyddion diweddaraf am ScramAir ac a ydych chi'n hapus i dderbyn
-                            cylchlythyrau achlysurol drwy e-bost?
+                            Would you like to receive the latest news about Drubble and are you happy to receive
+                            occasional email newsletters?
                         </label>
                         {errors.pref_receive_newsletter &&
                             <span className="error-message">{errors.pref_receive_newsletter}</span>}
@@ -451,7 +452,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 checked={pref_receive_prompts}
                                 onChange={handleCheckboxChange(setPrefReceivePrompts)}
                             />
-                            Hoffech chi dderbyn awgrymiadau ac atgofion i chwarae ScramAir?
+                            Would you like to receive tips and reminders to play Drubble?
                         </label>
                         {errors.pref_receive_prompts &&
                             <span className="error-message">{errors.pref_receive_prompts}</span>}
@@ -464,7 +465,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         className="submit"
                         disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))} // Added required newsletter consent
                     >
-                        {activeTab === "signin" ? "Mewngofnodwch" : "Cofrestrwch"}
+                        {activeTab === "signin" ? "Login" : "Register"}
                     </button>
                 )}
 
@@ -483,7 +484,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 padding: 0
                             }}
                         >
-                            Wedi Anghofio Cyfrinair?
+                            Forgot Password?
                         </button>
                     </div>
                 )}
@@ -491,24 +492,24 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 {activeTab === "reset" && resetStep === "request" && (
                     <>
                         <div>
-                            <h3>Ailosod cyfrinair</h3>
-                            <p>Rhowch eich cyfeiriad e-bost yma, os oes cyfrif yn bodoli ar gyfer eich e-bost bydd cod
-                                dilysu yn cael ei anfon i'ch e-bost.</p>
+                            <h3>Reset Password</h3>
+                            <p>Enter your email address here, if an account exists for your email there will be a
+                                verification code sent to your email address.</p>
                         </div>
                         <label>
-                            <span>E-Bost</span>
+                            <span>E-Mail</span>
                             <input
                                 type="email"
                                 className={`${errors.email ? "error" : ""}`}
                                 value={email}
-                                placeholder="E-bost eich cyfrif"
+                                placeholder="Your account e-mail address"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             {errors.email && <span className="error-message">{errors.email}</span>}
                         </label>
                         {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
-                        <button type="submit" className="submit" disabled={!email}>Anfon Cod Ailosod</button>
+                        <button type="submit" className="submit" disabled={!email}>Send Reset Code</button>
                     </>
                 )}
 
@@ -527,36 +528,36 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         </label>
 
                         <label>
-                            <span>Cod Dilysu</span>
+                            <span>Verification Code</span>
                             <input
                                 type="text"
                                 className={`${errors.verification_code ? "error" : ""}`}
                                 value={verificationCode}
-                                placeholder="Rhowch y cod o'ch e-bost"
+                                placeholder="Enter the code from your email"
                                 onChange={(e) => setVerificationCode(e.target.value)}
                             />
                             {errors.verification_code && <span className="error-message">{errors.verification_code}</span>}
                         </label>
 
                         <label>
-                            <span>Cyfrinair Newydd</span>
+                            <span>New Password</span>
                             <input
                                 type="password"
                                 className={`${errors.password ? "error" : ""}`}
                                 value={password}
-                                placeholder="Cyfrinair Newydd"
+                                placeholder="New Password"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             {errors.password && <span className="error-message">{errors.password}</span>}
                         </label>
 
                         <label>
-                            <span>Cadarnhau Cyfrinair</span>
+                            <span>Password confirmation</span>
                             <input
                                 type="password"
                                 className={`${errors.passwordConfirm ? "error" : ""}`}
                                 value={passwordConfirm}
-                                placeholder="Cadarnhau Cyfrinair"
+                                placeholder="Confirm password"
                                 onChange={(e) => setPasswordConfirm(e.target.value)}
                             />
                             {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
@@ -573,19 +574,17 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         type="submit"
                         className="submit"
                         disabled={!email || !password || !verificationCode || password !== passwordConfirm}
-                    >Ailosod Cyfrinair
+                    >Reset Password
                     </button>
                 )}
             </form>
 
             <div>
-                Drwy gofrestru neu fewngofnodi i Scramair, rydych yn cadarnhau eich bod wedi darllen ac yn cytuno i'n
-                Polisi Preifatrwydd a'n Telerau Gwasanaeth.
+                By registering or logging in to Drubble, you confirm that you have read and agree to our
+                Privacy Policy and our Terms of Service.
             </div>
-            <div><a href="/privacy-policy-cy.html" target="_blank">Polisi Preifatrwydd</a>&nbsp;<a
-                href="/privacy-policy.html" target="_blank">(English Version)</a></div>
-            <div><a href="/terms-of-service-cy.html" target="_blank">Telerau Gwasanaeth</a>&nbsp;
-                <a href="/terms-of-service.html" target="_blank">(English Version)</a></div>
+            <div><a href="/privacy-policy.html" target="_blank">Privacy Policy</a></div>
+            <div><a href="/terms-of-service.html" target="_blank">terms of Service</a></div>
 
             {errors.recaptcha && <span className="error">{errors.recaptcha}</span>}
         </div>
