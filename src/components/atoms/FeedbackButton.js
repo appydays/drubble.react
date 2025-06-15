@@ -5,7 +5,7 @@ function FeedbackButton({ onClick }) {
         <button className="key special feedback"
                 title="Feedback"
                 onClick={onClick}>
-            Rhoi Adborth
+            Give Feedback
         </button>
     );
 }

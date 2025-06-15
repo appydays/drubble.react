@@ -74,10 +74,10 @@ function FeedbackModal({ isOpen, onClose }) {
     return (
         <Modal className="feedback-form" isOpen={isOpen} onClose={onClose}>
             <div>
-                <h2>Adborth</h2>
+                <h2>Feedback</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
-                        <span>Adborth</span>
+                        <span>Feedback Content</span>
                         <textarea
                             name="feedback"
                             rows="15"

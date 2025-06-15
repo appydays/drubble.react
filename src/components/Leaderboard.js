@@ -136,10 +136,10 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
 
     return (
         <Modal className="leaderboard" isOpen={isOpen} onClose={onClose}>
-            <h2>Bwrdd arweinwyr</h2>
+            <h2>Leaderboard and Stats</h2>
             {!playerId &&
                 <div>
-                    Allwch chi guro'r sgôr uchel? Cofrestrwch a Mewngofnodwch i herio'r arweinwyr.
+                    Can you beat the high score? Register and Login to challenge the leaders.
                 </div>
             }
             <div className="leaderboard-tabs">
@@ -147,25 +147,25 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     className={`tab-button ${activeTab === 'daily' ? 'active' : ''}`}
                     onClick={() => handleTabClick('daily')}
                 >
-                    Dyddiol
+                    Daily Leaders
                 </button>
                 <button
                     className={`tab-button ${activeTab === 'monthly' ? 'active' : ''}`}
                     onClick={() => handleTabClick('monthly')}
                 >
-                    Yn fisol
+                    Monthly Leaders
                 </button>
                 <button
                     className={`tab-button ${activeTab === 'player' ? 'active' : ''}`}
                     onClick={() => handleTabClick('player')}
                 >
-                    Eich ystadegau
+                    Your stats
                 </button>
                 <button
                     className={`tab-button ${activeTab === 'global' ? 'active' : ''}`}
                     onClick={() => handleTabClick('global')}
                 >
-                    Ystadegau Gorau
+                    Global record stats
                 </button>
             </div>
 
