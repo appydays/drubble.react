@@ -34,7 +34,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                             setTodayScore(responseData.score);
                             setTodayWords(responseData.wordsUsed || []);
                             setGameComplete(true);
-                        } else if (!responseData.complete) {
+                        } else if (responseData.hasPlayedToday && !responseData.complete) {
                             setHasPlayedToday(true);
                             setTodayWords(responseData.wordsUsed || []);
                             setGameComplete(false);
