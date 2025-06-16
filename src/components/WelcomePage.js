@@ -174,7 +174,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                             </ol>
                             <p>If you do have any features you would like to see in the game, we would love to hear from you, please either submit the feedback form or email us at support@scramair.cymru</p>
                             <p>Or if you would like to hear of news and updates to Scramair , please do make sure you check your preferences and enable us to inlclude you on the regular newletters. You can opt in or opt out at any time. </p>
-                        </div>
+                        </p>
                     )}
                 </div>
 
