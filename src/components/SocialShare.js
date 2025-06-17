@@ -6,7 +6,7 @@ const siteUrl = "https://drubble.uk/share";
 const shareUrlMobile = "https://drubble.uk";
 
 const SocialShare = ({ score, playerName }) => {
-    const shareText = `${playerName} scroed ${score} points on Drubble! Can you beat it?`;
+    const shareText = `${playerName} scored ${score} points on Drubble! Can you beat it?`;
     const shareUrl = `${siteUrl}?playerName=${playerName}&score=${score}`;
 
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
