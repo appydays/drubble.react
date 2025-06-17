@@ -10,7 +10,12 @@ import Swal from 'sweetalert2';
 
 function LeaderboardModal({ playerId, isOpen, onClose }) {
     const [dailyLeaderboardData, setDailyLeaderboardData] = useState([]);
+    const [yesterdayDailyLeaderboardData, setYesterdayDailyLeaderboardData] = useState(null);
+    const [selectedDailyView, setSelectedDailyView] = useState('today'); // 'today' or 'yesterday'
+
     const [monthlyLeaderboardData, setMonthlyLeaderboardData] = useState([]);
+    const [previousMonthLeaderboardData, setPreviousMonthLeaderboardData] = useState(null);
+    const [selectedMonthlyView, setSelectedMonthlyView] = useState('current'); // 'current' or 'previous'
 
     const [playerStatsData, setPlayerStatsData] = useState(null);
     const [isPlayerStatsLoading, setIsPlayerStatsLoading] = useState(false);
@@ -26,6 +31,9 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
 
     const [activeTab, setActiveTab] = useState('daily');
 
+    const [leaderboardLoading, setLeaderboardLoading] = useState(false); // New loading state for leaderboards
+    const [leaderboardError, setLeaderboardError] = useState(null); // New error state for leaderboards
+
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
 
@@ -35,8 +43,21 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
         setActiveTab(tab);
     };
 
+    const handleDailyViewChange = (view) => {
+        setSelectedDailyView(view);
+    };
+
+    const handleMonthlyViewChange = (view) => {
+        setSelectedMonthlyView(view);
+    };
+
     useEffect(() => {
         const fetchLeaderboard = async () => {
+            if (!isOpen) return;
+
+            setLeaderboardLoading(true);
+            setLeaderboardError(null); // Clear previous errors
+
             try {
                 const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
                 const response = await fetch(`${apiUrl}/leaderboard?date=${today}&player_id=${playerId}`);
@@ -44,18 +65,26 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     const data = await response.json();
                     console.log(data);
                     setDailyLeaderboardData(data.daily);
+                    setYesterdayDailyLeaderboardData(data.yesterday || null);
                     setMonthlyLeaderboardData(data.monthly);
+                    setPreviousMonthLeaderboardData(data.prevMonth || null);
+
                 } else {
-                    Swal.fire('Error','Unable to load the leaderboard', 'error');
+                    // alert('Wedi methu â nôl y bwrdd arweinwyr.');
+                    const errorText = await response.text();
+                    console.error("Failed to fetch combined leaderboards:", errorText);
+                    setLeaderboardError('Failed to retrieve leaderboards. Try again later.');
                 }
             } catch (error) {
-                Swal.fire('Error','Unexpected error occurred', 'error');
+                // alert('Digwyddodd gwall.');
+                console.error('Error fetching combined leaderboards:', error);
+                setLeaderboardError('A network error occurred while retrieving leaderboards.');
+            } finally {
+                setLeaderboardLoading(false);
             }
         };
 
-        if (isOpen) {
-            fetchLeaderboard();
-        }
+        fetchLeaderboard();
     }, [isOpen, playerId, apiUrl]);
 
     useEffect(() => {
@@ -134,6 +163,27 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
         fetchRecordStatsData();
     }, [activeTab, isOpen, apiUrl]); // Re-run when tab, modal state, player ID, or API URL changes
 
+    // Function to get the currently active daily data
+    const getActiveDailyData = () => {
+        if (selectedDailyView === 'today') {
+            return dailyLeaderboardData;
+        } else {
+            return yesterdayDailyLeaderboardData;
+        }
+    };
+
+    // Function to get the currently active monthly data
+    const getActiveMonthlyData = () => {
+        if (selectedMonthlyView === 'current') {
+            return monthlyLeaderboardData;
+        } else {
+            return previousMonthLeaderboardData;
+        }
+    };
+
+    const currentDailyData = getActiveDailyData();
+    const currentMonthlyData = getActiveMonthlyData();
+
     return (
         <Modal className="leaderboard" isOpen={isOpen} onClose={onClose}>
             <h2>Leaderboard and Stats</h2>
@@ -169,10 +219,25 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                 </button>
             </div>
 
-            {activeTab === 'daily' && (
+            {activeTab === 'daily' && !leaderboardLoading && !leaderboardError && (
                 <div id="daily-leaderboard" className="tab-content">
-                    {dailyLeaderboardData && dailyLeaderboardData.top20 && dailyLeaderboardData.top20.length > 0 ? (
-                        <table style={{width: '100%'}}>
+                    <div className="daily-monthly-toggle">
+                        <button
+                            className={`special key ${selectedDailyView === 'today' ? 'active' : ''}`}
+                            onClick={() => handleDailyViewChange('today')}
+                        >
+                            Today
+                        </button>
+                        <button
+                            className={`special key ${selectedDailyView === 'yesterday' ? 'active' : ''}`}
+                            onClick={() => handleDailyViewChange('yesterday')}
+                        >
+                            Yesterday
+                        </button>
+                    </div>
+
+                    {currentDailyData && currentDailyData.top20 && currentDailyData.top20.length > 0 ? (
+                        <table style={{ width: '100%' }}>
                             <thead>
                             <tr>
                                 <th className="rank">Position</th>
@@ -181,8 +246,8 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tr>
                             </thead>
                             <tbody>
-                            {dailyLeaderboardData.top20.map((player, index) => (
-                                <tr key={player.id ?? `daily-${index}`}
+                            {currentDailyData.top20.map((player, index) => (
+                                <tr key={player.id ?? `daily-${selectedDailyView}-${index}`}
                                     className={(parseInt(player.id) === parseInt(playerId)) ? 'current-player' : ''}>
                                     <td className="rank">{index + 1}</td>
                                     <td className="name">{player.nickname}</td>
@@ -192,15 +257,30 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tbody>
                         </table>
                     ) : (
-                        <p>Loading daily leaderboard...</p>
+                        <p>No data available for this period.</p>
                     )}
                 </div>
             )}
 
-            {activeTab === 'monthly' && (
+            {activeTab === 'monthly' && !leaderboardLoading && !leaderboardError && (
                 <div id="monthly-leaderboard" className="tab-content">
-                    {monthlyLeaderboardData && monthlyLeaderboardData.top20 && monthlyLeaderboardData.top20.length > 0 ? (
-                        <table style={{width: '100%'}}>
+                    <div className="daily-monthly-toggle">
+                        <button
+                            className={`special key  ${selectedMonthlyView === 'current' ? 'active' : ''}`}
+                            onClick={() => handleMonthlyViewChange('current')}
+                        >
+                            This Month
+                        </button>
+                        <button
+                            className={`special key  ${selectedMonthlyView === 'previous' ? 'active' : ''}`}
+                            onClick={() => handleMonthlyViewChange('previous')}
+                        >
+                            Previous Month
+                        </button>
+                    </div>
+
+                    {currentMonthlyData && currentMonthlyData.top20 && currentMonthlyData.top20.length > 0 ? (
+                        <table style={{ width: '100%' }}>
                             <thead>
                             <tr>
                                 <th className="rank">Position</th>
@@ -209,8 +289,8 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tr>
                             </thead>
                             <tbody>
-                            {monthlyLeaderboardData.top20.map((player, index) => (
-                                <tr key={player.id ?? `monthly-${index}`}
+                            {currentMonthlyData.top20.map((player, index) => (
+                                <tr key={player.id ?? `monthly-${selectedMonthlyView}-${index}`}
                                     className={player.id === playerId ? 'current-player' : ''}>
                                     <td className="rank">{index + 1}</td>
                                     <td className="name">{player.nickname}</td>
@@ -220,10 +300,9 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tbody>
                         </table>
                     ) : (
-                        <p>Loading monthly leaderboard...</p>
+                        <p>No data available for this period.</p>
                     )}
                 </div>
-
             )}
 
             {activeTab === 'player' && (
