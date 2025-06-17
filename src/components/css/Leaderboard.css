@@ -3,6 +3,22 @@
     overflow: auto;
 }
 
+.modal-container.leaderboard .daily-monthly-toggle .special.key {
+    background-color: #ddd;
+    color: white;
+}
+
+.modal-container.leaderboard .daily-monthly-toggle .special.key:hover {
+    background-color: #f78725;
+    color: white;
+}
+
+.modal-container.leaderboard .daily-monthly-toggle .special.key.active {
+    background-color: #3498db;
+    color: white;
+}
+
+
 @media (min-width: 968px){
     .modal-container.leaderboard {
         height:unset;
