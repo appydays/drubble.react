@@ -85,8 +85,8 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
     // Initialize first 9 letters (4 vowels + 5 consonants)
     const initializeLetters = (vowelArray, consonantArray) => {
-        const selectedVowels = vowelArray.slice(0, 4); // Get 4 vowels
-        const selectedConsonants = consonantArray.slice(0, 5); // Get 5 consonants
+        const selectedVowels = vowelArray.slice(0, 3); // Get 4 vowels
+        const selectedConsonants = consonantArray.slice(0, 6); // Get 5 consonants
         setLetters([...selectedVowels, ...selectedConsonants]); // Set 9 letters
         setUsedLetters({}); // Reset used letters
     };
