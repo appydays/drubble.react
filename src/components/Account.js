@@ -42,9 +42,9 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
 
     const [activeTab, setActiveTab] = useState("profile");
     const tabs = [
-        { key: "profile", label: "Proffil" },
-        { key: "privacy", label: "Preifatrwydd" },
-        { key: "logout", label: "Allgofnodi" },
+        { key: "profile", label: "Profile" },
+        { key: "privacy", label: "Privacy" },
+        { key: "logout", label: "Logout" },
     ];
 
     const [isLoading, setIsLoading] = useState(false); // To manage loading state for async operations like delete/data request

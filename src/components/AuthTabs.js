@@ -2,7 +2,8 @@ import { useState, useEffect } from "react"; // Import useEffect
 import useApiRequest from './useApiRequest'; // Assuming this hook is still used elsewhere
 import Swal from 'sweetalert2';
 import GoogleLoginButton from './GoogleLoginButton';
-import LanguageLevelSelect from "./LanguageLevelSelect"; // Ensure this import path is correct
+import LanguageLevelSelect from "./LanguageLevelSelect";
+import CookieSettingsButton from "./CookieSettingsButton"; // Ensure this import path is correct
 
 const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [activeTab, setActiveTab] = useState("signin"); // Default to Sign In
@@ -578,7 +579,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     </button>
                 )}
             </form>
-
+            <CookieSettingsButton />
             <div>
                 By registering or logging in to Drubble, you confirm that you have read and agree to our
                 Privacy Policy and our Terms of Service.
