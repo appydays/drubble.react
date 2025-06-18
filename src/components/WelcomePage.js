@@ -105,10 +105,10 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                             </p>
                             {todayWords.length > 0 && (
                                 <p>Words you played: {todayWords.join(", ")}</p>
-                                // <SocialShare score={score} playerName={playerName} />
+                                // <SocialShare score={todayScore} playerName={playerName} />
                             )}
                             {playerName && (playerName==='daibara') && hasPlayedToday && (
-                                <SocialShare score={score} playerName={playerName} />
+                                <SocialShare score={todayScore} playerName={playerName} />
                             )}
                             <p className="warning">
                                 You can still play again for fun — but new scores won’t be submitted or count on the leaderboard.
