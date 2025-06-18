@@ -284,7 +284,9 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                                 {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
                                 {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
 
-                                <SocialShare score={score} playerName={playerName} />
+                                {playerName === 'daibara' && (
+                                    <SocialShare score={score} playerName={playerName} />
+                                )}
                             </div>
                         ),
                         autoDismiss: 0, // Don’t auto-dismiss this one
@@ -401,7 +403,9 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                         <p>Game over!</p>
                         <p>We're sorry you ran out of time, you've submitted {submittedWords.length} words. Your score is {score}</p>
 
-                        <SocialShare score={score} playerName={playerName} />
+                        {playerName === 'daibara' && (
+                            <SocialShare score={score} playerName={playerName} />
+                        )}
 
                     </div>
                 ),
