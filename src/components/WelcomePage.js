@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './css/WelcomePage.css'; // Your CSS file
 // import './css/WelcomePageAnimations.css'; // Optional: for transitions/animations
 import useApiRequest from './useApiRequest';
+import SocialShare from "./SocialShare";
 
 const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) => {
     const [playerName, setPlayerName] = useState(null);
@@ -108,6 +109,10 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                                 You can still play again for fun — but new scores won’t be submitted or count on the leaderboard.
                             </p>
                         </div>
+                    )}
+
+                    {playerName && (playerName==='daibara') && hasPlayedToday && (
+                        <SocialShare score={score} playerName={playerName} />
                     )}
 
                     {/* Main Action Buttons */}
