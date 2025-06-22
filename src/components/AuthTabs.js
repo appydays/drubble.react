@@ -357,7 +357,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             {/* Auth Forms */}
             <form onSubmit={handleSubmit}>
 
-                <GoogleLoginButton onLogin={handleSocialLogin} />
+                <GoogleLoginButton onLogin={handleSocialLogin}/>
                 <p>OR</p>
 
                 {activeTab === "signup" && (
@@ -391,50 +391,52 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                 {(activeTab === "signup" || activeTab === "signin") && (
                     // Group email and password for responsive layout
-                    <>
-                        <div className="form-field-group signup signin">
-                            <label>
-                                <span>E-mail</span>
-                                <input
-                                    type="email"
-                                    className={`${errors.email ? "error" : ""}`}
-                                    value={email}
-                                    placeholder="E-Mail"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                {errors.email && <span className="error-message">{errors.email}</span>}
-                            </label>
-                        </div>
-                        <div className="form-field-group signup signin">
-                            <label>
-                                <span>Password</span>
-                                <input
-                                    type="password"
-                                    className={`${errors.password ? "error" : ""}`}
-                                    value={password}
-                                    placeholder="Password"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                {errors.password && <span className="error-message">{errors.password}</span>}
-                            </label>
+                    <div className="form-field-group signup signin">
+                        <label>
+                            <span>E-mail</span>
+                            <input
+                                type="email"
+                                className={`${errors.email ? "error" : ""}`}
+                                value={email}
+                                placeholder="E-Mail"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            {errors.email && <span className="error-message">{errors.email}</span>}
+                        </label>
 
-                            <label>
-                                <span>Password confirmation</span>
-                                <input
-                                    type="password"
-                                    className={`${errors.passwordConfirm ? "error" : ""}`}
-                                    value={passwordConfirm}
-                                    placeholder="Confirm password"
-                                    onChange={(e) => setPasswordConfirm(e.target.value)}
-                                />
-                                {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
-                            </label>
-                        </div>
-                    </>
+                        <label>
+                            <span>Password</span>
+                            <input
+                                type="password"
+                                className={`${errors.password ? "error" : ""}`}
+                                value={password}
+                                placeholder="Password"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            {errors.password && <span className="error-message">{errors.password}</span>}
+                        </label>
+                    </div>
                 )}
                 {/* Place credentials error outside the group if it applies to both email/password */}
                 {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
+
+                {(activeTab === "signup") && (
+                    // Group email and password for responsive layout
+                    <div className="form-field-group signup">
+                        <label>
+                            <span>Password confirmation</span>
+                            <input
+                                type="password"
+                                className={`${errors.passwordConfirm ? "error" : ""}`}
+                                value={passwordConfirm}
+                                placeholder="Confirm password"
+                                onChange={(e) => setPasswordConfirm(e.target.value)}
+                            />
+                            {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
+                        </label>
+                    </div>
+                )}
 
                 {activeTab === "signup" && (
                     <>
@@ -486,7 +488,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 )}
 
                 {(activeTab === "signin" &&
-                    <div style={{ marginTop: "1rem" }}>
+                    <div style={{marginTop: "1rem"}}>
                         <button
                             type="button"
                             className="link-button"
@@ -552,7 +554,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 placeholder="Enter the code from your email"
                                 onChange={(e) => setVerificationCode(e.target.value)}
                             />
-                            {errors.verification_code && <span className="error-message">{errors.verification_code}</span>}
+                            {errors.verification_code &&
+                                <span className="error-message">{errors.verification_code}</span>}
                         </label>
 
                         <label>
@@ -594,7 +597,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     </button>
                 )}
             </form>
-            <CookieSettingsButton />
+            <CookieSettingsButton/>
             <div>
                 By registering or logging in to Drubble, you confirm that you have read and agree to our
                 Privacy Policy and our Terms of Service.
