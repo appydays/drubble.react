@@ -667,6 +667,12 @@ button:disabled {
   display:block;
 }
 
+.modal-container.account .error-message {
+  display:block;
+  color:red;
+}
+
+
 .modal-container.account form label.choices {
   flex-direction: row;
   width: 475px;

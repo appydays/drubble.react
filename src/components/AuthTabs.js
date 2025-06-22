@@ -419,8 +419,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             </label>
                     </div>
                 )}
-                {/* Place credentials error outside the group if it applies to both email/password */}
-                {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
                 {(activeTab === "signup") && (
                     // Group email and password for responsive layout
@@ -466,6 +464,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         </div>
                     </>
                 )}
+
+                {/* Place credentials error outside the group if it applies to both email/password */}
+                {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
                 {activeTab === "signup" && (
                     <>
