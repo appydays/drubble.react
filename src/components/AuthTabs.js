@@ -415,28 +415,25 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             />
                             {errors.password && <span className="error-message">{errors.password}</span>}
                         </label>
+
+                        {activeTab === "signup" && (
+                            <label>
+                                <span>Password confirmation</span>
+                                <input
+                                    type="password"
+                                    className={`${errors.passwordConfirm ? "error" : ""}`}
+                                    value={passwordConfirm}
+                                    placeholder="Confirm password"
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                />
+                                {errors.passwordConfirm &&
+                                    <span className="error-message">{errors.passwordConfirm}</span>}
+                            </label>
+                        )}
                     </div>
                 )}
                 {/* Place credentials error outside the group if it applies to both email/password */}
                 {errors.credentials && <span className="error-message">{errors.credentials}</span>}
-
-
-                {(activeTab === "signup") && (
-                    // Group email and password for responsive layout
-                    <div className="form-field-group signup">
-                        <label>
-                            <span>Password confirmation</span>
-                            <input
-                                type="password"
-                                className={`${errors.passwordConfirm ? "error" : ""}`}
-                                value={passwordConfirm}
-                                placeholder="Confirm password"
-                                onChange={(e) => setPasswordConfirm(e.target.value)}
-                            />
-                            {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
-                        </label>
-                    </div>
-                )}
 
                 {activeTab === "signup" && (
                     <>
