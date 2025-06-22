@@ -663,6 +663,10 @@ button:disabled {
   overflow:auto;
 }
 
+.modal-container.account label span {
+  display:block;
+}
+
 .modal-container.account form label.choices {
   flex-direction: row;
   width: 475px;

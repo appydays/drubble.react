@@ -391,31 +391,46 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                 {(activeTab === "signup" || activeTab === "signin") && (
                     // Group email and password for responsive layout
-                    <div className="form-field-group signup signin">
-                        <label>
-                            <span>E-mail</span>
-                            <input
-                                type="email"
-                                className={`${errors.email ? "error" : ""}`}
-                                value={email}
-                                placeholder="E-Mail"
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            {errors.email && <span className="error-message">{errors.email}</span>}
-                        </label>
+                    <>
+                        <div className="form-field-group signup signin">
+                            <label>
+                                <span>E-mail</span>
+                                <input
+                                    type="email"
+                                    className={`${errors.email ? "error" : ""}`}
+                                    value={email}
+                                    placeholder="E-Mail"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                {errors.email && <span className="error-message">{errors.email}</span>}
+                            </label>
+                        </div>
+                        <div className="form-field-group signup signin">
+                            <label>
+                                <span>Password</span>
+                                <input
+                                    type="password"
+                                    className={`${errors.password ? "error" : ""}`}
+                                    value={password}
+                                    placeholder="Password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                {errors.password && <span className="error-message">{errors.password}</span>}
+                            </label>
 
-                        <label>
-                            <span>Password</span>
-                            <input
-                                type="password"
-                                className={`${errors.password ? "error" : ""}`}
-                                value={password}
-                                placeholder="Password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {errors.password && <span className="error-message">{errors.password}</span>}
-                        </label>
-                    </div>
+                            <label>
+                                <span>Password confirmation</span>
+                                <input
+                                    type="password"
+                                    className={`${errors.passwordConfirm ? "error" : ""}`}
+                                    value={passwordConfirm}
+                                    placeholder="Confirm password"
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                />
+                                {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
+                            </label>
+                        </div>
+                    </>
                 )}
                 {/* Place credentials error outside the group if it applies to both email/password */}
                 {errors.credentials && <span className="error-message">{errors.credentials}</span>}
