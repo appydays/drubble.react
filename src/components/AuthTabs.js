@@ -75,6 +75,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 if (!name.trim()) {
                     newErrors.name = "A name is required.";
                 } else if (!/^[a-zA-Z0-9_]+$/.test(name)) {
+                    console.log('Error with Name regular expression');
                     newErrors.name = "Only letters, numbers and underscores are allowed.";
                 }
 
