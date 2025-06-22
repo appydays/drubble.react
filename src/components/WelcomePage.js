@@ -146,7 +146,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                 {/* Expandable Sections for more info */}
                 <div className="welcome-section welcome-details">
                     <h2 className="section-title" onClick={() => setShowWhyDrubble(!showWhyDrubble)}>
-                        Why Drubble <span className="toggle-icon">{showWhyDrubble ? '▲' : '▼'}</span>
+                        Why Drubble? <span className="toggle-icon">{showWhyDrubble ? '▲' : '▼'}</span>
                     </h2>
                     {showWhyDrubble && (
                         <div className="section-content expanded">
