@@ -71,6 +71,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             const newErrors = {};
 
             if (activeTab === "signup") {
+                console.log('Entered name is '+name);
                 if (!name.trim()) {
                     newErrors.name = "A name is required.";
                 } else if (!/^[a-zA-Z0-9_]+$/.test(name)) {
