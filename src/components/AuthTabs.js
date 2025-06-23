@@ -287,7 +287,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         nickname: nickname,
                         email: email,
                         password: password,
-                        passwordConfirm: passwordConfirm,
+                        password_confirmation: passwordConfirm,
                         language_level: languageLevel, // Ensure this is the correct value (integer)
                         pref_receive_newsletter: pref_receive_newsletter, // Send as boolean
                         pref_receive_prompts: pref_receive_prompts,       // Send as boolean
