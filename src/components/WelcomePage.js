@@ -58,6 +58,15 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
 
     }, [playerId, makeRequest]);
 
+    const clearClientSideData = () => {
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("playerId");
+        localStorage.removeItem("playerName");
+        localStorage.removeItem("playerPrefReceiveNewsletter");
+        localStorage.removeItem("playerPrefReceivePrompts");
+        // Add any other localStorage items related to player/authentication
+    };
+
     const handlePlayClick = () => {
         onPlayAsGuest(); // Assumes this leads to game start regardless of guest/logged in
     };
@@ -87,11 +96,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
         } catch (error) {
             console.error('Network error during logout:', error);
         } finally {
-            localStorage.removeItem("playerId");
-            localStorage.removeItem("playerName");
-            localStorage.removeItem("auth_token");
-            localStorage.removeItem("playerPrefReceiveNewsletter");
-            localStorage.removeItem("playerPrefReceivePrompts");
+            clearClientSideData();
             setPlayerName(null);
             if (onLogoutClick) {
                 onLogoutClick();
