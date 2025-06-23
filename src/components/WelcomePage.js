@@ -62,15 +62,41 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
         onPlayAsGuest(); // Assumes this leads to game start regardless of guest/logged in
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("playerId");
-        localStorage.removeItem("playerName");
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("playerPrefReceiveNewsletter");
-        localStorage.removeItem("playerPrefReceivePrompts");
-        setPlayerName(null);
-        if (onLogoutClick) {
-            onLogoutClick();
+    const handleLogout = async () => {
+        const authToken = localStorage.getItem('auth_token');
+
+        if (!authToken) {
+            clearClientSideData();
+            window.location.reload();
+            return;
+        }
+
+        try {
+            const response = await fetch(`${apiUrl}/logout`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Backend logout failed:', errorData);
+            }
+        } catch (error) {
+            console.error('Network error during logout:', error);
+        } finally {
+            localStorage.removeItem("playerId");
+            localStorage.removeItem("playerName");
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("playerPrefReceiveNewsletter");
+            localStorage.removeItem("playerPrefReceivePrompts");
+            setPlayerName(null);
+            if (onLogoutClick) {
+                onLogoutClick();
+            }
+            window.location.reload();
         }
     };
 
