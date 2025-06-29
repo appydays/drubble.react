@@ -1,9 +1,12 @@
 import { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 const apiUrl = baseUrl + '/api';
 
 const GoogleLoginButton = ({ onLogin }) => {
+    const { t,i18n } = useTranslation();
+
     useEffect(() => {
         window.google.accounts.id.initialize({
             client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
@@ -23,13 +26,14 @@ const GoogleLoginButton = ({ onLogin }) => {
             credentials: 'include', // <<<--- CRITICAL: Allows sending/receiving cookies
             headers: {
                 'Accept': 'application/json', // Indicate that you expect JSON response
+                'Accept-Language': i18n.language
             },
         });
 
         // Send the token to your Laravel backend
         const res = await fetch(`${apiUrl}/auth/google`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", 'Accept-Language': i18n.language },
             body: JSON.stringify({ token: response.credential }),
         });
 

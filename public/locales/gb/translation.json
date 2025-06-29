@@ -31,6 +31,7 @@
   },
   "footer": {
     "copyright": "© 2025 {{sitename}}. All rights reserved.",
+    "player-label": "Player {{playerName}}",
     "tabs": {
       "account": "Account",
       "settings": "Settings",
@@ -249,8 +250,12 @@
         "error-format": "Language level is required and must be a valid number."
       },
       "recaptcha": {
+        "error-title": "reCaptcha failed",
         "not-available": "reCAPTCHA is not available. Try again later.",
-        "error-token": "ReCAPTCHA verification failed. Try again."
+        "error-token": "ReCAPTCHA verification failed. Please try again.",
+        "verify": {
+          "fail": "ReCAPTCHA verification failed. Please try again."
+        }
       },
       "password-confirm": {
         "not-match": "Passwords do not match",
@@ -314,7 +319,11 @@
         "label": "Feedback",
         "placeholder": "Please provide feedback, including improvements, ideas and issues"
       },
-      "submit": "Submit Feedback"
+      "submit": "Submit Feedback",
+      "response": {
+        "success": "Feedback Received",
+        "error": "Feedback failed"
+      }
     }
   },
   "leaderboard": {

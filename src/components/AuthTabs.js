@@ -28,7 +28,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
     const { t, i18n } = useTranslation();
     const siteName = process.env.REACT_APP_SITE_NAME;
-
     // Reset form fields when switching tabs
     useEffect(() => {
         setErrors({}); // Clear errors
@@ -203,7 +202,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     try {
                         const response = await fetch(apiUrl+"/forgot-password", {
                             method: "POST",
-                            headers: {"Content-Type": "application/json"},
+                            headers: {"Content-Type": "application/json", 'Accept-Language': i18n.language},
                             body: JSON.stringify({
                                 email,
                                 recaptcha_token: token
@@ -242,7 +241,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     try {
                         const response = await fetch(apiUrl+"/update-password", {
                             method: "POST",
-                            headers: {"Content-Type": "application/json"},
+                            headers: {"Content-Type": "application/json", 'Accept-Language': i18n.language},
                             body: JSON.stringify({
                                 email,
                                 verification_code: verificationCode,
@@ -282,7 +281,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                 response = await fetch(apiUrl + "/register", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/json", 'Accept-Language': i18n.language },
                     body: JSON.stringify({
                         name: name,
                         nickname: nickname,
@@ -489,7 +488,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 checked={pref_receive_newsletter}
                                 onChange={handleCheckboxChange(setPrefReceiveNewsletter)}
                                 required
-                            />{t('account.preferences.newsletter-text',{siteName: siteName})}
+                            />{t('account.preferences.newsletter-text', {siteName: siteName})}
                         </label>
                         {errors.pref_receive_newsletter &&
                             <span className="error-message">{errors.pref_receive_newsletter}</span>}
@@ -499,7 +498,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 type="checkbox"
                                 checked={pref_receive_prompts}
                                 onChange={handleCheckboxChange(setPrefReceivePrompts)}
-                            />{t('account.preferences.prompt-text', {siteName: siteName})}
+                            />{t('account.preferences.prompt-text')}
                         </label>
                         {errors.pref_receive_prompts &&
                             <span className="error-message">{errors.pref_receive_prompts}</span>}
