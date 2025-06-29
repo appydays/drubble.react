@@ -1,0 +1,553 @@
+{
+  "welcome_page" : {
+    "welcome_message": "Croeso i {{sitename}}!",
+    "welcome_content": "<p>Paratowch i roi eich geirfa ar y prawf eithaf!</p><p>Yn yr her eiriau ddyddiol hon, cewch <b>5 munud</b> i ddod o hyd i <b>5 gair cymraeg</b> dros <b>5 rownd</b> o <b>9 llythyren</b> yr un.</p><p>Ffeindiwch y gair hiraf posibl i sgorio'n fawr, a defnyddiwch lythrennau llai cyffredin am bwyntiau bonws!</p>",
+    "played_today": {
+      "score_message": "✅ Rydych chi eisoes wedi chwarae gêm heddiw. Eich sgôr oedd <strong>{{todayScore}}</strong>.",
+      "not_complete": "Wnaethoch chi ddim cwblhau'r gêm.",
+      "words_played": "Geiriau a chwaraeoch chi: {{wordsList}}",
+      "warning_message": "Gallwch chi dal chwarae eto am hwyl — ond ni fydd sgoriau newydd yn cael eu cyflwyno nac yn cyfrif ar y bwrdd arweinyddion."
+    }
+  },
+  "how_to_play": {
+    "title": "Sut i Chwarae",
+    "content_p1": "Bob dydd, mae pob chwaraewr yn gweithio o'r <b>union un pecyn o 9 llythyren ar hap</b>. Eich cenhadaeth? I ddod o hyd i'r <b>gair hiraf cymraeg posibl</b> y gallwch ei greu o'r llythrennau hynny. Po hiraf yw'r gair, yr uchaf fydd eich sgôr yn dringo! Ond nid dyna'r cyfan – mae chwarae strategol yn allweddol. Cadwch lygad am y llythrennau llai cyffredin hynny; bydd eu defnyddio yn rhoi hyd yn oed mwy o bwyntiau i chi ac yn rhoi hwb i'ch sgôr gyffredinol.",
+    "content_p2": "Allwch chi drechu'r gystadleuaeth ddyddiol a hawlio teitl y <b>prif sgoriwr</b>? Neu efallai y byddwch chi'n gosod record bersonol, neu fyd-eang, newydd drwy lunio'r <b>gair â'r sgôr uchaf</b> erioed? Mae pob gêm yn gyfle i brofi eich camp ieithyddol! Cofiwch, gallwch chi chwarae am hwyl a cheisio eto, ond dim ond eich <b>sgôr cyntaf</b> un y diwrnod fydd yn cyfrif tuag at y byrddau arweinwyr dyddiol a'ch goreuon personol."
+  },
+  "why_register": {
+    "title": "Pam Cofrestru?",
+    "content_p1": "<b>Chwaraewch fel gwestai i neidio’n syth i’r hwyl</b>, neu <b>cofrestrwch am ddim i ddatgloi mwy!</b> Gall chwaraewyr cofrestredig gymryd rhan yn y byrddau arweinwyr dyddiol, olrhain eu hanes gêm, a gweld eu hystadegau personol manwl.",
+    "content_p2": "Ar ôl i chi gwblhau eich her ddyddiol, gwnewch yn siŵr eich bod chi'n rhannu eich sgôr gyda ffrindiau ac yn gweld pwy sy'n teyrnasu'n oruchaf! P'un a ydych chi'n chwilio am ymennydd cyflym, ffordd hwyliog o dreulio'r amser, neu gystadleuaeth gyfeillgar gyda'ch ffrindiau, {{sitename}} yn cynnig oriau di-ddiwedd o chwarae gafaelgar. Miniogwch eich meddwl, ehangwch eich geirfa, a heriwch eich hun i ddod yn feistr geiriau pennaf!"
+  },
+  "future_plans": {
+    "title": "Beth yw'r cynlluniau ar gyfer datblygu yn y dyfodol?",
+    "content_p1": "Mae gennym ni gwpl o syniadau ar y gweill ar gyfer datblygiad yn y dyfodol ac i wella'r profiad:",
+    "list_item_1": "Ychwanegu mynediad at fwy o ystadegau, e.e. ar ganlyniadau dyddiau a misoedd blaenorol,",
+    "list_item_2": "Gweithredu modd \"dysgwr\" - galluogi chwaraewyr i hofran dros destun am gyfieithiadau ac ystyr geiriau.",
+    "list_item_3": "Gwella ystadegau i alluogi chwaraewyr i hidlo byrddau arweinwyr yn ôl lefel iaith, felly yn lle dangos y 10 arweinydd byd-eang gorau yn unig, gellir dangos y 10 dysgwr gorau, neu lefelau Canolradd neu Uwch.",
+    "list_item_4": "Rydym yn bwriadu ychwanegu dolenni i adnoddau dysgu",
+    "contact_message": "Os oes gennych chi unrhyw nodweddion yr hoffech chi eu gweld yn y gêm, byddem wrth ein bodd yn clywed gennych chi, naill ai cyflwynwch y ffurflen adborth neu anfonwch e-bost atom yn {{supportEmail}}",
+    "newsletter_message": "Neu os hoffech chi glywed am newyddion a diweddariadau i {{sitename}}, gwnewch yn siŵr eich bod chi'n gwirio'ch dewisiadau ac yn ein galluogi i'ch cynnwys chi ar y cylchlythyrau rheolaidd. Gallwch chi optio i mewn neu optio allan ar unrhyw adeg."
+  },
+  "footer": {
+    "copyright": "© 2025 {{sitename}}. Cedwir pob hawl.",
+    "player-label": "Chwaraewr {{playerName}}",
+    "tabs": {
+      "account": "Cyfrif",
+      "settings": "Gosodiadau",
+      "leaderboard": "Bwrdd arweinwyr",
+      "help": "Help"
+    }
+  },
+  "buttons": {
+    "play_as_player": "Chwarae fel {{playerName}}",
+    "logout": "Allgofnodi",
+    "play_as_guest": "Chwarae fel gwestai",
+    "register_or_login": "Cofrestru neu Mewngofnodi",
+    "shuffle": "Siffrwd",
+    "exchange": "Cyfnewid",
+    "delete_letter": "Dileu",
+    "check_word": "Gwirio gair...",
+    "submit": "⏎ Anfon"
+  },
+  "social_share": {
+    "title": "Rhannwch eich sgôr!",
+    "facebook": "Rhannu ar Facebook",
+    "e-mail": "Rhannu drwy E-bost",
+    "mobile": "Rhannu ar Symudol"
+  },
+  "submitted_words": {
+    "title" : "Eich geiriau a gyflwynwyd heddiw",
+    "exchanged": "Cyfnewidiwyd"
+  },
+  "word": {
+    "valid": "✅ '{{word}}' yn air dilys",
+    "invalid": "❌ '{{word}}' nid yw'n air dilys!"
+  },
+  "game_over": {
+    "title": "Gêm wedi gorffen!",
+    "complete": "\uD83C\uDF89 Llongyfarchiadau! Rydych chi wedi cyflwyno'r 5 gair i gyd. Eich sgôr yw {{score}}",
+    "out_of_time": "Mae'n ddrwg gennym eich bod wedi rhedeg allan o amser, rydych wedi cyflwyno {{words}} geiriau. Eich sgôr yw {{score}}",
+    "new_game_high_score": "\uD83C\uDFC6 Newyddion Da: Rydych chi newydd osod record gêm bersonol newydd gyda sgôr o {{game_score}}!",
+    "high_game_score": "Eich sgôr gêm uchaf erioed yw {{game_score}}.",
+    "new_word_high_score": "\uD83D\uDE80 Newyddion Da: Rydych chi newydd osod record bersonol newydd am y gair sgoer uchaf gyda'r gair '{{word}}' a sgôr o {{word_score}}!",
+    "high_word_score": "Eich gair uchaf erioed yw '{{word}}' gyda sgôr o {{word_score}}."
+  },
+  "alert": {
+    "titles": {
+      "sure" : "Ydych'n siwr?",
+      "success" : "Llwyddiant!",
+      "error": "Gwall!",
+      "updated": "Diweddarwyd",
+      "network-error": "Gwall Rhwydwaith!",
+      "logout": "Allgofnodi"
+    },
+    "content": {
+      "unexpected": "Digwyddodd gwall."
+    },
+    "exchange": {
+      "text": "Byddwch yn colli un slot gair ac yn disodli'r llythrennau a ddewiswyd.",
+      "confirm": "Ie, llythyrau cyfnewid",
+      "cancel": "Canslo",
+      "success": {
+        "title": "Llythyrau wedi'u cyfnewid",
+        "text": "Mae eich llythyrau wedi cael eu cyfnewid ac mae un slot gair wedi cael ei ddefnyddio."
+      }
+    }
+  },
+  "settings": {
+    "title": "Gosodiadau",
+    "labels": {
+      "theme": "Thema (Golau / Tywyll)",
+      "contrast": "Cyferbyniad Uchel"
+    },
+    "feedback": {
+      "title": "Rhoi Adborth",
+      "text": "Os oes gennych chi broblem ac eisiau rhoi gwybod am nam, neu os oes gennych chi unrhyw adborth ar yr hyn rydych chi'n ei hoffi neu ddim yn ei hoffi, neu os oes gennych chi rywbeth yr hoffech chi ei weld ar {{sitename}}, byddem wrth ein bodd yn clywed gennych chi."
+    }
+  },
+  "account": {
+    "tabs": {
+      "profile": {
+        "label": "Proffil"
+      },
+      "privacy": {
+        "label": "Preifatrwydd"
+      },
+      "logout": {
+        "label": "Allgofnodi"
+      }
+    },
+    "alerts": {
+      "login-required": {
+        "title": "Angen Mewngofnodi",
+        "text": "Mewngofnodwch i ofyn am eich data."
+      },
+      "data-request": {
+        "title": "Cais Data",
+        "text": "Byddwn yn prosesu'ch cais data. Ydych chi'n siŵr?",
+        "confirm": "Ie, cadarnhau",
+        "cancel": "Na, canslo",
+        "processed": "Mae eich cais data wedi cael ei brosesu.",
+        "failed": "Methodd eich cais data.",
+        "connect-error": "Methu cysylltu â’r gweinydd."
+      },
+      "delete-request": {
+        "title": {
+          "complete": "Wedi Dileu"
+        },
+        "text": "Bydd dileu eich cyfrif yn dileu eich holl ddata defnyddiwr yn barhaol ac ni fydd unrhyw hanes o'ch cyfrif yn cael ei gadw. Ni ellir dadwneud hyn!",
+        "confirm": "Ie, dilëwch fy nghyfrif!",
+        "cancel": "Na, peidiwch â dileu",
+        "complete": "Mae eich cyfrif wedi cael ei ddileu.",
+        "error": "Methodd y dileu cyfrif."
+      },
+      "profile": {
+        "login-required": "Mewngofnodwch i ddiweddaru eich proffil.",
+        "updated": "Mae eich proffil wedi cael ei ddiweddaru.",
+        "failed": "Digwyddodd gwall wrth ddiweddaru."
+      }
+    },
+    "validation": {
+      "messages": {
+        "nickname": "Mae angen llysenw",
+        "language-level": "Mae lefel iaith yn ofynnol ac rhaid iddo fod yn rhif dilys."
+      }
+    },
+    "forms": {
+      "profile": {
+        "labels": {
+          "nickname": "Llysenw (Eich Enw Defnyddiwr)"
+        },
+        "placeholders": {
+          "nickname": "Llysenw unigryw"
+        },
+        "update-button": "Diweddaru Proffil"
+      }
+    },
+    "preferences": {
+      "title": "Dewisiadau Cyfathrebu",
+      "newsletter-text": "A hoffech chi gael y newyddion diweddaraf am {{sitename}} ac a ydych chi'n\nhapus i dderbyn cylchlythyrau achlysurol drwy e-bost?",
+      "prompt-text": "Hoffech chi dderbyn awgrymiadau ac atgofion i chwarae {{sitename}}?"
+    },
+    "privacy": {
+      "title": "Eich cyfrif",
+      "data-request": {
+        "make": "Gwneud Cais Data",
+        "processing": "Yn Prosesu..."
+      },
+      "delete": {
+        "make": "Dileu Cyfrif",
+        "processing": "Yn Dileu..."
+      },
+      "leader-text": "Drwy gofrestru neu fewngofnodi i {{sitename}}, rydych yn cadarnhau eich bod wedi darllen ac yn cytuno i'n Polisi Preifatrwydd a'n Telerau Gwasanaeth."
+    },
+    "logout": {
+      "title": "Hoffech chi allgofnodi?"
+    },
+    "register": {
+      "title": "Mewngofnodwch neu cofrestrwch",
+      "text": "Trwy gofrestru a llofnodi i mewn i chwarae, byddwch yn gallu gweld eich ystadegau gêm a bydd\n                            eich sgôr yn cael ei ychwanegu at ein bwrdd arweinwyr dyddiol. Gweld a allwch chi gyrraedd\n                            brig y bwrdd arweinwyr!"
+    },
+    "privacy-policy": "Polisi Preifatrwydd",
+    "terms-of-service": "Telerau Gwasanaeth",
+    "support-link-text": "Am gymorth, cysylltwch â ni drwy e-bost yn ",
+    "cookie-settings-button": "Rheoli Dewisiadau Cwcis"
+  },
+  "language-level": {
+    "title": "Eich lefel iaith:",
+    "beginner": {
+      "label": "Dechreuwr",
+      "description": "Ar y lefel hon, rydych chi'n gyfathrebwr goroesi. Gallwch chi ddeall a defnyddio ymadroddion a mynegiadau bob dydd sylfaenol iawn, gan ganolbwyntio ar anghenion uniongyrchol a phynciau cyfarwydd iawn."
+    },
+    "intermediate": {
+      "label": "Canolradd",
+      "description": "Ar y lefel hon, gallwch weithredu'n annibynnol yn y rhan fwyaf o sefyllfaoedd cyffredin. Gallwch ymdrin â thasgau arferol a chymryd rhan mewn sgyrsiau mwy estynedig ar bynciau cyfarwydd."
+    },
+    "advanced": {
+      "label": "Uwch",
+      "description": "Ar y lefel hon, rydych chi'n ddefnyddiwr hynod hyfedr a rhugl o'r iaith. Gallwch chi ddeall a mynegi eich hun gyda gradd uchel o ddigymelldeb, cywirdeb a soffistigedigrwydd, hyd yn oed mewn sefyllfaoedd cymhleth neu anghyfarwydd."
+    }
+  },
+  "auth": {
+    "unexpected-error": "Digwyddodd gwall anhysbys.",
+    "buttons": {
+      "login": "Mewngofnodwch",
+      "register": "Cofrestrwch",
+      "forgot-password": "Wedi Anghofio Cyfrinair?"
+    },
+    "social-login": {
+      "error-default": "Methodd mewngofnodi. Ceisiwch eto."
+    },
+    "form": {
+      "name": {
+        "error-required": "Mae enw'n ofynnol.",
+        "error-format": "Dim ond llythrennau a bylchau sy'n cael eu caniatáu.",
+        "label": "Enw (Eich Enw Cyflawn)",
+        "placeholder": "Eich enw cyflawn"
+      },
+      "nickname": {
+        "error-required": "Mae llysenw'n ofynnol.",
+        "error-format": "Dim ond llythrennau, rhifau a thanlinellau sy'n cael eu caniatáu.",
+        "label": "Llysenw (Eich Enw Defnyddiwr)",
+        "placeholder": "Llysenw unigryw"
+      },
+      "e-mail": {
+        "error-required": "Mae e-bost yn ofynnol.",
+        "error-format": "Nid yw fformat yr e-bost yn ddilys.",
+        "label": "E-bost",
+        "placeholder": "E-bost",
+        "placeholder-reset": "E-bost eich cyfrif"
+      },
+      "password": {
+        "error-required": "Mae cyfrinair yn ofynnol.",
+        "error-length": "Rhaid i'r cyfrinair fod o leiaf 8 nod.",
+        "error-format": "Rhaid iddo gynnwys o leiaf un llythyren fawr, un llythyren fach, un rhif ac un symbol (ac eithrio < neu >).",
+        "label": "Cyfrinair",
+        "placeholder": "Cyfrinair"
+      },
+      "lang-level": {
+        "error-format": "Mae lefel iaith yn ofynnol ac rhaid iddo fod yn rhif dilys."
+      },
+      "recaptcha": {
+        "error-title": "Methodd reCaptcha",
+        "not-available": "Nid yw reCAPTCHA ar gael. Ceisiwch eto yn nes ymlaen.",
+        "error-token": "Methodd dilysu reCAPTCHA. Ceisiwch eto."
+      },
+      "password-confirm": {
+        "not-match": "Nid yw cyfrineiriau yn cyfateb",
+        "label": "Cadarnhad Cyfrinair",
+        "placeholder": "Cadarnhad Cyfrinair"
+      },
+      "verify-code": {
+        "title": "Cod Dilysu",
+        "placeholder": "Rhowch y cod o'ch e-bost"
+      },
+      "new-password": {
+        "title": "Cyfrinair Newydd",
+        "placeholder": "Cyfrinair Newydd"
+      }
+    },
+    "login": {
+      "server-error-default": "Aeth rhywbeth o'i le. Ceisiwch eto.",
+      "error-default": "Methodd mewngofnodi. Ceisiwch eto.",
+      "error-network": "Methu cysylltu. Ceisiwch eto yn nes ymlaen."
+    },
+    "forgot-password": {
+      "success": {
+        "title": "Cais Ailosod wedi'i dderbyn",
+        "text": "Gwiriwch eich e-bost am y cod ailosod."
+      },
+      "failed": {
+        "text": "Wedi methu ag anfon cais ailosod"
+      }
+    },
+    "update-password": {
+      "failed": {
+        "text": "Methodd ailosod cyfrinair. Ceisiwch eto.",
+        "default-error": "Methodd ailosod cyfrinair. Ceisiwch eto.",
+        "credentials-error": "Wedi methu ag ailosod cyfrinair"
+      },
+      "success": {
+        "title": "Ailosod cyfrinair yn llwyddiannus",
+        "text": "Eich cyfrinair wedi bod yn ailosod."
+      }
+    },
+    "register": {
+      "server-error-default": "Methodd y cofrestriad. Ceisiwch eto.",
+      "error-default": "Methodd y cofrestriad. Gwall gweinydd."
+    },
+    "reset-password": {
+      "title": "Ailosod cyfrinair",
+      "text": "Rhowch eich cyfeiriad e-bost yma, os oes cyfrif yn bodoli ar gyfer eich e-bost bydd cod dilysu yn cael ei anfon i'ch e-bost.",
+      "button": "Anfon Cod Ailosod"
+    }
+  },
+  "feedback-modal": {
+    "feedback-required": "Mae angen adborth.",
+    "feedback-format": "Ni chaniateir nodau fel '<' neu '>'.",
+    "response": {
+      "error-default": "Methodd yr adborth.",
+      "error-unexpected": "Digwyddodd gwall: "
+    },
+    "form": {
+      "title": "Adborth",
+      "feedback": {
+        "label": "Adborth",
+        "placeholder": "Rhowch adborth, gan gynnwys gwelliannau, syniadau a materion"
+      },
+      "submit": "Cyflwyno Adborth",
+      "response": {
+        "success": "Adborth a Dderbyniwyd",
+        "error": "Methodd yr adborth"
+      }
+    }
+  },
+  "leaderboard": {
+    "title": "Bwrdd arweinwyr",
+    "loading": "Yn llwytho byrddau arweinwyr...",
+    "loading-error": "Gwall wrth lwytho byrddau arweinwyr: ",
+    "failed": "Wedi methu â nôl byrddau arweinwyr. Ceisiwch eto yn ddiweddarach.",
+    "network-error": "Digwyddodd gwall rhwydwaith wrth nôl byrddau arweinwyr.",
+    "content": {
+      "not-logged-in": "Allwch chi guro'r sgôr uchel? Cofrestrwch a Mewngofnodwch i herio'r arweinwyr."
+    },
+    "tabs": {
+      "daily": "Dyddiol",
+      "monthly": "Yn fisol",
+      "your-stats": "Eich ystadegau",
+      "global-stats": "Ystadegau Gorau"
+    },
+    "today": "Heddiw",
+    "yesterday": "Ddoe",
+    "this-month": "Y Mis Hwn",
+    "last-month": "Y Mis Diwethaf",
+    "histogram": {
+      "response": {
+        "fetch-failed": "Wedi methu â nôl data histogram: {{errorMessage}}",
+        "network-error": "Digwyddodd gwall rhwydwaith wrth lwytho data histogram."
+      }
+    },
+    "records": {
+      "response": {
+        "fetch-failed": "Methwyd â nôl data personol gorau: {{errorMessage}}",
+        "network-error": "Digwyddodd gwall rhwydwaith wrth lwytho data ystadegau personol gorau."
+      }
+    },
+    "stats": {
+      "table": {
+        "position": "Safle",
+        "nickname": "Llysenw",
+        "score": "Sgôr",
+        "word": "Gair",
+        "average": "Sgôr gyfartalog",
+        "games-played": "Gemau a Chwaraewyd",
+        "no-data": "Dim data ar gael ar gyfer y cyfnod hwn."
+      },
+      "your-stats": {
+        "title": "Eich Ystadegau {{sitename}}",
+        "loading": "Yn llwytho eich data ystadegau...",
+        "loading-error": "Gwall wrth lwytho ystadegau: ",
+        "no-data": "Dim data ystadegau ar gael eto. Chwarae rhai gemau!",
+        "not-logged-in": "Mewngofnodwch i weld eich ystadegau gair."
+      },
+      "histogram": {
+        "no-data": "Does dim histogram i'w weld.",
+        "title": "Hyd Geiriau rydych chi wedi'u defnyddio",
+        "row-title": "{{count}} gair o hyd {{length}} llythren"
+      },
+      "record-stats": {
+        "best-word": "\uD83C\uDFC6 Gair Gorau",
+        "best-word-score": "\uD83D\uDCA5 Sgôr Geiriau Gorau",
+        "best-game-score": "\uD83C\uDFAE Sgôr Gêm Gorau",
+        "games-played": "\uD83E\uDDEE Gemau a Chwaraewyd",
+        "average-score": "\uD83D\uDCCA Sgôr Gêm Cyfartalog"
+      }
+    }
+  },
+  "help_modal": {
+    "title": "Sut i chwarae {{sitename}}",
+    "intro_paragraph": "Crewch y gair Cymraeg hiraf posibl o'r 9 llythyren sydd ar gael. Mae llythrennau yn cael eu dewis ar hap ac yn newid yn ddyddiol, e.e.",
+    "list_item_1": "Cliciwch ar y llythrennau i sillafu gair, bydd llythrennau dethol yn cael eu hanalluogi a bydd ymddangos yn y rhes geiriau.",
+    "list_item_2": "Teipiwch y gair pan fyddwch chi'n barod, neu defnyddiwch y botwm Dileu ⌫ i ddadwneud y llythrennau a ddewiswyd gennych.",
+    "list_item_3": "Bydd geiriau dilys yn cael eu hychwanegu at eich rhestr eiriau a gyflwynwyd.",
+    "list_item_4": "Bydd geiriau annilys yn cael eu gwrthod.",
+    "list_item_5": "Sgoriwch bwyntiau am air dilys, ond cewch well sgorau trwy ddefnyddio'r llythrennau llai aml os ydynt ar gael, e.e fel J ac TH.",
+    "shuffle_button_text": "Siffrwd",
+    "shuffle_list_item": "I ad-drefnu y llythyrau, defnyddiwch y botwm Siffrwd {{shuffle_button}}.",
+    "exchange_button_text": "Cyfnewid",
+    "exchange_list_item": "I gyfnewid llythyrau allan, Defnyddiwch y botwm Cyfnewid {{exchange_button}} - dewiswch y llythrennau yn y blychau geiriau a chliciwch ar gyfnewid. <br/><br/><b>*Rhybudd</b> bydd cyfnewid llythyrau yn costio slot geiriau i chi gan leihau eich gallu i sgorio pwyntiau!",
+    "rounds_paragraph_1": "Mae 5 rownd a bydd gennych 5 munud i gyflwyno 5 gair.",
+    "rounds_paragraph_2": "Ar ôl i bob gair gael ei fewnbynnu bydd y llythrennau a ddefnyddir yn cael eu disodli gan y math, llafariad neu gytsain cyfatebol.",
+    "account_paragraph_1": "Nid oes rhaid i chi greu cyfrif i chwarae, fodd bynnag, os nad ydych wedi mewngofnodi - ni fydd eich sgôr yn cael ei ychwanegu at y bwrdd arweinwyr!",
+    "account_paragraph_2": "Bydd cofrestru i chwarae yn eich galluogi i chwarae yn erbyn eich ffrindiau a'ch teulu, gweld a allwch chi eu curo neu geisio cyrraedd yr 20 uchaf!",
+    "good_luck_message": "Diolch yn fawr... a Pob Lwc!"
+  },
+  "privacy_policy": {
+    "title": "Polisi Preifatrwydd {{sitename}}",
+    "last_updated_label": "Diweddarwyd Diwethaf",
+    "last_updated_date": "Mai 23, 2025",
+    "intro_para_1": "Mae'r Polisi Preifatrwydd hwn yn disgrifio sut mae {{companyName}} (\"ni,\" \"ninnau,\" neu \"ein\"), y datblygwr unigol o {{siteName}}, yn casglu, yn defnyddio, ac yn datgelu eich gwybodaeth mewn cysylltiad â'ch defnydd o'r gêm {{siteName}} (yr \"Ap\").",
+    "intro_para_2": "Rydym wedi ymrwymo i ddiogelu eich preifatrwydd a thrin eich data mewn modd agored a thryloyw, yn unol â Rheoliad Diogelu Data Cyffredinol y DU (GDPR y DU) a chyfreithiau diogelu data cymwys eraill.",
+    "section_1_title": "1. Pwy Ydym Ni",
+    "section_1_para_1": "Mae {{sitename}} wedi'i ddatblygu a'i weithredu gan {{companyName}}, ymgynghorydd TG hunangyflogedig unigol sydd wedi'i leoli yn y Deyrnas Unedig.",
+    "section_1_contact_email_label": "E-bost Cyswllt ar gyfer Materion Preifatrwydd",
+    "section_2_title": "2. Gwybodaeth a Gasglwn",
+    "section_2_para_1": "Rydym yn casglu'r mathau canlynol o ddata personol pan fyddwch chi'n defnyddio'r Ap:",
+    "account_info_heading": "Gwybodaeth Cyfrif",
+    "account_info_text": "Pan fyddwch chi'n creu cyfrif, rydym yn casglu eich:",
+    "email_address_label": "Cyfeiriad E-bost",
+    "email_address_text": "Wedi'i ddefnyddio ar gyfer mewngofnodi, rheoli cyfrifon, ac, os ydych chi wedi dewis yn benodol, cyfathrebiadau marchnata.",
+    "nickname_label": "Llysenw",
+    "nickname_text": "Dynodwr unigryw o fewn y gêm.",
+    "full_name_label": "Enw Llawn (Dewisol)",
+    "full_name_text": "Os ydych chi'n defnyddio dilysu trydydd parti (e.e., Mewngofnodi Google), gellir casglu eich enw llawn fel y'i darperir gan y gwasanaeth hwnnw.",
+    "third_party_ids_label": "IDau Dilysu Trydydd Parti",
+    "third_party_ids_text": "Dynodwyr unigryw a ddarperir gan ddarparwyr mewngofnodi trydydd parti (e.e., ID Google, ID Apple, ID Facebook, os yw wedi'i weithredu).",
+    "communication_preferences_heading": "Dewisiadau Cyfathrebu",
+    "newsletter_label": "Derbyn Cylchlythyr",
+    "newsletter_text": "Yn ddiofyn, gosodwch i ffug. Dim ond os byddwch yn dewis derbyn yn benodol drwy osodiadau eich cyfrif y byddwn yn anfon cylchlythyrau atoch.",
+    "prompts_label": "Derbyn Anogwyr/Atgoffa",
+    "prompts_text": "Yn ddiofyn, gosodwch i ffug. Dim ond os byddwch yn dewis derbyn yn benodol drwy osodiadau eich cyfrif y byddwn yn anfon anogwyr neu atgoffa sy'n gysylltiedig â'r gêm atoch.",
+    "log_data_heading": "Data Log",
+    "log_data_text": "Pan fyddwch yn cyrchu'r Ap neu'n ei ddefnyddio, rydym yn casglu gwybodaeth benodol y mae eich dyfais yn ei hanfon yn awtomatig. Gall hyn gynnwys:",
+    "ip_address_text": "Cyfeiriad Protocol Rhyngrwyd (IP) eich dyfais.",
+    "browser_text": "Math a fersiwn y porwr.",
+    "os_text": "System weithredu.",
+    "access_times_text": "Amseroedd a dyddiadau eich mynediad.",
+    "diagnostic_data_text": "Data diagnostig arall sy'n gysylltiedig â pherfformiad a defnydd yr Ap.",
+    "cookies_heading": "Cwcis",
+    "cookies_text": "Rydym yn defnyddio cwcis hollol angenrheidiol at ddiben rheoli eich sesiwn mewngofnodi o fewn yr Ap. Mae'r cwcis hyn yn hanfodol er mwyn i'r Ap weithredu'n gywir ac nid ydynt yn storio unrhyw wybodaeth bersonol y tu hwnt i'r hyn sy'n ofynnol ar gyfer dilysu.",
+    "section_3_title": "3. Sut Rydym yn Defnyddio Eich Gwybodaeth",
+    "section_3_para_1": "Rydym yn defnyddio'r wybodaeth a gasglwn at y dibenion canlynol:",
+    "provide_maintain_app_heading": "I Ddarparu a Chynnal yr Ap:",
+    "provide_maintain_app_text": "Mae hyn yn cynnwys rheoli eich cyfrif, galluogi mewngofnodi, a sicrhau ymarferoldeb yr Ap. (Sail Gyfreithiol: Cyflawni contract)",
+    "improve_app_heading": "I Wella'r Ap:",
+    "improve_app_text": "Rydym yn defnyddio data log cryno a dienw i ddeall sut mae'r Ap yn cael ei ddefnyddio, datrys problemau, a gwella profiad y defnyddiwr. (Sail Gyfreithiol: Buddiannau cyfreithlon mewn gwella ein gwasanaethau)",
+    "security_fraud_heading": "Ar gyfer Diogelwch ac Atal Twyll:",
+    "security_fraud_text": "I amddiffyn uniondeb a diogelwch yr Ap a'n defnyddwyr, ac i ganfod ac atal gweithgaredd twyllodrus. (Sail Gyfreithiol: Buddiannau cyfreithlon mewn amddiffyn ein busnes a'n defnyddwyr, cydymffurfio â rhwymedigaethau cyfreithiol)",
+    "communicate_heading": "I Gyfathrebu â Chi:",
+    "account_comm_heading": "Cyfathrebu sy'n gysylltiedig â chyfrifon:",
+    "account_comm_text": "Anfon negeseuon gwasanaeth hanfodol, fel cyfarwyddiadau ailosod cyfrinair. (Sail Gyfreithiol: Cyflawni contract, buddiannau cyfreithlon mewn rheoli cyfrifon defnyddwyr)",
+    "marketing_prompts_heading": "Marchnata ac Anogion (Dewis i Mewn yn unig):",
+    "marketing_prompts_text": "Os ydych chi wedi dewis yn benodol, byddwn yn anfon cylchlythyrau neu anogion/atgofion sy'n gysylltiedig â'r gêm atoch drwy e-bost. Gallwch dynnu eich caniatâd yn ôl unrhyw bryd drwy osodiadau eich cyfrif. (Sail Gyfreithiol: Caniatâd)",
+    "personalization_advertising_heading": "Ar gyfer Personoli a Hysbysebu yn y Dyfodol:",
+    "personalization_advertising_text": "Ar hyn o bryd nid ydym yn defnyddio eich data ar gyfer personoli na hysbysebu o fewn yr Ap. Fodd bynnag, os byddwn yn cyflwyno nodweddion o'r fath yn y dyfodol, byddwn yn diweddaru'r Polisi Preifatrwydd hwn ac yn cael eich caniatâd penodol neu'n nodi sail gyfreithiol glir cyn prosesu eich data at y dibenion hyn. (Sail Gyfreithiol: I'w bennu ar ôl ei weithredu, Caniatâd tebygol neu Fuddiannau Cyfreithlon gyda mesurau diogelwch priodol).",
+    "section_4_title": "4. Sut Rydym yn Rhannu Eich Gwybodaeth",
+    "section_4_para_1": "Nid ydym yn rhannu eich data personol gyda thrydydd partïon at eu dibenion marchnata neu fasnachol. Dim ond yn yr amgylchiadau cyfyngedig canlynol yr ydym yn rhannu eich gwybodaeth:",
+    "service_providers_heading": "Gyda Darparwyr Gwasanaeth:",
+    "service_providers_text": "Efallai y byddwn yn cyflogi cwmnïau ac unigolion trydydd parti i hwyluso ein Ap (e.e., darparwyr cynnal, darparwyr gwasanaeth e-bost ar gyfer e-byst sy'n gysylltiedig â chyfrifon). Dim ond i gyflawni'r tasgau hyn ar ein rhan y mae gan y trydydd partïon hyn fynediad i'ch data personol ac maent wedi'u rhwymo i beidio â'i ddatgelu na'i ddefnyddio at unrhyw ddiben arall.",
+    "legal_reasons_heading": "Am Resymau Cyfreithiol:",
+    "legal_reasons_text": "Efallai y byddwn yn datgelu eich gwybodaeth os yw'r gyfraith yn ei gwneud yn ofynnol neu mewn ymateb i geisiadau dilys gan awdurdodau cyhoeddus (e.e., gorchymyn llys neu asiantaeth lywodraethol).",
+    "business_transfers_heading": "Trosglwyddiadau Busnes:",
+    "business_transfers_text": "Os yw {{companyName}} yn rhan o uno, caffael, neu werthu asedau, gellir trosglwyddo eich data personol. Byddwn yn rhoi rhybudd cyn i'ch data personol gael ei drosglwyddo a dod yn destun Polisi Preifatrwydd gwahanol.",
+    "section_5_title": "5. Cadw Data",
+    "section_5_para_1": "Rydym yn cadw eich data personol cyhyd ag sy'n angenrheidiol i gyflawni'r dibenion y cafodd ei gasglu ar eu cyfer, gan gynnwys at ddibenion bodloni unrhyw ofynion cyfreithiol, cyfrifyddu neu adrodd.",
+    "section_5_para_2": "Pan gaiff eich cyfrif ei ddileu, neu pan fyddwch yn gofyn am ddileu eich data, byddwn yn dileu neu'n anonymeiddio eich data personol yn ddiogel o fewn amserlen resymol, oni bai bod angen ei gadw am resymau cyfreithiol neu reoleiddiol.",
+    "section_6_title": "6. Eich Hawliau Diogelu Data (GDPR y DU)",
+    "section_6_para_1": "Fel gwrthrych data o dan GDPR y DU, mae gennych yr hawliau canlynol ynghylch eich data personol:",
+    "right_to_be_informed_heading": "Yr Hawl i Gael Hysbysiad:",
+    "right_to_be_informed_text": "I gael gwybod sut mae eich data personol yn cael ei gasglu a'i ddefnyddio (mae'r Polisi Preifatrwydd hwn yn gwasanaethu'r diben hwn).",
+    "right_to_access_heading": "Yr Hawl i Fynediad:",
+    "right_to_access_text": "I ofyn am fynediad at y data personol sydd gennym amdanoch chi.",
+    "right_to_rectification_heading": "Yr Hawl i Gywiriad:",
+    "right_to_rectification_text": "I ofyn am gywiro data personol anghywir neu anghyflawn.",
+    "right_to_erasure_heading": "Yr Hawl i Ddileu (\"Hawl i Gael Eich Anghofio\"):",
+    "right_to_erasure_text": "I ofyn am ddileu eich data personol lle nad oes rheswm cymhellol dros barhau i'w brosesu. Gall defnyddwyr gychwyn dileu cyfrif a data yn uniongyrchol o fewn gosodiadau'r Ap, neu ofyn amdano drwy gysylltu â {{supportEmail}}.",
+    "right_to_restrict_processing_heading": "Yr Hawl i Gyfyngu ar Brosesu:",
+    "right_to_restrict_processing_text": "I ofyn am atal prosesu eich data personol mewn rhai amgylchiadau.",
+    "right_to_data_portability_heading": "Yr Hawl i Gludadwyedd Data:",
+    "right_to_data_portability_text": "I ofyn am gopi o'ch data personol mewn fformat strwythuredig, a ddefnyddir yn gyffredin, y gellir ei ddarllen gan beiriant.",
+    "right_to_object_heading": "Yr Hawl i Wrthwynebu:",
+    "right_to_object_text": "I wrthwynebu prosesu eich data personol, yn enwedig lle rydym yn dibynnu ar fuddiannau cyfreithlon fel y sail gyfreithiol ar gyfer prosesu.",
+    "right_to_automated_decisions_heading": "Hawliau mewn Perthynas â Phenderfyniadau Awtomataidd a Phroffilio:",
+    "right_to_automated_decisions_text": "Ar hyn o bryd nid ydym yn defnyddio penderfyniadau awtomataidd na phroffilio a fyddai'n cael effaith sylweddol arnoch chi.",
+    "right_to_withdraw_consent_heading": "Yr Hawl i Dynnu Caniatâd Yn Ôl:",
+    "right_to_withdraw_consent_text": "Lle rydym yn dibynnu ar eich caniatâd i brosesu eich data, chi yr hawl i dynnu'r caniatâd hwnnw'n ôl ar unrhyw adeg.",
+    "section_6_contact_text": "I arfer unrhyw un o'r hawliau hyn, cysylltwch â ni yn {{supportEmail}}. Byddwn yn ymateb i'ch cais o fewn mis.",
+    "section_7_title": "7. Trosglwyddiadau Data Rhyngwladol",
+    "section_7_para_1": "Gan ein bod wedi'n lleoli yn y DU a gellir defnyddio'ch ap yn fyd-eang, gellir prosesu eich data y tu allan i'r DU. Wrth drosglwyddo data y tu allan i'r DU, byddwn yn sicrhau bod mesurau diogelwch priodol ar waith (e.e., Cymalau Cytundebol Safonol, penderfyniadau digonedd) i amddiffyn eich data personol yn unol â chyfreithiau diogelu data'r DU.",
+    "section_8_title": "8. Preifatrwydd Plant",
+    "section_8_para_1": "Er nad oes gan {{sitename}} unrhyw gyfyngiadau oedran penodol, mae wedi'i dargedu'n bennaf at ddefnyddwyr 13 oed a hŷn. Nid ydym yn fwriadol yn casglu data personol gan blant dan 13 oed. Os ydych chi'n rhiant neu'n warcheidwad ac yn dysgu bod eich plentyn wedi rhoi gwybodaeth bersonol i ni, cysylltwch â ni yn {{supportEmail}}. Os byddwn yn dod yn ymwybodol ein bod wedi casglu data personol gan blentyn dan 13 oed heb wirio caniatâd rhiant, byddwn yn cymryd camau i gael gwared ar y wybodaeth honno o'n gweinyddion.",
+    "section_9_title": "9. Newidiadau i'r Polisi Preifatrwydd Hwn",
+    "section_9_para_1": "Efallai y byddwn yn diweddaru ein Polisi Preifatrwydd o bryd i'w gilydd. Byddwn yn eich hysbysu o unrhyw newidiadau trwy bostio'r Polisi Preifatrwydd newydd ar y dudalen hon a diweddaru'r dyddiad \"Diweddarwyd Diwethaf\". Byddwn hefyd yn eich hysbysu trwy e-bost neu hysbysiad amlwg o fewn yr Ap cyn i'r newid ddod i rym. Mae eich defnydd parhaus o'r Ap ar ôl dyddiad dod i rym y Polisi Preifatrwydd diwygiedig yn golygu eich bod yn derbyn y telerau.",
+    "section_10_title": "10. Sut i Gysylltu â Ni",
+    "section_10_para_1": "Os oes gennych unrhyw gwestiynau am y Polisi Preifatrwydd hwn, eich hawliau, neu ein harferion data, cysylltwch â ni drwy e-bost yn:",
+    "section_11_title": "11. Cwynion",
+    "section_11_para_1": "Os nad ydych yn fodlon â'n hymateb i ymholiad preifatrwydd neu os ydych yn credu ein bod yn prosesu eich data personol yn anghyfreithlon, mae gennych yr hawl i gyflwyno cwyn i Swyddfa'r Comisiynydd Gwybodaeth (ICO), yr awdurdod goruchwylio yn y DU ar gyfer materion diogelu data. Gallwch ddod o hyd i ragor o wybodaeth ar eu gwefan: <0>{{icoLink}}</0>"
+  },
+  "terms": {
+    "title": "Telerau Gwasanaeth {{siteName}}",
+    "last_updated_label": "Diweddarwyd Diwethaf",
+    "last_updated_date": "Mai 23, 2025",
+    "intro_para_1": "Darllenwch y Telerau Gwasanaeth hyn (\"Telerau\", \"Telerau Gwasanaeth\") yn ofalus cyn defnyddio'r gêm {{siteName}} (yr \"Ap\") a weithredir gan {{companyName}} (\"ni\", \"ninnau\", neu \"ein\").",
+    "intro_para_2": "Mae eich mynediad i'r Ap a'ch defnydd ohono yn amodol ar eich derbyniad a'ch cydymffurfiad â'r Telerau hyn. Mae'r Telerau hyn yn berthnasol i bob ymwelydd, defnyddiwr, ac eraill sy'n cyrchu neu'n defnyddio'r Ap.",
+    "intro_para_3": "Trwy gyrchu neu ddefnyddio'r Ap, rydych chi'n cytuno i fod yn rhwym wrth y Telerau hyn. Os nad ydych yn cytuno ag unrhyw ran o'r telerau, yna efallai na fyddwch yn cyrchu'r Ap.",
+    "section_1_title": "1. Yr Ap",
+    "section_1_para_1": "Mae {{siteName}} yn gêm am ddim a ddatblygwyd ac a ddarperir gan {{companyName}}. Darperir yr Ap \"fel y mae\" ac mae wedi'i fwriadu at ddibenion adloniant.",
+    "section_2_title": "2. Cyfrifon",
+    "section_2_para_1": "Pan fyddwch chi'n creu cyfrif gyda ni, rhaid i chi ddarparu gwybodaeth i ni sy'n gywir, yn gyflawn, ac yn gyfredol bob amser. Mae methu â gwneud hynny yn gyfystyr â thorri'r Telerau, a allai arwain at derfynu eich cyfrif ar ein Ap ar unwaith.",
+    "section_2_para_2": "Rydych chi'n gyfrifol am ddiogelu'r cyfrinair rydych chi'n ei ddefnyddio i gael mynediad i'r Ap ac am unrhyw weithgareddau neu gamau o dan eich cyfrinair, p'un a yw'ch cyfrinair gyda'n Ap neu wasanaeth trydydd parti (e.e., Mewngofnodi Google).",
+    "section_2_para_3": "Rydych chi'n cytuno i beidio â datgelu eich cyfrinair i unrhyw drydydd parti. Rhaid i chi roi gwybod i ni ar unwaith pan fyddwch chi'n dod yn ymwybodol o unrhyw dorri diogelwch neu ddefnydd anawdurdodedig o'ch cyfrif.",
+    "section_3_title": "3. Ymddygiad Defnyddiwr",
+    "section_3_para_1": "Rydych chi'n cytuno i ddefnyddio'r Ap at ddibenion cyfreithlon yn unig ac mewn ffordd nad yw'n torri hawliau unrhyw un arall, yn cyfyngu neu'n atal defnydd a mwynhad unrhyw un arall o'r Ap. Mae ymddygiad gwaharddedig yn cynnwys aflonyddu neu achosi trallod neu anghyfleustra i unrhyw ddefnyddiwr arall, trosglwyddo cynnwys anweddus neu dramgwyddus, neu amharu ar lif arferol deialog o fewn yr Ap.",
+    "section_3_para_2": "Rydych chi'n cytuno'n benodol i beidio â:",
+    "section_3_list_item_1": "Ceisio cael mynediad anawdurdodedig i'r Ap, cyfrifon eraill, systemau cyfrifiadurol, neu rwydweithiau sy'n gysylltiedig â'r Ap.",
+    "section_3_list_item_2": "Ymyrryd ag uniondeb neu berfformiad yr Ap neu ddata sydd ynddo, neu eu hamharu.",
+    "section_3_list_item_3": "Defnyddio'r Ap at unrhyw ddiben anghyfreithlon neu anawdurdodedig.",
+    "section_3_list_item_4": "Ymgysylltu ag unrhyw fath o dwyllo, ecsbloetio, neu gamddefnyddio mecaneg gêm a fyddai'n rhoi mantais annheg dros chwaraewyr eraill.",
+    "section_4_title": "4. Eiddo Deallusol",
+    "section_4_para_1": "Mae'r Ap a'i gynnwys gwreiddiol (ac eithrio cynnwys a ddarperir gan ddefnyddwyr), nodweddion, ac ymarferoldeb yn parhau i fod yn eiddo unigryw i {{companyName}}. Gwarchodir yr Ap gan hawlfraint, nod masnach, a chyfreithiau eraill y Deyrnas Unedig a gwledydd tramor. Ni chaniateir defnyddio ein nodau masnach a'n gwisg fasnach mewn cysylltiad ag unrhyw gynnyrch neu wasanaeth heb ganiatâd ysgrifenedig blaenorol {{companyName}}.",
+    "section_5_title": "5. Terfynu",
+    "section_5_para_1": "Gallwn derfynu neu atal eich cyfrif ar unwaith, heb rybudd neu atebolrwydd blaenorol, am unrhyw reswm, gan gynnwys heb gyfyngiad os byddwch yn torri'r Telerau.",
+    "section_5_para_2_part1": "Ar ôl terfynu, bydd eich hawl i ddefnyddio'r Ap yn dod i ben ar unwaith. Os ydych chi'n dymuno terfynu eich cyfrif, gallwch wneud hynny drwy osodiadau'r cyfrif o fewn yr Ap, neu drwy gysylltu â ni yn ",
+    "section_5_para_2_part2": ". Bydd yr holl ddata cysylltiedig yn cael ei ddileu neu ei ddienwoli ar ôl terfynu, yn amodol ar ein Polisi Preifatrwydd.",
+    "section_6_title": "6. Ymwadiad Gwarantau",
+    "section_6_para_1": "Rydych chi'n defnyddio'r Ap ar eich risg eich hun. Darperir yr Ap ar sail \"FEL Y MAE\" a \"FEL Y MAE AR GAEL\". Darperir yr Ap heb warantau o unrhyw fath, boed yn benodol neu'n ymhlyg, gan gynnwys, ond heb fod yn gyfyngedig i, warantau ymhlyg o werthadwyedd, addasrwydd at ddiben penodol, ddim yn torri hawliau, neu gwrs perfformiad.",
+    "section_6_para_2": "Nid yw {{companyName}} yn gwarantu a) y bydd yr Ap yn gweithredu'n ddi-dor, yn ddiogel, neu ar gael ar unrhyw adeg neu leoliad penodol; b) y caiff unrhyw gamgymeriadau neu ddiffygion eu cywiro; c) bod yr Ap yn rhydd o firysau neu gydrannau niweidiol eraill; neu d) y bydd canlyniadau defnyddio'r Ap yn diwallu eich gofynion.",
+    "section_7_title": "7. Cyfyngiad Atebolrwydd",
+    "section_7_para_1": "Ni fydd {{companyName}}, na'i ddatblygwr, mewn unrhyw achos yn atebol am unrhyw ddifrod anuniongyrchol, achlysurol, arbennig, canlyniadol, neu gosbol, gan gynnwys heb gyfyngiad, colli elw, data, defnydd, ewyllys da, neu golledion anniriaethol eraill, sy'n deillio o (i) eich mynediad i neu ddefnydd o neu anallu i gael mynediad i neu ddefnyddio'r Ap; (ii) unrhyw ymddygiad neu gynnwys unrhyw drydydd parti ar yr Ap; (iii) unrhyw gynnwys a gafwyd o'r Ap; ac (iv) mynediad anawdurdodedig, defnydd, neu newid eich trosglwyddiadau neu gynnwys, p'un a yw'n seiliedig ar warant, contract, camwedd (gan gynnwys esgeulustod), neu unrhyw theori gyfreithiol arall, p'un a ydym wedi cael gwybod am bosibilrwydd difrod o'r fath, a hyd yn oed os canfyddir bod meddyginiaeth a nodir yma wedi methu ei phwrpas hanfodol.",
+    "section_8_title": "8. Cyfraith Lywodraethol",
+    "section_8_para_1_part1": "Bydd y Telerau hyn yn cael eu llywodraethu a'u dehongli yn unol â chyfreithiau ",
+    "section_8_governing_law_country": "Lloegr a Chymru",
+    "section_8_para_1_part2": ", heb ystyried ei ddarpariaethau gwrthdaro cyfraith.",
+    "section_8_para_2": "Ni chaiff ein methiant i orfodi unrhyw hawl neu ddarpariaeth o'r Telerau hyn ei ystyried yn ymwadiad o'r hawliau hynny. Os bydd unrhyw ddarpariaeth o'r Telerau hyn yn cael ei dal yn annilys neu'n anorfodadwy gan lys, bydd darpariaethau eraill y Telerau hyn yn parhau mewn grym. Mae'r Telerau hyn yn gyfystyr â'r cytundeb cyfan rhyngom ni o ran ein Ap, ac yn disodli unrhyw gytundebau blaenorol a allai fod rhyngom ni o ran yr Ap.",
+    "section_9_title": "9. Newidiadau i'r Telerau Hyn",
+    "section_9_para_1": "Rydym yn cadw'r hawl, yn ôl ein disgresiwn llwyr, i addasu neu ddisodli'r Telerau hyn unrhyw bryd. Os yw adolygiad yn faterol, byddwn yn ceisio rhoi o leiaf 30 diwrnod o rybudd cyn i unrhyw delerau newydd ddod i rym. Bydd yr hyn sy'n gyfystyr â newid materol yn cael ei benderfynu yn ôl ein disgresiwn llwyr.",
+    "section_9_para_2": "Trwy barhau i gyrchu neu ddefnyddio ein Ap ar ôl i'r diwygiadau hynny ddod i rym, rydych chi'n cytuno i fod yn rhwym wrth y telerau diwygiedig. Os nad ydych yn cytuno i'r telerau newydd, stopiwch ddefnyddio'r Ap.",
+    "section_10_title": "10. Cysylltwch â Ni",
+    "section_10_para_1": "Os oes gennych unrhyw gwestiynau am y Telerau hyn, cysylltwch â ni drwy e-bost yn:"
+  },
+  "social-share": {
+    "share-text": "Sgoriodd {{playerName}} {{score}} o bwyntiau ar {{siteName}}! Allwch chi ei guro?",
+    "email-url": "mailto:?subject=Sgoriais i {{score}} ar {{siteName}}!&body={{emailBody}}%0AChwarae yma: {{shareUrl}}",
+    "device": {
+      "not-supported": "Ni chefnogir",
+      "not-supported-text": "Ni chefnogir rhannu ar y ddyfais hon."
+    }
+  },
+  "language-selector": {
+    "loading": "Wrthi'n llwytho dewiswr iaith...",
+    "placeholder": "Dewiswch iaith"
+  }
+}

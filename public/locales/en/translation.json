@@ -1,0 +1,553 @@
+{
+  "welcome_page" : {
+    "welcome_message": "Welcome to {{sitename}}!",
+    "welcome_content": "<p>Prepare to put your vocabulary to the ultimate test!</p><p>In this daily word challenge, you get <b>5 minutes</b> to find <b>5 Welsh words</b> across <b>5 rounds</b> of <b>9 letters</b> each.</p><p>Find the longest word possible to score big, and use less common letters for bonus points!</p>",
+    "played_today": {
+      "score_message": "✅ You have already played today. Your score was <strong>{{todayScore}}</strong>.",
+      "not_complete": "You didn't complete the game.",
+      "words_played": "Words you played: {{wordsList}}",
+      "warning_message": "You can still play again for fun — but new scores won't be submitted or count on the leaderboard."
+    }
+  },
+  "how_to_play": {
+    "title": "How to Play",
+    "content_p1": "Every day, each player works from the <b>exact same random set of 9 letters</b>. Your mission? To find the <b>longest possible Welsh word</b> you can create from those letters. The longer the word, the higher your score will climb! But that's not all – strategic play is key. Keep an eye out for those less common letters; using them will earn you even more points and boost your overall score.",
+    "content_p2": "Can you defeat the daily competition and claim the title of <b>top scorer</b>? Or perhaps you'll set a new personal, or global, record by crafting the <b>highest-scoring word</b> ever? Every game is an opportunity to prove your linguistic prowess! Remember, you can play for fun and retry, but only your day’s <b>first score</b> will count towards the daily leaderboards and your personal bests."
+  },
+  "why_register": {
+    "title": "Why Register?",
+    "content_p1": "<b>Play as a guest to jump straight into the fun</b>, or <b>register for free to unlock more!</b> Registered players can participate in the daily leaderboards, track their game history, and view their detailed personal statistics.",
+    "content_p2": "After you complete your daily challenge, make sure to share your score with friends and see who reigns supreme! Whether you’re looking for a quick brain teaser, a fun way to pass the time, or friendly competition with your friends, {{sitename}} offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate word master!"
+  },
+  "future_plans": {
+    "title": "What are the plans for future development?",
+    "content_p1": "We have a couple of ideas in the pipeline for future development and to improve the experience:",
+    "list_item_1": "Adding access to more statistics, e.g. on results from previous days and months,",
+    "list_item_2": "Implementing a \"learner\" mode - enabling players to hover over text for translations and word meanings.",
+    "list_item_3": "Improving statistics to enable players to filter leaderboards by language level, so instead of just showing the top 10 global leaders, the top 10 learners, or Intermediate or Advanced levels can be shown.",
+    "list_item_4": "We plan to add links to learning resources",
+    "contact_message": "If you have any features you would like to see in the game, we would love to hear from you, either submit the feedback form or email us at {{supportEmail}}",
+    "newsletter_message": "Or if you would like to hear about news and updates to {{sitename}}, please make sure you check your preferences and enable us to include you on the regular newsletters. You can opt in or opt out at any time."
+  },
+  "footer": {
+    "copyright": "© 2025 {{sitename}}. All rights reserved.",
+    "player-label": "Player {{playerName}}",
+    "tabs": {
+      "account": "Account",
+      "settings": "Settings",
+      "leaderboard": "Leaderboard",
+      "help": "Help"
+    }
+  },
+  "buttons": {
+    "play_as_player": "Play as {{playerName}}",
+    "logout": "Logout",
+    "play_as_guest": "Play as guest",
+    "register_or_login": "Register or Login",
+    "shuffle": "Shuffle",
+    "exchange": "Exchange",
+    "delete_letter": "Delete",
+    "check_word": "Checking word...",
+    "submit": "⏎ Enter"
+  },
+  "social_share": {
+    "title": "Share your score!",
+    "facebook": "Share on Facebook",
+    "e-mail": "Share by E-Mail",
+    "mobile": "Share on mobile"
+  },
+  "submitted_words": {
+    "title" : "Your submitted words today",
+    "exchanged": "Exchanged"
+  },
+  "word": {
+    "valid": "✅ '{{word}}' is valid",
+    "invalid": "❌ '{{word}}' is not valid!"
+  },
+  "game_over": {
+    "title": "Game over!",
+    "complete": "\uD83C\uDF89 Congratulations! You have submitted all 5 words. Your score is {{score}}",
+    "out_of_time": "We're sorry you ran out of time, you've submitted {{words}} words. Your score is {{score}}",
+    "new_game_high_score": "\uD83C\uDFC6 Good news: You just set a new personal game record with a score of {{game_score}}!",
+    "high_game_score": "Your highest game score is {{game_score}}.",
+    "new_word_high_score": "\uD83D\uDE80 Good News: You just set a new personal record for the highest word score with the word '{{word}}' and a score of {{word_score}}!",
+    "high_word_score": "Your highest ever word is '{{word}}' with a score of {{word_score}}."
+  },
+  "alert": {
+    "titles": {
+      "sure" : "Are you sure?",
+      "success" : "Success!",
+      "error": "Error!",
+      "updated": "Updated",
+      "network-error": "Network Error!",
+      "logout": "Logout"
+    },
+    "content": {
+      "unexpected": "Unexpected error."
+    },
+    "exchange": {
+      "text": "You will lose one word slot and replace the chosen letters.",
+      "confirm": "Yes, exchange letters",
+      "cancel": "Cancel",
+      "success": {
+        "title": "Letters exchanged",
+        "text": "Your letters have been exchanged and one word slot has been used."
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "labels": {
+      "theme": "Theme (Light / Dark)",
+      "contrast": "High Contrast"
+    },
+    "feedback": {
+      "title": "Give Feedback",
+      "text": "If you have a problem and want to report a bug, or if you have any feedback on your likes or dislikes, or if you have something you'd like to see on {{sitename}}, we'd love to hear from you."
+    }
+  },
+  "account": {
+    "tabs": {
+      "profile": {
+        "label": "Profile"
+      },
+      "privacy": {
+        "label": "Privacy"
+      },
+      "logout": {
+        "label": "Logout"
+      }
+    },
+    "alerts": {
+      "login-required": {
+        "title": "Login required",
+        "text": "Login to see your profile/account data."
+      },
+      "data-request": {
+        "title": "Request Data",
+        "text": "We will process your data request. Are you sure?",
+        "confirm": "Yes, continue",
+        "cancel": "No, cancel",
+        "processed": "Your data request has been processed.",
+        "failed": "Your data request failed.",
+        "connect-error": "Unable to connect to the server."
+      },
+      "delete-request": {
+        "title": {
+          "complete": "Deleted"
+        },
+        "text": "Deleting your account will permanently delete all your user data and no history of your account will be saved. This cannot be undone!",
+        "confirm": "Yes, delete my account!",
+        "cancel": "No, don't delete",
+        "complete": "Your account has been deleted.",
+        "error": "Account deletion failed."
+      },
+      "profile": {
+        "login-required": "Please login to update your profile.",
+        "updated": "Your profile has been updated.",
+        "failed": "An error occurred while updating."
+      }
+    },
+    "validation": {
+      "messages": {
+        "nickname": "Nickname is required",
+        "language-level": "Language level is required and must be a valid number."
+      }
+    },
+    "forms": {
+      "profile": {
+        "labels": {
+          "nickname": "Nickname (your user name)"
+        },
+        "placeholders": {
+          "nickname": "Unique nickname"
+        },
+        "update-button": "Update Profile"
+      }
+    },
+    "preferences": {
+      "title": "Communication Preferences",
+      "newsletter-text": "Would you like to receive the latest news about {{siteName}} and are you\nhappy to receive occasional newsletters by email?",
+      "prompt-text": "Would you like to receive tips and reminders to play {{siteName}}?"
+    },
+    "privacy": {
+      "title": "Your account",
+      "data-request": {
+        "make": "Make data request",
+        "processing": "Processing..."
+      },
+      "delete": {
+        "make": "Delete account",
+        "processing": "Deleting..."
+      },
+      "leader-text": "By registering or logging in to {{sitename}}, you confirm that you have read and agree to our Privacy Policy and Terms of Service."
+    },
+    "logout": {
+      "title": "Would you like to logout?"
+    },
+    "register": {
+      "title": "Login or Register",
+      "text": "By registering and signing in to play, you will be able to see your game statistics and your score is added to our daily leaderboard. See if you can get to the top of the leaderboard!"
+    },
+    "privacy-policy": "Privacy Policy",
+    "terms-of-service": "Terms of Service",
+    "support-link-text": "For support, contact us by e-mail at ",
+    "cookie-settings-button": "Manage cookie preferences"
+  },
+  "language-level": {
+    "title": "Your language level:",
+    "beginner": {
+      "label": "Beginner",
+      "description": "At this level, you are a survival communicator. You can understand and use very basic everyday expressions and phrases, focusing on immediate needs and highly familiar topics."
+    },
+    "intermediate": {
+      "label": "Intermediate",
+      "description": "At this level, you can function independently in most common situations. You can handle routine tasks and engage in more extended conversations on familiar topics."
+    },
+    "advanced": {
+      "label": "Higher level",
+      "description": "At this level, you are a highly proficient and fluent user of the language. You can understand and express yourself with a high degree of spontaneity, precision, and sophistication, even in complex or unfamiliar situations."
+    }
+  },
+  "auth": {
+    "unexpected-error": "An unknown error occurred.",
+    "buttons": {
+      "login": "Login",
+      "register": "Register",
+      "forgot-password": "Forgotten Password?"
+    },
+    "social-login": {
+      "error-default": "Login failed. Please try again."
+    },
+    "form": {
+      "name": {
+        "error-required": "Name is required",
+        "error-format": "Only letters and spaces are allowed.",
+        "label": "Your full name",
+        "placeholder": "Your full name"
+      },
+      "nickname": {
+        "error-required": "nickname is required.",
+        "error-format": "Only letters, numbers and underscores are allowed.",
+        "label": "Nickname (your user name)",
+        "placeholder": "Unique nickname"
+      },
+      "e-mail": {
+        "error-required": "E-mail is required",
+        "error-format": "The email format is not valid.",
+        "label": "E-mail",
+        "placeholder": "E-mail",
+        "placeholder-reset": "Your account email"
+      },
+      "password": {
+        "error-required": "A password is required.",
+        "error-length": "The password must be at least 8 characters.",
+        "error-format": "Password must contain at least one uppercase letter, one lowercase letter, one number and one symbol (except < or >).",
+        "label": "Password",
+        "placeholder": "Password"
+      },
+      "lang-level": {
+        "error-format": "Language level is required and must be a valid number."
+      },
+      "recaptcha": {
+        "error-title": "reCaptcha failed",
+        "not-available": "reCAPTCHA is not available. Try again later.",
+        "error-token": "ReCAPTCHA verification failed. Try again."
+      },
+      "password-confirm": {
+        "not-match": "Passwords do not match",
+        "label": "Password Confirmation",
+        "placeholder": "Password Confirmation"
+      },
+      "verify-code": {
+        "title": "Verification Code",
+        "placeholder": "Enter the code from your email"
+      },
+      "new-password": {
+        "title": "New Password",
+        "placeholder": "New Password"
+      }
+    },
+    "login": {
+      "server-error-default": "Something went wrong. Please try again.",
+      "error-default": "Login failed. Please try again.",
+      "error-network": "Unable to connect. Try again later."
+    },
+    "forgot-password": {
+      "success": {
+        "title": "Reset Request received",
+        "text": "Check your email for the reset code."
+      },
+      "failed": {
+        "text": "Failed to send reset request"
+      }
+    },
+    "update-password": {
+      "failed": {
+        "text": "Password reset failed. Try again.",
+        "default-error": "Password reset failed. Try again.",
+        "credentials-error": "Failed to reset password."
+      },
+      "success": {
+        "title": "Password reset successful",
+        "text": "Your password has been reset."
+      }
+    },
+    "register": {
+      "server-error-default": "The registration failed. Try again.",
+      "error-default": "The registration failed. Server error."
+    },
+    "reset-password": {
+      "title": "Reset password",
+      "text": "Enter your email address here, if an account exists for your email a verification code will be sent to your email.",
+      "button": "Send Reset Code"
+    }
+  },
+  "feedback-modal": {
+    "feedback-required": "Feedback is required",
+    "feedback-format": "Characters such as '<' or '>' are not allowed.",
+    "response": {
+      "error-default": "Feedback failed.",
+      "error-unexpected": "An error occurred: "
+    },
+    "form": {
+      "title": "Feedback",
+      "feedback": {
+        "label": "Feedback",
+        "placeholder": "Please provide feedback, including improvements, ideas and issues"
+      },
+      "submit": "Submit Feedback",
+      "response": {
+        "success": "Feedback Received",
+        "error": "Feedback failed"
+      }
+    }
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "loading": "Loading leaderboards...",
+    "loading-error": "Error loading leaderboards: ",
+    "failed": "Failed to retrieve leaderboards. Try again later.",
+    "network-error": "A network error occurred while retrieving leaderboards.",
+    "content": {
+      "not-logged-in": "Can you beat the high score? Register and Login to challenge the leaders."
+    },
+    "tabs": {
+      "daily": "Daily",
+      "monthly": "Monthly",
+      "your-stats": "Your stats",
+      "global-stats": "Best Statistics"
+    },
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "this-month": "This month",
+    "last-month": "Last month",
+    "histogram": {
+      "response": {
+        "fetch-failed": "Failed to fetch histogram data: {{errorMessage}}",
+        "network-error": "A network error occurred while loading histogram data."
+      }
+    },
+    "records": {
+      "response": {
+        "fetch-failed": "Failed to fetch personal best data: {{errorMessage}}",
+        "network-error": "A network error occurred while loading personal best stats data."
+      }
+    },
+    "stats": {
+      "table": {
+        "position": "Position",
+        "nickname": "Nickname",
+        "score": "Score",
+        "word": "Word",
+        "average": "Avg Score",
+        "games-played": "Played",
+        "no-data": "No data available for this period."
+      },
+      "your-stats": {
+        "title": "Your {{sitename}} Stats",
+        "loading": "Loading stats data...",
+        "loading-error": "Error loading statistics: ",
+        "no-data": "No stats data available yet. Play some games!",
+        "not-logged-in": "Log in to see your word statistics."
+      },
+      "histogram": {
+        "no-data": "There is no histogram to see.",
+        "title": "Length of Words you have used",
+        "row-title": "{{count}} words of {{length}} letters"
+      },
+      "record-stats": {
+        "best-word": "\uD83C\uDFC6 Best Word",
+        "best-word-score": "\uD83D\uDCA5 Best Word Score",
+        "best-game-score": "\uD83C\uDFAE Best Game Score",
+        "games-played": "\uD83E\uDDEE Games Played",
+        "average-score": "\uD83D\uDCCA Average Score"
+      }
+    }
+  },
+  "help_modal": {
+    "title": "How to play {{siteName}}",
+    "intro_paragraph": "Create the longest possible Welsh word from the 9 available letters. Letters are chosen randomly and change daily, e.g.",
+    "list_item_1": "Click the letters to spell a word; selected letters will be disabled and appear in the word row.",
+    "list_item_2": "Type the word when you're ready, or use the Delete button ⌫ to undo your selected letters.",
+    "list_item_3": "Valid words will be added to your submitted words list.",
+    "list_item_4": "Invalid words will be rejected.",
+    "list_item_5": "Score points for a valid word, but get better scores by using less common letters if available, e.g., J and TH.",
+    "shuffle_button_text": "Shuffle",
+    "shuffle_list_item": "To rearrange the letters, use the Shuffle button {{shuffle_button}}.",
+    "exchange_button_text": "Exchange",
+    "exchange_list_item": "To exchange letters, use the Exchange button {{exchange_button}} - select the letters in the word boxes and click exchange. <br/><br/><b>*Warning:</b> Exchanging letters will cost you a word slot, reducing your ability to score points!",
+    "rounds_paragraph_1": "There are 5 rounds and you will have 5 minutes to submit 5 words.",
+    "rounds_paragraph_2": "After each word is entered, the letters used will be replaced by the corresponding type, vowel or consonant.",
+    "account_paragraph_1": "You don't have to create an account to play; however, if you're not logged in, your score won't be added to the leaderboard!",
+    "account_paragraph_2": "Registering to play will allow you to compete against your friends and family, see if you can beat them, or try to reach the top 20!",
+    "good_luck_message": "Thanks very much... and Good Luck!"
+  },
+  "privacy_policy": {
+    "title": "Privacy Policy {{sitename}}",
+    "last_updated_label": "Last Updated",
+    "last_updated_date": "May 23, 2025",
+    "intro_para_1": "This Privacy Policy describes how {{companyName}} (\"we,\" \"us,\" or \"our\"), the sole developer of {{sitename}}, collects, uses, and discloses your information in connection with your use of the {{sitename}} game (the \"App\").",
+    "intro_para_2": "We are committed to protecting your privacy and handling your data in an open and transparent manner, in accordance with the UK General Data Protection Regulation (UK GDPR) and other applicable data protection laws.",
+    "section_1_title": "1. Who We Are",
+    "section_1_para_1": "{{sitename}} is developed and operated by {{companyName}}, a sole self-employed IT consultant based in the United Kingdom.",
+    "section_1_contact_email_label": "Contact Email for Privacy Matters",
+    "section_2_title": "2. Information We Collect",
+    "section_2_para_1": "We collect the following types of personal data when you use the App:",
+    "account_info_heading": "Account Information",
+    "account_info_text": "When you create an account, we collect your:",
+    "email_address_label": "Email Address",
+    "email_address_text": "Used for logging in, managing accounts, and, if you have specifically opted-in, marketing communications.",
+    "nickname_label": "Nickname",
+    "nickname_text": "A unique identifier within the game.",
+    "full_name_label": "Full Name (Optional)",
+    "full_name_text": "If you use third-party authentication (e.g., Google Sign-In), your full name as provided by that service may be collected.",
+    "third_party_ids_label": "Third-Party Authentication IDs",
+    "third_party_ids_text": "Unique identifiers provided by third-party login providers (e.g., Google ID, Apple ID, Facebook ID, if implemented).",
+    "communication_preferences_heading": "Communication Preferences",
+    "newsletter_label": "Receive Newsletter",
+    "newsletter_text": "By default, set to false. We will only send you newsletters if you specifically opt-in via your account settings.",
+    "prompts_label": "Receive Prompts/Reminders",
+    "prompts_text": "By default, set to false. We will only send you game-related prompts or reminders if you specifically opt-in via your account settings.",
+    "log_data_heading": "Log Data",
+    "log_data_text": "When you access or use the App, we collect certain information that your device automatically sends. This may include:",
+    "ip_address_text": "Your device's Internet Protocol (IP) address.",
+    "browser_text": "Browser type and version.",
+    "os_text": "Operating system.",
+    "access_times_text": "Times and dates of your access.",
+    "diagnostic_data_text": "Other diagnostic data related to App performance and usage.",
+    "cookies_heading": "Cookies",
+    "cookies_text": "We use strictly necessary cookies for the purpose of managing your login session within the App. These cookies are essential for the App to function correctly and do not store any personal information beyond what is required for authentication.",
+    "section_3_title": "3. How We Use Your Information",
+    "section_3_para_1": "We use the information we collect for the following purposes:",
+    "provide_maintain_app_heading": "To Provide and Maintain the App:",
+    "provide_maintain_app_text": "This includes managing your account, enabling login, and ensuring the App's functionality. (Legal Basis: Performance of contract)",
+    "improve_app_heading": "To Improve the App:",
+    "improve_app_text": "We use aggregated and anonymized log data to understand how the App is used, troubleshoot issues, and enhance user experience. (Legal Basis: Legitimate interests in improving our services)",
+    "security_fraud_heading": "For Security and Fraud Prevention:",
+    "security_fraud_text": "To protect the integrity and security of the App and our users, and to detect and prevent fraudulent activity. (Legal Basis: Legitimate interests in protecting our business and users, compliance with legal obligations)",
+    "communicate_heading": "To Communicate with You:",
+    "account_comm_heading": "Account-related communications:",
+    "account_comm_text": "Sending essential service messages, such as password reset instructions. (Legal Basis: Performance of contract, legitimate interests in managing user accounts)",
+    "marketing_prompts_heading": "Marketing and Prompts (Opt-in only):",
+    "marketing_prompts_text": "If you have specifically opted-in, we will send you newsletters or game-related prompts/reminders via email. You can withdraw your consent at any time through your account settings. (Legal Basis: Consent)",
+    "personalization_advertising_heading": "For Future Personalization and Advertising:",
+    "personalization_advertising_text": "We do not currently use your data for personalization or advertising within the App. However, should we introduce such features in the future, we will update this Privacy Policy and obtain your explicit consent or specify a clear legal basis prior to processing your data for these purposes. (Legal Basis: To be determined upon implementation, likely Consent or Legitimate Interests with appropriate safeguards).",
+    "section_4_title": "4. How We Share Your Information",
+    "section_4_para_1": "We do not share your personal data with third parties for their marketing or commercial purposes. We only share your information in the following limited circumstances:",
+    "service_providers_heading": "With Service Providers:",
+    "service_providers_text": "We may employ third-party companies and individuals to facilitate our App (e.g., hosting providers, email service providers for account-related emails). These third parties have access to your personal data only to perform these tasks on our behalf and are bound by obligations not to disclose or use it for any other purpose.",
+    "legal_reasons_heading": "For Legal Reasons:",
+    "legal_reasons_text": "We may disclose your information if required to do so by law or in response to valid requests by public authorities (e.g., a court order or government agency).",
+    "business_transfers_heading": "Business Transfers:",
+    "business_transfers_text": "If {{companyName}} is involved in a merger, acquisition, or asset sale, your personal data may be transferred. We will provide notice before your personal data is transferred and becomes subject to a different Privacy Policy.",
+    "section_5_title": "5. Data Retention",
+    "section_5_para_1": "We retain your personal data for as long as necessary to fulfill the purposes for which it was collected, including for the purposes of satisfying any legal, accounting, or reporting requirements.",
+    "section_5_para_2": "When your account is deleted, or when you request deletion of your data, we will securely delete or anonymize your personal data within a reasonable timeframe, unless retention is required for legal or regulatory reasons.",
+    "section_6_title": "6. Your Data Protection Rights (UK GDPR)",
+    "section_6_para_1": "As a data subject under UK GDPR, you have the following rights regarding your personal data:",
+    "right_to_be_informed_heading": "The Right to Be Informed:",
+    "right_to_be_informed_text": "To be informed about how your personal data is collected and used (this Privacy Policy serves this purpose).",
+    "right_to_access_heading": "The Right to Access:",
+    "right_to_access_text": "To request access to the personal data we hold about you.",
+    "right_to_rectification_heading": "The Right to Rectification:",
+    "right_to_rectification_text": "To request the correction of inaccurate or incomplete personal data.",
+    "right_to_erasure_heading": "The Right to Erasure (\"Right to Be Forgotten\"):",
+    "right_to_erasure_text": "To request the deletion of your personal data where there is no compelling reason for its continued processing. Users can initiate account and data deletion directly within the App's settings, or request it by contacting {{supportEmail}}.",
+    "right_to_restrict_processing_heading": "The Right to Restrict Processing:",
+    "right_to_restrict_processing_text": "To request the cessation of processing your personal data in certain circumstances.",
+    "right_to_data_portability_heading": "The Right to Data Portability:",
+    "right_to_data_portability_text": "To request a copy of your personal data in a structured, commonly used, and machine-readable format.",
+    "right_to_object_heading": "The Right to Object:",
+    "right_to_object_text": "To object to the processing of your personal data, especially where we rely on legitimate interests as the legal basis for processing.",
+    "right_to_automated_decisions_heading": "Rights in Relation to Automated Decisions and Profiling:",
+    "right_to_automated_decisions_text": "We do not currently use automated decisions or profiling that would have a significant effect on you.",
+    "right_to_withdraw_consent_heading": "The Right to Withdraw Consent:",
+    "right_to_withdraw_consent_text": "Where we rely on your consent to process your data, you have the right to withdraw that consent at any time.",
+    "section_6_contact_text": "To exercise any of these rights, please contact us at {{supportEmail}}. We will respond to your request within one month.",
+    "section_7_title": "7. International Data Transfers",
+    "section_7_para_1": "As we are based in the {{country}} and your app may be used globally, your data may be processed outside of the {{country}}. When transferring data outside of the {{country}}, we will ensure appropriate safeguards are in place (e.g., Standard Contractual Clauses, adequacy decisions) to protect your personal data in accordance with {{country}} data protection laws.",
+    "section_8_title": "8. Children's Privacy",
+    "section_8_para_1": "While {{sitename}} has no specific age restrictions, it is primarily targeted at users 13 years and older. We do not knowingly collect personal data from children under 13. If you are a parent or guardian and learn that your child has provided us with personal data, please contact us at {{supportEmail}}. If we become aware that we have collected personal data from a child under 13 without verification of parental consent, we will take steps to remove that information from our servers.",
+    "section_9_title": "9. Changes to This Privacy Policy",
+    "section_9_para_1": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last Updated\" date. We will also notify you via email or a prominent notice within the App prior to the change becoming effective. Your continued use of the App after the effective date of the revised Privacy Policy signifies your acceptance of the terms.",
+    "section_10_title": "10. How to Contact Us",
+    "section_10_para_1": "If you have any questions about this Privacy Policy, your rights, or our data practices, please contact us by email at:",
+    "section_11_title": "11. Complaints",
+    "section_11_para_1": "If you are not satisfied with our response to a privacy inquiry or believe that we are unlawfully processing your personal data, you have the right to lodge a complaint with the Information Commissioner's Office (ICO), the supervisory authority in the {{country}} for data protection matters. You can find more information on their website: <0>{{icoLink}}</0>"
+  },
+  "terms": {
+    "title": "{{siteName}} Terms of Service",
+    "last_updated_label": "Last Updated",
+    "last_updated_date": "May 23, 2025",
+    "intro_para_1": "Please read these Terms of Service (\"Terms\", \"Terms of Service\") carefully before using the {{siteName}} game (the \"App\") operated by {{companyName}} (\"us\", \"we\", or \"our\").",
+    "intro_para_2": "Your access to and use of the App is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the App.",
+    "intro_para_3": "By accessing or using the App, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the App.",
+    "section_1_title": "1. The App",
+    "section_1_para_1": "{{siteName}} is a free game developed and provided by {{companyName}}. The App is provided \"as is\" and is intended for entertainment purposes.",
+    "section_2_title": "2. Accounts",
+    "section_2_para_1": "When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our App.",
+    "section_2_para_2": "You are responsible for safeguarding the password that you use to access the App and for any activities or actions under your password, whether your password is with our App or a third-party service (e.g., Google Sign-On).",
+    "section_2_para_3": "You agree not to disclose your password to any third party. You must notify us immediately upon becoming aware of any breach of security or unauthorized use of your account.",
+    "section_3_title": "3. User Conduct",
+    "section_3_para_1": "You agree to use the App only for lawful purposes and in a way that does not infringe the rights of, restrict or inhibit anyone else's use and enjoyment of the App. Prohibited behaviour includes harassing or causing distress or inconvenience to any other user, transmitting obscene or offensive content, or disrupting the normal flow of dialogue within the App.",
+    "section_3_para_2": "You specifically agree not to:",
+    "section_3_list_item_1": "Attempt to gain unauthorized access to the App, other accounts, computer systems, or networks connected to the App.",
+    "section_3_list_item_2": "Interfere with or disrupt the integrity or performance of the App or data contained therein.",
+    "section_3_list_item_3": "Use the App for any illegal or unauthorized purpose.",
+    "section_3_list_item_4": "Engage in any form of cheating, exploitation, or abuse of game mechanics that would provide an unfair advantage over other players.",
+    "section_4_title": "4. Intellectual Property",
+    "section_4_para_1": "The App and its original content (excluding content provided by users), features, and functionality are and will remain the exclusive property of {{companyName}}. The App is protected by copyright, trademark, and other laws of both the United Kingdom and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of {{companyName}}.",
+    "section_5_title": "5. Termination",
+    "section_5_para_1": "We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.",
+    "section_5_para_2_part1": "Upon termination, your right to use the App will immediately cease. If you wish to terminate your account, you may do so through the account settings within the App, or by contacting us at ",
+    "section_5_para_2_part2": ". All associated data will be deleted or anonymized upon termination, subject to our Privacy Policy.",
+    "section_6_title": "6. Disclaimer of Warranties",
+    "section_6_para_1": "Your use of the App is at your sole risk. The App is provided on an \"AS IS\" and \"AS AVAILABLE\" basis. The App is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement, or course of performance.",
+    "section_6_para_2": "{{companyName}} does not warrant that a) the App will function uninterrupted, secure, or available at any particular time or location; b) any errors or defects will be corrected; c) the App is free of viruses or other harmful components; or d) the results of using the App will meet your requirements.",
+    "section_7_title": "7. Limitation of Liability",
+    "section_7_para_1": "In no event shall {{companyName}}, nor its developer, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the App; (ii) any conduct or content of any third party on the App; (iii) any content obtained from the App; and (iv) unauthorized access, use, or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence), or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.",
+    "section_8_title": "8. Governing Law",
+    "section_8_para_1_part1": "These Terms shall be governed and construed in accordance with the laws of ",
+    "section_8_governing_law_country": "England and Wales",
+    "section_8_para_1_part2": ", without regard to its conflict of law provisions.",
+    "section_8_para_2": "Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our App, and supersede and replace any prior agreements we might have between us regarding the App.",
+    "section_9_title": "9. Changes to These Terms",
+    "section_9_para_1": "We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.",
+    "section_9_para_2": "By continuing to access or use our App after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the App.",
+    "section_10_title": "10. Contact Us",
+    "section_10_para_1": "If you have any questions about these Terms, please contact us by email at:"
+  },
+  "social-share": {
+    "share-text": "{{playerName}} scored {{score}} points on {{siteName}}! Can you beat it?",
+    "email-url": "mailto:?subject=I scored {{score}} ar {{siteName}}!&body={{emailBody}}%0AChwarae yma: {{shareUrl}}",
+    "device": {
+      "not-supported": "Not Supported",
+      "not-supported-text": "Sharing is not supported on this device."
+    }
+  },
+  "language-selector": {
+    "loading": "Loading language selector...",
+    "placeholder": "Select language"
+  }
+}

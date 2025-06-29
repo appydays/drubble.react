@@ -23,6 +23,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
     const { makeRequest } = useApiRequest(apiUrl);
 
     const { t } = useTranslation();
+    const siteName = process.env.REACT_APP_SITE_NAME;
 
     // Effect to initialize form fields when the player prop changes
     useEffect(() => {
@@ -287,7 +288,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                         type="checkbox"
                                                         checked={playerPrefReceiveNewsletter}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceiveNewsletter)}
-                                                    />{t('account.preferences.newsletter-text')}
+                                                    />{t('account.preferences.newsletter-text',{siteName: siteName})}
                                                 </label>
                                                 {errors.pref_receive_newsletter &&
                                                     <span className="error">{errors.pref_receive_newsletter}</span>}
@@ -296,7 +297,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                         type="checkbox"
                                                         checked={playerPrefReceivePrompts}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceivePrompts)}
-                                                    />{t('account.preferences.prompt-text')}
+                                                    />{t('account.preferences.prompt-text', {siteName: siteName})}
                                                 </label>
                                                 {errors.pref_receive_prompts &&
                                                     <span className="error">{errors.pref_receive_prompts}</span>}
