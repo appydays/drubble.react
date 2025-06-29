@@ -1,7 +1,10 @@
 import React from 'react';
 import './css/PlayerStats.css';
+import { useTranslation } from 'react-i18next';
 
 const PlayerStats = ({ stats }) => {
+    const { t, i18n } = useTranslation();
+
     const {
         highest_scoring_word,
         highest_word_score,
@@ -11,11 +14,11 @@ const PlayerStats = ({ stats }) => {
     } = stats;
 
     const statItems = [
-        { label: "🏆 Best Word", value: highest_scoring_word },
-        { label: "💥 Best Word Score", value: highest_word_score },
-        { label: "🎮 Best Game Score", value: highest_game_score },
-        { label: "🧮 Games Played", value: games_played },
-        { label: "📊 Avg Game Score", value: average_score },
+        { label: t('leaderboard.stats.record-stats.best-word'), value: highest_scoring_word },
+        { label: t('leaderboard.stats.record-stats.best-word-score'), value: highest_word_score },
+        { label: t('leaderboard.stats.record-stats.best-game-score'), value: highest_game_score },
+        { label: t('leaderboard.stats.record-stats.games-played'), value: games_played },
+        { label: t('leaderboard.stats.record-stats.average-score'), value: average_score },
     ];
 
     return (

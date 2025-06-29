@@ -2,8 +2,9 @@ import { useState, useEffect } from "react"; // Import useEffect
 import useApiRequest from './useApiRequest'; // Assuming this hook is still used elsewhere
 import Swal from 'sweetalert2';
 import GoogleLoginButton from './GoogleLoginButton';
-import LanguageLevelSelect from "./LanguageLevelSelect";
-import CookieSettingsButton from "./CookieSettingsButton"; // Ensure this import path is correct
+import LanguageLevelSelect from "./LanguageLevelSelect"; // Ensure this import path is correct
+import CookieSettingsButton from "./CookieSettingsButton";
+import { useTranslation } from 'react-i18next';
 
 const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [activeTab, setActiveTab] = useState("signin"); // Default to Sign In
@@ -24,6 +25,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
+
+    const { t, i18n } = useTranslation();
 
     // Reset form fields when switching tabs
     useEffect(() => {
@@ -54,7 +57,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             onSignupSuccess(data.user.id);
             onLoginSuccess(data.user);
         } else {
-            const errorMessage = data.message || "Login failed. Please try again.";
+            const errorMessage = data.message || t('auth.social-login.error-default');
             console.warn("Server rejected Social login:", errorMessage);
             setErrors({ credentials: errorMessage });
         }
@@ -71,40 +74,39 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             const newErrors = {};
 
             if (activeTab === "signup") {
-                console.log('Entered name is '+name);
+
                 if (!name.trim()) {
-                    newErrors.name = "A name is required.";
+                    newErrors.name = t('auth.form.name.error-required');
                 } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-                    console.log('Error with Name regular expression');
-                    newErrors.name = "Only letters, numbers and underscores are allowed.";
+                    newErrors.name = t('auth.form.name.error-format');
                 }
 
                 if (!nickname.trim()) {
-                    newErrors.nickname = "A nickname is required.";
+                    newErrors.nickname = t('auth.form.nickname.error-required');
                 } else if (!/^[a-zA-Z0-9_]+$/.test(nickname)) {
-                    newErrors.nickname = "Only letters, numbers and underscores are allowed.";
+                    newErrors.nickname = t('auth.form.nickname.error-format');
                 }
 
                 if (!email.trim()) {
-                    newErrors.email = "An e-mail is required";
+                    newErrors.email = t('auth.form.e-mail.error-required');
                 } else if (!/\S+@\S+\.\S+/.test(email)) {
-                    newErrors.email = "The email format is not valid.";
+                    newErrors.email = t('auth.form.e-mail.error-format');
                 }
 
                 if (!password.trim()) {
-                    newErrors.password = "A password is required";
+                    newErrors.password = t('auth.form.password.error-required');
                 } else {
                     if (password.length < 8) {
-                        newErrors.password = "The password must be at least 8 characters.";
+                        newErrors.password = t('auth.form.password.error-length');
                     }
                     if ((!/[A-Z]/.test(password)) || (!/[a-z]/.test(password)) || (!/\d/.test(password)) || (!/[^a-zA-Z0-9<>]/.test(password))) {
-                        newErrors.password = (newErrors.password ? newErrors.password + " " : "") + "It must contain at least one uppercase letter, one lowercase letter, one number and one symbol (except < or >).";
+                        newErrors.password = (newErrors.password ? newErrors.password + " " : "") + t('auth.form.password.error-format');
                     }
                 }
 
                 // Language Level validation (ensure it's a number and within expected range)
                 if (typeof languageLevel !== 'number' || !Number.isInteger(languageLevel) || languageLevel < 1 || languageLevel > 3) {
-                    newErrors.language_level = "Language level is required."; // Language level is required and must be a valid number.
+                    newErrors.language_level = t('auth.form.lang-level.error-format'); // Language level is required and must be a valid number.
                 }
 
                 // Newsletter checkbox validation (required)
@@ -121,9 +123,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             else if (activeTab === "reset") {
                 const newErrors = {};
                 if (!email.trim()) {
-                    newErrors.email = "Email is required.";
+                    newErrors.email = t('auth.form.e-mail.error-required');
                 } else if (!/\S+@\S+\.\S+/.test(email)) {
-                    newErrors.email = "The email format is not valid.";
+                    newErrors.email = t('auth.form.e-mail.error-format');
                 }
 
                 if (Object.keys(newErrors).length > 0) {
@@ -134,32 +136,31 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             // --- Frontend Validation END ---
 
             if (!window.grecaptcha || !window.grecaptcha.execute) {
-                setErrors({ recaptcha: "reCAPTCHA is not available. Try again later." });
+                setErrors({ recaptcha: t('auth.form.recaptcha.not-available') });
                 return;
             }
 
             const token = await window.grecaptcha.execute("6LfrxB0rAAAAAK8bda-2GoskR_F7ALS9DmgZ2kdb", { action: "login" });
 
             if (!token) {
-                setErrors({ recaptcha: "ReCAPTCHA verification failed. Try again." });
+                setErrors({ recaptcha: t('auth.form.recaptcha.error-token') });
                 return;
             }
 
             let response, data;
 
             if (activeTab === "signin") {
-                console.log("Signing In:", { email, password });
 
                 try {
                     await fetch(`${baseUrl}/sanctum/csrf-cookie`, {
                         method: 'GET',
                         credentials: 'include',
-                        headers: { 'Accept': 'application/json' },
+                        headers: { 'Accept': 'application/json','Accept-Language': i18n.language },
                     });
 
                     response = await fetch(apiUrl + "/login", {
                         method: "POST",
-                        headers: { "Content-Type": "application/json" },
+                        headers: { "Content-Type": "application/json", 'Accept-Language': i18n.language },
                         body: JSON.stringify({
                             email,
                             password,
@@ -171,7 +172,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     data = text ? JSON.parse(text) : null;
 
                     if (!response.ok || !data) {
-                        const errorMessage = data?.message || "Something went wrong. Please try again.";
+                        const errorMessage = data?.message || t('auth.login.server-error-default');
                         console.error("Login failed:", response.status, data);
                         setErrors({ credentials: errorMessage });
                         return;
@@ -186,13 +187,13 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         onSignupSuccess(data.user.id);
                         onLoginSuccess(data.user);
                     } else {
-                        const errorMessage = data.message || "Login failed. Please try again.";
+                        const errorMessage = data.message || t('auth.login.error-default');
                         console.warn("Server rejected login:", errorMessage);
                         setErrors({ credentials: errorMessage });
                     }
                 } catch (err) {
                     console.error("Network error or fetch threw an exception:", err);
-                    setErrors({ network: "Unable to connect. Try again later." });
+                    setErrors({ network: t('auth.login.network-error-default') });
                 }
 
             } else if (activeTab === "reset") {
@@ -211,7 +212,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         if (!response.ok) {
                             // Check if data is available for specific messages
                             const errorData = await response.json().catch(() => ({}));
-                            setErrors({email: errorData.message || "Something went wrong"});
+                            setErrors({email: errorData.message || t('auth.login.server-error-default')});
                             console.error("Failed to send password reset link:", response.status, errorData);
                             return;
                         }
@@ -219,20 +220,20 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         data = await response.json();
 
                         if (data.success) {
-                            Swal.fire('Reset Request accepted', 'Check your email for the reset code.', 'success');
+                            Swal.fire(t('auth.forgot-password.success.title'), t('auth.forgot-password.success.text'), 'success');
                             setResetStep("verify");
                         } else {
-                            setErrors({email: data.message || "Something went wrong"});
+                            setErrors({email: data.message || t('auth.login.server-error-default')});
                             console.error("Error response:", data);
                         }
                     } catch (err) {
                         console.error("Request failed:", err);
-                        setErrors({email: "Failed to send reset request"});
+                        setErrors({email: t('auth.forgot-password.failed.text')});
                         return;
                     }
                 } else {
                     if (password !== passwordConfirm) {
-                        setErrors({passwordConfirm: "Passwords do not match"});
+                        setErrors({passwordConfirm: t('auth.form.password-confirm.not-match')});
                         return;
                     }
 
@@ -251,7 +252,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                         if (!response.ok) {
                             const errorData = await response.json().catch(() => ({}));
-                            setErrors({credentials: errorData.message || "Password reset failed. Please try again."});
+                            setErrors({credentials: errorData.message || t('auth.update-password.failed.text')});
                             console.error("Password reset error:", response.status, errorData);
                             return;
                         }
@@ -259,7 +260,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         data = await response.json();
 
                         if (data.success) {
-                            Swal.fire('Password reset successful', 'Your password has been reset.', 'success');
+                            Swal.fire(t('auth.update-password.success.title'), t('auth.update-password.success.text'), 'success');
                             setActiveTab("signin");
                             setResetStep("request");
                             setEmail("");
@@ -267,17 +268,16 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             setPasswordConfirm("");
                             setVerificationCode("");
                         } else {
-                            setErrors({credentials: data.message || "Password reset failed. Please try again."});
+                            setErrors({credentials: data.message || t('auth.update-password.failed.default-error')});
                             console.error("Password reset error:", data);
                         }
                     } catch (err) {
                         console.error("Request failed:", err);
-                        setErrors({credentials: "Failed to reset password"});
+                        setErrors({credentials: t('auth.update-password.failed.credentials-error')});
                     }
                 }
                 return; // Ensure return after reset logic
             } else { // activeTab === "signup"
-                console.log("Signing Up:", { name, nickname, email, password, languageLevel, pref_receive_newsletter, pref_receive_prompts });
 
                 response = await fetch(apiUrl + "/register", {
                     method: "POST",
@@ -306,21 +306,20 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         onSignupSuccess(data.user.id);
                         onLoginSuccess(data.user);
 
-                        console.log("Registered:", data);
                         // No need to setPassword here, handled by useEffect on tab switch
                         // setActiveTab("signin"); // This will happen via onLoginSuccess leading to route change
                     } else {
-                        setErrors(data.errors || { credentials: data.message || "The registration failed. Please try again." });
+                        setErrors(data.errors || { credentials: data.message || t('auth.register.server-error-default') });
                         console.error("Registration error (backend):", response.status, data);
                     }
                 } else {
                     try {
                         const errorData = await response.json();
-                        setErrors(errorData.errors || { credentials: errorData.message || "The registration failed. Server error." });
+                        setErrors(errorData.errors || { credentials: errorData.message || t('auth.register.error-default') });
                         console.error("Registration failed (non-2xx):", response.status, errorData);
                     } catch (jsonErr) {
                         console.error("Registration failed and non-JSON response:", response.status, jsonErr);
-                        setErrors({ credentials: "The registration failed. Server error." });
+                        setErrors({ credentials: t('auth.register.error-default') });
                     }
                 }
             }
@@ -328,7 +327,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             console.error("Error in handleSubmit", err);
             setErrors((prev) => ({
                 ...prev,
-                credentials: err?.message || "An unexpected error occurred.",
+                credentials: err?.message || t('auth.unexpected-error'),
             }));
         }
     };
@@ -349,42 +348,42 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             <div className="tabs auth-tabs">
                 <button className={activeTab === "signin" ? "active key special" : "key special"}
                         onClick={() => setActiveTab("signin")}>
-                    Login
+                    {t('auth.buttons.login')}
                 </button>
                 <button className={activeTab === "signup" ? "active key special" : "key special"}
                         onClick={() => setActiveTab("signup")}>
-                    Register
+                    {t('auth.buttons.register')}
                 </button>
             </div>
 
             {/* Auth Forms */}
             <form onSubmit={handleSubmit}>
 
-                <GoogleLoginButton onLogin={handleSocialLogin}/>
+                <GoogleLoginButton onLogin={handleSocialLogin} />
                 <p>OR</p>
 
                 {activeTab === "signup" && (
                     // Group name and nickname for responsive layout
                     <div className="form-field-group signup">
                         <label>
-                            <span>Name (Your Full Name)</span>
+                            <span>{t('auth.form.name.label')}</span>
                             <input
                                 type="text"
                                 className={`${errors.name ? "error" : ""}`}
                                 value={name}
-                                placeholder="Your full name"
+                                placeholder={t('auth.form.name.placeholder')}
                                 onChange={(e) => setName(e.target.value)}
                             />
                             {errors.name && <span className="error-message">{errors.name}</span>}
                         </label>
 
                         <label>
-                            <span>Nickname (your username)</span>
+                            <span>{t('auth.form.nickname.label')}</span>
                             <input
                                 type="text"
                                 className={`${errors.nickname ? "error" : ""}`}
                                 value={nickname}
-                                placeholder="Unique nickname"
+                                placeholder={t('auth.form.nickname.placeholder')}
                                 onChange={(e) => setNickname(e.target.value)}
                             />
                             {errors.nickname && <span className="error-message">{errors.nickname}</span>}
@@ -395,28 +394,29 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 {(activeTab === "signin") && (
                     // Group email and password for responsive layout
                     <div className="form-field-group signin">
-                            <label>
-                                <span>E-mail</span>
-                                <input
-                                    type="email"
-                                    className={`${errors.email ? "error" : ""}`}
-                                    value={email}
-                                    placeholder="E-Mail"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                {errors.email && <span className="error-message">{errors.email}</span>}
-                            </label>
-                            <label>
-                                <span>Password</span>
-                                <input
-                                    type="password"
-                                    className={`${errors.password ? "error" : ""}`}
-                                    value={password}
-                                    placeholder="Password"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                {errors.password && <span className="error-message">{errors.password}</span>}
-                            </label>
+                        <label>
+                            <span>{t('auth.form.e-mail.label')}</span>
+                            <input
+                                type="email"
+                                className={`${errors.email ? "error" : ""}`}
+                                value={email}
+                                placeholder={t('auth.form.e-mail.placeholder')}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            {errors.email && <span className="error-message">{errors.email}</span>}
+                        </label>
+
+                        <label>
+                            <span>{t('auth.form.password.label')}</span>
+                            <input
+                                type="password"
+                                className={`${errors.password ? "error" : ""}`}
+                                value={password}
+                                placeholder={t('auth.form.password.placeholder')}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            {errors.password && <span className="error-message">{errors.password}</span>}
+                        </label>
                     </div>
                 )}
 
@@ -425,12 +425,12 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     <>
                         <div className="form-field-group signup">
                             <label>
-                                <span>E-mail</span>
+                                <span>{t('auth.form.e-mail.label')}</span>
                                 <input
                                     type="email"
                                     className={`${errors.email ? "error" : ""}`}
                                     value={email}
-                                    placeholder="E-Mail"
+                                    placeholder={t('auth.form.e-mail.placeholder')}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                                 {errors.email && <span className="error-message">{errors.email}</span>}
@@ -438,35 +438,36 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         </div>
                         <div className="form-field-group signup">
                             <label>
-                                <span>Password</span>
+                                <span>{t('auth.form.password.label')}</span>
                                 <input
                                     type="password"
                                     className={`${errors.password ? "error" : ""}`}
                                     value={password}
-                                    placeholder="Password"
+                                    placeholder={t('auth.form.password.placeholder')}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 {errors.password && <span className="error-message">{errors.password}</span>}
                             </label>
 
                             <label>
-                                    <span>Password confirmation</span>
-                                    <input
-                                        type="password"
-                                        className={`${errors.passwordConfirm ? "error" : ""}`}
-                                        value={passwordConfirm}
-                                        placeholder="Confirm password"
-                                        onChange={(e) => setPasswordConfirm(e.target.value)}
-                                    />
-                                    {errors.passwordConfirm &&
-                                        <span className="error-message">{errors.passwordConfirm}</span>}
-                                </label>
+                                <span>{t('auth.form.password-confirm.label')}</span>
+                                <input
+                                    type="password"
+                                    className={`${errors.passwordConfirm ? "error" : ""}`}
+                                    value={passwordConfirm}
+                                    placeholder={t('auth.form.password-confirm.placeholder')}
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                />
+                                {errors.passwordConfirm &&
+                                    <span className="error-message">{errors.passwordConfirm}</span>}
+                            </label>
                         </div>
                     </>
                 )}
 
                 {/* Place credentials error outside the group if it applies to both email/password */}
                 {errors.credentials && <span className="error-message">{errors.credentials}</span>}
+
 
                 {activeTab === "signup" && (
                     <>
@@ -479,7 +480,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                         {/* Communication Preferences */}
                         <div>
-                            <h3>Communication preferences</h3>
+                            <h3>{t('account.preferences.title')}</h3>
                         </div>
                         <label class="choices">
                             <input
@@ -487,9 +488,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 checked={pref_receive_newsletter}
                                 onChange={handleCheckboxChange(setPrefReceiveNewsletter)}
                                 required
-                            />
-                            Would you like to receive the latest news about Drubble and are you happy to receive
-                            occasional email newsletters?
+                            />{t('account.preferences.newsletter-text')}
                         </label>
                         {errors.pref_receive_newsletter &&
                             <span className="error-message">{errors.pref_receive_newsletter}</span>}
@@ -499,8 +498,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 type="checkbox"
                                 checked={pref_receive_prompts}
                                 onChange={handleCheckboxChange(setPrefReceivePrompts)}
-                            />
-                            Would you like to receive tips and reminders to play Drubble?
+                            />{t('account.preferences.prompt-text')}
                         </label>
                         {errors.pref_receive_prompts &&
                             <span className="error-message">{errors.pref_receive_prompts}</span>}
@@ -513,12 +511,12 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         className="submit"
                         disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))} // Added required newsletter consent
                     >
-                        {activeTab === "signin" ? "Login" : "Register"}
+                        {activeTab === "signin" ? t('auth.buttons.login') : t('auth.buttons.register')}
                     </button>
                 )}
 
                 {(activeTab === "signin" &&
-                    <div style={{marginTop: "1rem"}}>
+                    <div style={{ marginTop: "1rem" }}>
                         <button
                             type="button"
                             className="link-button"
@@ -531,8 +529,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 textDecoration: "underline",
                                 padding: 0
                             }}
-                        >
-                            Forgot Password?
+                        >{t('auth.buttons.forgot-password')}
                         </button>
                     </div>
                 )}
@@ -540,24 +537,23 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 {activeTab === "reset" && resetStep === "request" && (
                     <>
                         <div>
-                            <h3>Reset Password</h3>
-                            <p>Enter your email address here, if an account exists for your email there will be a
-                                verification code sent to your email address.</p>
+                            <h3>{t('auth.reset-password.title')}</h3>
+                            <p>{t('auth.reset-password.text')}</p>
                         </div>
                         <label>
-                            <span>E-Mail</span>
+                            <span>{t('auth.form.e-mail.label')}</span>
                             <input
                                 type="email"
                                 className={`${errors.email ? "error" : ""}`}
                                 value={email}
-                                placeholder="Your account e-mail address"
+                                placeholder={t('auth.form.e-mail.placeholder-reset')}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             {errors.email && <span className="error-message">{errors.email}</span>}
                         </label>
                         {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
-                        <button type="submit" className="submit" disabled={!email}>Send Reset Code</button>
+                        <button type="submit" className="submit" disabled={!email}>{t('auth.reset-password.button')}</button>
                     </>
                 )}
 
@@ -565,7 +561,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     // Group for reset password fields (email is first, then verification/new password)
                     <div className="form-field-group">
                         <label>
-                            <span>Email</span>
+                            <span>{t('auth.form.e-mail.label')}</span>
                             <input
                                 type="email"
                                 className={`${errors.email ? "error" : ""}`}
@@ -576,37 +572,36 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         </label>
 
                         <label>
-                            <span>Verification Code</span>
+                            <span>{t('auth.form.verify-code.label')}</span>
                             <input
                                 type="text"
                                 className={`${errors.verification_code ? "error" : ""}`}
                                 value={verificationCode}
-                                placeholder="Enter the code from your email"
+                                placeholder={t('auth.form.verify-code.placeholder')}
                                 onChange={(e) => setVerificationCode(e.target.value)}
                             />
-                            {errors.verification_code &&
-                                <span className="error-message">{errors.verification_code}</span>}
+                            {errors.verification_code && <span className="error-message">{errors.verification_code}</span>}
                         </label>
 
                         <label>
-                            <span>New Password</span>
+                            <span>{t('auth.form.new-password.title')}</span>
                             <input
                                 type="password"
                                 className={`${errors.password ? "error" : ""}`}
                                 value={password}
-                                placeholder="New Password"
+                                placeholder={t('auth.form.new-password.placeholder')}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             {errors.password && <span className="error-message">{errors.password}</span>}
                         </label>
 
                         <label>
-                            <span>Password confirmation</span>
+                            <span>{t('auth.form.password-confirm.title')}</span>
                             <input
                                 type="password"
                                 className={`${errors.passwordConfirm ? "error" : ""}`}
                                 value={passwordConfirm}
-                                placeholder="Confirm password"
+                                placeholder={t('auth.form.password-confirm.placeholder')}
                                 onChange={(e) => setPasswordConfirm(e.target.value)}
                             />
                             {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
@@ -623,17 +618,10 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         type="submit"
                         className="submit"
                         disabled={!email || !password || !verificationCode || password !== passwordConfirm}
-                    >Reset Password
-                    </button>
+                    >{t('auth.reset-password.title')}</button>
                 )}
             </form>
-            <CookieSettingsButton/>
-            <div>
-                By registering or logging in to Drubble, you confirm that you have read and agree to our
-                Privacy Policy and our Terms of Service.
-            </div>
-            <div><a href="/privacy-policy.html" target="_blank">Privacy Policy</a></div>
-            <div><a href="/terms-of-service.html" target="_blank">terms of Service</a></div>
+            <CookieSettingsButton />
 
             {errors.recaptcha && <span className="error">{errors.recaptcha}</span>}
         </div>

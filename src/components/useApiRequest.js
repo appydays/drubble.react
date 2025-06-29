@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Helper function to extract the XSRF-TOKEN from browser cookies.
 // Laravel's CSRF protection for SPAs requires this token to be sent
@@ -45,6 +46,8 @@ const useApiRequest = (baseUrl) => {
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
 
+    const { i18n } = useTranslation();
+
     // useCallback memoizes the makeRequest function to prevent unnecessary re-renders
     // and ensures stable function identity across component renders.
     const makeRequest = useCallback(async (url, method = 'GET', body = null) => {
@@ -57,6 +60,7 @@ const useApiRequest = (baseUrl) => {
             // Prepare request headers
             const headers = {
                 'Accept': 'application/json', // Always expect JSON response from API
+                'Accept-Language': i18n.language,
             };
 
             // Step 2: For non-GET/HEAD requests, manually add the X-XSRF-TOKEN header.
@@ -121,7 +125,7 @@ const useApiRequest = (baseUrl) => {
         } finally {
             setLoading(false); // Always set loading to false when the request completes
         }
-    }, [baseUrl]); // Dependency array: makeRequest will only re-create if baseUrl changes
+    }, [baseUrl, i18n.language]); // Dependency array: makeRequest will only re-create if baseUrl changes
 
     // Return the states and the request function
     return { data, loading, error, makeRequest };

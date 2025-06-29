@@ -5,8 +5,7 @@ import WordLengthHistogram from './WordLengthHistogram'; // Adjust path if neede
 import PlayerStats from "./PlayerStats";
 import useApiRequest from './useApiRequest';
 import TopStatTable from "./TopStatTable";
-import Swal from 'sweetalert2';
-
+import { useTranslation } from 'react-i18next';
 
 function LeaderboardModal({ playerId, isOpen, onClose }) {
     const [dailyLeaderboardData, setDailyLeaderboardData] = useState([]);
@@ -37,6 +36,8 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
 
+    const { t, i18n } = useTranslation();
+
     const { makeRequest } = useApiRequest(apiUrl);
 
     const handleTabClick = (tab) => {
@@ -63,7 +64,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                 const response = await fetch(`${apiUrl}/leaderboard?date=${today}&player_id=${playerId}`);
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
+
                     setDailyLeaderboardData(data.daily);
                     setYesterdayDailyLeaderboardData(data.yesterday || null);
                     setMonthlyLeaderboardData(data.monthly);
@@ -73,18 +74,19 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     // alert('Wedi methu â nôl y bwrdd arweinwyr.');
                     const errorText = await response.text();
                     console.error("Failed to fetch combined leaderboards:", errorText);
-                    setLeaderboardError('Failed to retrieve leaderboards. Try again later.');
+                    setLeaderboardError(t('leaderboard.failed'));
                 }
             } catch (error) {
                 // alert('Digwyddodd gwall.');
                 console.error('Error fetching combined leaderboards:', error);
-                setLeaderboardError('A network error occurred while retrieving leaderboards.');
+                setLeaderboardError(t('leaderboard.network-error'));
             } finally {
                 setLeaderboardLoading(false);
             }
         };
 
         fetchLeaderboard();
+
     }, [isOpen, playerId, apiUrl]);
 
     useEffect(() => {
@@ -107,11 +109,11 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     } else {
                         const errorText = await response.message;
                         console.error("Error fetching word length histogram:", errorText);
-                        setHistogramError(`Failed to fetch histogram data: ${errorText}`);
+                        setHistogramError(t('leaderboard.histogram.response.fetch-failed', {errorTMessage: errorText}));
                     }
                 } catch (err) {
                     console.error("Network error fetching word length histogram:", err);
-                    setHistogramError(err.message || 'A network error occurred while loading histogram data.');
+                    setHistogramError(err.message || t('leaderboard.histogram.response.network-error'));
                 } finally {
                     setIsHistogramLoading(false);
                     setIsPlayerStatsLoading(false);
@@ -145,11 +147,11 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     } else {
                         const errorText = await response.message;
                         console.error("Error fetching global record stats:", errorText);
-                        setRecordStatsError(`Failed to fetch histogram data: ${errorText}`);
+                        setRecordStatsError(t('leaderboard.records.response.fetch-failed', {errorTMessage: errorText}));
                     }
                 } catch (err) {
                     console.error("Network error fetching record stats data:", err);
-                    setRecordStatsError(err.message || 'A network error occurred while loading histogram data.');
+                    setRecordStatsError(err.message || t('leaderboard.records.response.network-error'));
                 } finally {
                     setIsRecordStatsLoading(false);
                 }
@@ -186,38 +188,31 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
 
     return (
         <Modal className="leaderboard" isOpen={isOpen} onClose={onClose}>
-            <h2>Leaderboard and Stats</h2>
+            <h2>{t('leaderboard.title')}</h2>
             {!playerId &&
-                <div>
-                    Can you beat the high score? Register and Login to challenge the leaders.
-                </div>
+                <div>{t('leaderboard.content.not-logged-in')}</div>
             }
             <div className="leaderboard-tabs">
                 <button
                     className={`tab-button ${activeTab === 'daily' ? 'active' : ''}`}
                     onClick={() => handleTabClick('daily')}
-                >
-                    Daily Leaders
-                </button>
+                >{t('leaderboard.tabs.daily')}</button>
                 <button
                     className={`tab-button ${activeTab === 'monthly' ? 'active' : ''}`}
                     onClick={() => handleTabClick('monthly')}
-                >
-                    Monthly Leaders
-                </button>
+                >{t('leaderboard.tabs.monthly')}</button>
                 <button
                     className={`tab-button ${activeTab === 'player' ? 'active' : ''}`}
                     onClick={() => handleTabClick('player')}
-                >
-                    Your stats
-                </button>
+                >{t('leaderboard.tabs.your-stats')}</button>
                 <button
                     className={`tab-button ${activeTab === 'global' ? 'active' : ''}`}
                     onClick={() => handleTabClick('global')}
-                >
-                    Global record stats
-                </button>
+                >{t('leaderboard.tabs.global-stats')}</button>
             </div>
+
+            {leaderboardLoading && <p>{t('leaderboard.loading')}</p>}
+            {leaderboardError && <p style={{ color: 'red' }}>{t('leaderboard.loading-error')} {leaderboardError}</p>}
 
             {activeTab === 'daily' && !leaderboardLoading && !leaderboardError && (
                 <div id="daily-leaderboard" className="tab-content">
@@ -225,24 +220,20 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         <button
                             className={`special key ${selectedDailyView === 'today' ? 'active' : ''}`}
                             onClick={() => handleDailyViewChange('today')}
-                        >
-                            Today
-                        </button>
+                        >{t('leaderboard.today')}</button>
                         <button
                             className={`special key ${selectedDailyView === 'yesterday' ? 'active' : ''}`}
                             onClick={() => handleDailyViewChange('yesterday')}
-                        >
-                            Yesterday
-                        </button>
+                        >{t('leaderboard.yesterday')}</button>
                     </div>
 
                     {currentDailyData && currentDailyData.top20 && currentDailyData.top20.length > 0 ? (
                         <table style={{ width: '100%' }}>
                             <thead>
                             <tr>
-                                <th className="rank">Position</th>
-                                <th className="name">Nickname</th>
-                                <th className="score">Score</th>
+                                <th className="rank">{t('leaderboard.stats.table.position')}</th>
+                                <th className="name">{t('leaderboard.stats.table.nickname')}</th>
+                                <th className="score">{t('leaderboard.stats.table.score')}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -257,7 +248,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tbody>
                         </table>
                     ) : (
-                        <p>No data available for this period.</p>
+                        <p>{t('leaderboard.stats.table.no-data')}</p>
                     )}
                 </div>
             )}
@@ -268,24 +259,20 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         <button
                             className={`special key  ${selectedMonthlyView === 'current' ? 'active' : ''}`}
                             onClick={() => handleMonthlyViewChange('current')}
-                        >
-                            This Month
-                        </button>
+                        >{t('leaderboard.this-month')}</button>
                         <button
                             className={`special key  ${selectedMonthlyView === 'previous' ? 'active' : ''}`}
                             onClick={() => handleMonthlyViewChange('previous')}
-                        >
-                            Previous Month
-                        </button>
+                        >{t('leaderboard.last-month')}</button>
                     </div>
 
                     {currentMonthlyData && currentMonthlyData.top20 && currentMonthlyData.top20.length > 0 ? (
                         <table style={{ width: '100%' }}>
                             <thead>
                             <tr>
-                                <th className="rank">Position</th>
-                                <th className="name">Nickname</th>
-                                <th className="score">Score</th>
+                                <th className="rank">{t('leaderboard.stats.table.position')}</th>
+                                <th className="name">{t('leaderboard.stats.table.nickname')}</th>
+                                <th className="score">{t('leaderboard.stats.table.score')}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -300,7 +287,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </tbody>
                         </table>
                     ) : (
-                        <p>No data available for this period.</p>
+                        <p>{t('leaderboard.stats.table.no-data')}</p>
                     )}
                 </div>
             )}
@@ -308,29 +295,29 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
             {activeTab === 'player' && (
                 <div id="player-statistics" className="tab-content">
                     {/* Conditional rendering for histogram */}
-                    <h3>Your Drubble Stats</h3>
+                    <h3>{t('leaderboard.stats.your-stats.title', { sitename : process.env.REACT_APP_SITE_NAME})}</h3>
                     {!playerId ? (
-                        <p>Log in to see your word statistics.</p>
+                        <p>{t('leaderboard.stats.your-stats.not-logged-in')}</p>
                     ) : (
                         <>
-                            {isPlayerStatsLoading && <p>Loading your game stats...</p>}
+                            {isPlayerStatsLoading && <p>{t('leaderboard.stats.your-stats.loading')}</p>}
                             {playerStatsError &&
-                                <p style={{color: 'red'}}>Error loading statistics: {playerStatsError}</p>}
+                                <p style={{color: 'red'}}>{t('leaderboard.stats.your-stats.loading-error')} {playerStatsError}</p>}
                             {playerStatsData && <PlayerStats stats={playerStatsData}/>}
                             {!isPlayerStatsLoading && !playerStatsError && !playerStatsData &&
-                                <p>No word length data available yet. Play some games!</p>}
+                                <p>{t('leaderboard.stats.your-stats.no-data')}</p>}
                         </>
                     )}
                     {!playerId ? (
-                        <p>Log in to see your word statistics.</p>
+                        <p>{t('leaderboard.stats.your-stats.not-logged-in')}</p>
                     ) : (
                         <>
-                            {isHistogramLoading && <p>Loading word length histogram data...</p>}
+                            {isHistogramLoading && <p>{t('leaderboard.stats.your-stats.loading')}</p>}
                             {histogramError &&
-                                <p style={{color: 'red'}}>Error loading statistics: {histogramError}</p>}
+                                <p style={{color: 'red'}}>{t('leaderboard.stats.your-stats.loading-error')} {histogramError}</p>}
                             {wordLengthData && <WordLengthHistogram data={wordLengthData}/>}
                             {!isHistogramLoading && !histogramError && !wordLengthData &&
-                                <p>No word length data available yet. Play some games!</p>}
+                                <p>{t('leaderboard.stats.your-stats.no-data')}</p>}
                         </>
                     )}
                 </div>
@@ -339,36 +326,36 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
             {activeTab === 'global' && (
                 <div id="global-statistics" className="tab-content">
                     <>
-                        {isRecordStatsLoading && <p>Loading global record stats...</p>}
+                        {isRecordStatsLoading && <p>{t('leaderboard.stats.your-stats.loading')}</p>}
                         {recordStatsError &&
-                            <p style={{color: 'red'}}>Error loading statistics: {recordStatsError}</p>}
+                            <p style={{color: 'red'}}>{t('leaderboard.stats.your-stats.loading-error')} {recordStatsError}</p>}
                         {recordStatsData &&
                             <>
                             <div className="stats-grid">
 
                                 <TopStatTable
-                                    title="💥 Top 5 Game Scores"
+                                    title="💥 5 sgôr gêm orau"
                                     columns={[
-                                        { label: "Score", key: "highest_game_score" },
-                                        { label: "Nickname", key: "player.nickname" }
+                                        { label: t('leaderboard.stats.table.score'), key: "highest_game_score" },
+                                        { label: t('leaderboard.stats.table.nickname'), key: "player.nickname" }
                                     ]}
                                     rows={recordStatsData.topGames}
                                 />
                                 <TopStatTable
-                                    title="📊 Top 5 Average Scores"
+                                    title="📊 5 Sgôr Cyfartalog Uchaf"
                                     columns={[
-                                        { label: "Avg Score", key: "average_score" },
-                                        { label: "Games Played", key: "games_played" },
-                                        { label: "Nickname", key: "nickname" }
+                                        { label: t('leaderboard.stats.table.average'), key: "average_score" },
+                                        { label: t('leaderboard.stats.table.games-played'), key: "games_played" },
+                                        { label: t('leaderboard.stats.table.nickname'), key: "nickname" }
                                     ]}
                                     rows={recordStatsData.topAverages}
                                 />
                                 <TopStatTable
-                                    title="🏆 Top 5 Word Scores"
+                                    title="🏆 5 Sgor Geiriau Gorau"
                                     columns={[
-                                        { label: "Score", key: "highest_word_score" },
-                                        { label: "Word", key: "highest_scoring_word" },
-                                        { label: "Nickname", key: "player.nickname" }
+                                        { label: t('leaderboard.stats.table.score'), key: "highest_word_score" },
+                                        { label: t('leaderboard.stats.table.word'), key: "highest_scoring_word" },
+                                        { label: t('leaderboard.stats.table.nickname'), key: "player.nickname" }
                                     ]}
                                     rows={recordStatsData.topWords}
                                 />
@@ -377,7 +364,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             </>
                         }
                         {!isRecordStatsLoading && !recordStatsError && !recordStatsData &&
-                            <p>No word length data available yet. Play some games!</p>}
+                            <p>{t('leaderboard.stats.your-stats.no-data')}</p>}
                     </>
                 </div>
             )}

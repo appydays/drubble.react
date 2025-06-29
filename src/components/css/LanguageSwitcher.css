@@ -1,0 +1,66 @@
+/* src/components/CustomFlagStyles.css */
+
+/* --- STYLES FOR THE SELECTED FLAG DISPLAY --- */
+
+/* 1. When Welsh is selected, hide the default SVG for the SELECTED flag */
+.language-flag-selector-wrapper.selected-welsh-active .ReactFlagsSelect-module_selectValue__152eS .ReactFlagsSelect-module_selectFlag__2q5gC svg {
+    display: none !important; /* Hide the existing inline SVG */
+}
+
+/* 2. When Welsh is selected, apply the custom background image to the parent span */
+.language-flag-selector-wrapper.selected-welsh-active .ReactFlagsSelect-module_selectValue__152eS .ReactFlagsSelect-module_selectFlag__2q5gC {
+    display: inline-block; /* Essential for width/height */
+    width: 1.5rem;         /* Or whatever size matches other flags */
+    height: 1.5rem;
+    flex-shrink: 0;        /* Prevents shrinking in flex containers */
+
+    /* Use the CSS variable that's already injected on the root div */
+    background-image: var(--cy-flag-svg-url) !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* --- STYLES FOR THE DROPDOWN LIST OPTIONS --- */
+
+/* 1. Target the specific LI element for Welsh in the dropdown list using its ID */
+#rfs-CY {
+    /* No direct styles needed on the LI itself, just for its children */
+}
+
+/* 2. Hide the default SVG within the Welsh option in the dropdown list */
+#rfs-CY .ReactFlagsSelect-module_selectFlag__2q5gC svg {
+    display: none !important;
+}
+
+/* 3. Apply the custom background image to the span for the Welsh option in the dropdown list */
+#rfs-CY .ReactFlagsSelect-module_selectFlag__2q5gC {
+    display: inline-block; /* Essential for width/height */
+    width: 1.5rem;         /* Match selected flag size */
+    height: 1.5rem;
+    flex-shrink: 0;
+
+    background-image: var(--cy-flag-svg-url) !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Optional: If you want to ensure the custom flag is always visible on top if there's overlap */
+.language-flag-selector-wrapper.selected-welsh-active .ReactFlagsSelect-module_selectValue__152eS {
+    position: relative; /* Ensure z-index works on its children */
+}
+.language-flag-selector-wrapper.selected-welsh-active .ReactFlagsSelect-module_selectValue__152eS .ReactFlagsSelect-module_selectFlag__2q5gC {
+    z-index: 2; /* Bring the custom flag to the front if anything else overlaps */
+}
+
+.language-flag-selector-wrapper {
+    display: inline-flex;
+    justify-content: end;
+    text-align: end;
+    width: 100%;
+}
+
+.language-flag-selector-wrapper .language-flag-selector {
+    width:250px;
+}

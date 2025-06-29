@@ -18,10 +18,9 @@
     color: white;
 }
 
-
 @media (min-width: 968px){
     .modal-container.leaderboard {
         height:unset;
-        overflow:none;
+        overflow:unset;
     }
 }

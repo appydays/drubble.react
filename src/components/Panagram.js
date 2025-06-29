@@ -5,6 +5,8 @@ import ProgressBarTimer from "./ProgressBarTimer";
 import ShuffleIcon from "./atoms/ShuffleIcon";
 import ReplaceIcon from "./atoms/ReplaceIcon";
 import SocialShare from "./SocialShare";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from 'react-i18next';
 
 const letterWeights = {
     'A' : 12, 'E' : 16, 'I' : 9, 'O' : 8, 'U' : 4,
@@ -33,6 +35,7 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
     const [isGameOver, setIsGameOver] = useState(false); // Flag to stop the game
     const [game, setGame] = useState(null);
     const [stats, setStats] = useState(null);
+    const [gameOverStats, setGameOverStats] = useState(null);
     const [nextEmptyIndex, setNextEmptyIndex] = useState(0);
     const [isValidating, setIsValidating] = useState(false);
 
@@ -44,6 +47,10 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
     // A ref to ensure game over logic only runs once, even if state updates trigger re-renders
     const isGameOverHandled = useRef(false);
+
+    const { t, i18n } = useTranslation();
+
+    const exchangedText = t('submitted_words.exchanged');
 
     let clickedOccurrences = {};
     clickedLetters.forEach((l) => {
@@ -85,8 +92,8 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
     // Initialize first 9 letters (4 vowels + 5 consonants)
     const initializeLetters = (vowelArray, consonantArray) => {
-        const selectedVowels = vowelArray.slice(0, 3); // Get 4 vowels
-        const selectedConsonants = consonantArray.slice(0, 6); // Get 5 consonants
+        const selectedVowels = vowelArray.slice(0, 4); // Get 4 vowels
+        const selectedConsonants = consonantArray.slice(0, 5); // Get 5 consonants
         setLetters([...selectedVowels, ...selectedConsonants]); // Set 9 letters
         setUsedLetters({}); // Reset used letters
     };
@@ -159,12 +166,12 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
             const isValid = await validateWord(word);
 
             if (isValid) {
-                setMessage({ text: `✅ "${word}" is a valid word!`, autoDismiss: 3, isError: false });
+                setMessage({ text: t('word.valid', {word: word}), autoDismiss: 3, isError: false });
                 setSubmittedWords([...submittedWords, word]);
                 setLastSubmittedWord(word);
             } else {
 
-                setMessage({ text: `❌ "${word}" is not a valid word..`, autoDismiss: 3, isError: true });
+                setMessage({ text: t('word.invalid', {word: word}), autoDismiss: 3, isError: true });
             }
             setClickedLetters([]);
             setUsedLetters({});
@@ -214,12 +221,12 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
         //Wrap this code into a SweetAlert confirmation modal
         if (inputLetters.length > 0) {
             Swal.fire({
-                title: 'Ydych\'n siwr?',
-                text: 'Byddwch yn colli un slot gair ac yn disodli\'r llythrennau a ddewiswyd.',
+                title: t('alerts.title.sure'),
+                text: t('alerts.exchange.text'),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Ie, llythyrau cyfnewid',
-                cancelButtonText: 'Canslo',
+                confirmButtonText: t('alerts.exchange.confirm'),
+                cancelButtonText: t('alerts.exchange.cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
                     const word = inputLetters.join("");
@@ -229,7 +236,7 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     setSubmittedWords([...submittedWords, 'WORD-SKIPPED']);
                     setLastSubmittedWord('WORD-SKIPPED');
 
-                    Swal.fire('Gair wedi\'i hepgor!', 'Cafodd eich gair ei hepgor a chafodd llythrennau eu disodli.', 'success');
+                    Swal.fire(t('alerts.exchange.success.title'), t('alerts.exchange.success.text'), 'success');
                 }
             });
         }
@@ -250,48 +257,48 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     // Await the updateGameStatus call to get the latest stats
                     const updatedData = await updateGameStatus(true); // Pass true for `complete`
 
-                    let highestWordBeatMessage = '';
-                    let gameScoreBeatMessage = '';
+                    setGameOverStats(updatedData.stats);
 
-                    // Check if stats data is available and contains the relevant info
-                    if (updatedData && updatedData.stats) {
-                        const { word_score_updated, word, word_score, game_score_updated, game_score } = updatedData.stats;
-
-                        // Check if current word beat personal best
-                        if (word_score_updated) {
-                            highestWordBeatMessage = `<p>🚀 Great News: You just set a new personal record for the highest word score with the word "${word}" and a score of ${word_score}!</p>`;
-                        } else {
-                            // Display overall highest word if not beaten this turn
-                            highestWordBeatMessage = `<p>Your highest scoring is "${word}" with a score of ${word_score}.</p>`;
-                        }
-
-                        // Check if current game score beat personal best
-                        // `updatedData.game.score` is the final score for the completed game
-                        if (game_score_updated) {
-                            gameScoreBeatMessage = `<p>🏆 Great News!: You just set a new personal game record with a score of ${game_score}!</p>`;
-                        } else {
-                            // Display overall highest game score if not beaten this turn
-                            gameScoreBeatMessage = `<p>Your best game score is ${game_score}.</p>`;
-                        }
-                    }
-
-                    // Set the final game over message
-                    setMessage({
-                        text: (
-                            <div>
-                                <p>Game over!</p>
-                                <p>🎉 Congratulations! You have submitted all 5 words. Your score is {score}.</p>
-                                {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
-                                {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
-
-                                {playerName === 'daibara' && (
-                                    <SocialShare score={score} playerName={playerName} />
-                                )}
-                            </div>
-                        ),
-                        autoDismiss: 0, // Don’t auto-dismiss this one
-                        isError: false
-                    });
+                    // let highestWordBeatMessage = '';
+                    // let gameScoreBeatMessage = '';
+                    //
+                    // // Check if stats data is available and contains the relevant info
+                    // if (updatedData && updatedData.stats) {
+                    //     const { word_score_updated, word, word_score, game_score_updated, game_score } = updatedData.stats;
+                    //
+                    //     // Check if current word beat personal best
+                    //     if (word_score_updated) {
+                    //         highestWordBeatMessage = t('game_over.new_word_high_score', { word: word, word_score: word_score });
+                    //     } else {
+                    //         // Display overall highest word if not beaten this turn
+                    //         highestWordBeatMessage = t('game_over.high_word_score', { word: word, word_score: word_score });
+                    //     }
+                    //
+                    //     // Check if current game score beat personal best
+                    //     if (game_score_updated) {
+                    //         // If current game score beat personal best
+                    //         gameScoreBeatMessage = t('game_over.new_game_high_score', { game_score: game_score });
+                    //     } else {
+                    //         // Display overall highest game score if not beaten this turn
+                    //         gameScoreBeatMessage = t('game_over.high_game_score', { game_score: game_score });
+                    //     }
+                    // }
+                    //
+                    // // Set the final game over message
+                    // setMessage({
+                    //     text: (
+                    //         <div>
+                    //             <p>{t('game_over.title')}</p>
+                    //             <p>{t('game_over.complete', {score: score})}</p>
+                    //             {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
+                    //             {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
+                    //
+                    //             <SocialShare score={score} playerName={playerName} />
+                    //         </div>
+                    //     ),
+                    //     autoDismiss: 0, // Don’t auto-dismiss this one
+                    //     isError: false
+                    // });
 
                 } else if (lastSubmittedWord !== 'WORD-SKIPPED') {
                     // For words 1-4, just replace letters and update game status without waiting
@@ -394,30 +401,115 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
     };
 
     const handleTimeUp = () => {
-        console.log("Time's up! Ending game...");
+
         setIsGameOver(true);
-        setMessage(
-            {
-                text: (
-                    <div>
-                        <p>Game over!</p>
-                        <p>We're sorry you ran out of time, you've submitted {submittedWords.length} words. Your score is {score}</p>
-
-                        {playerName === 'daibara' && (
-                            <SocialShare score={score} playerName={playerName} />
-                        )}
-
-                    </div>
-                ),
-                autoDismiss: 0,
-                isError:false});
+        // setMessage(
+        //     {
+        //         text: (
+        //             <div>
+        //                 <p>{t('game_over.title')}</p>
+        //                 <p>{t('game_over.out_of_time',{words: submittedWords.length, score: score})}</p>
+        //
+        //                 <SocialShare score={score} playerName={playerName} />
+        //
+        //             </div>
+        //         ),
+        //         autoDismiss: 0,
+        //         isError:false});
         setEndTime(Date.now());
         updateGameStatus();
     };
 
+    // --- NEW useEffect to handle game over messages and re-translate them ---
+    useEffect(() => {
+        // This effect will run when `isGameOver` changes or when `i18n.language` changes
+        if (isGameOver) {
+            // Determine the reason for game over (time up or 5 words submitted)
+            // You'll need a way to distinguish this. A simple way is a new state variable.
+            // Let's assume you set a state like `gameOverReason` in handleTimeUp or when 5 words are submitted.
+            // For now, let's assume if endTime is set and submittedWords.length < 5, it's time out.
+            // Or, more robustly, you could set a `gameOverType` state in handleTimeUp.
+
+            // Example: Add a new state variable to track the game over type
+            // const [gameOverType, setGameOverType] = useState(null);
+            // In handleTimeUp: setGameOverType('time_up');
+            // In processGameUpdate for 5 words: setGameOverType('words_complete');
+
+            // For simplicity in this example, let's just re-evaluate if it's "out of time"
+            // You'll need to know *why* the game ended (time up vs. words submitted)
+
+            // Re-evaluate game over message if game is over
+            // This is crucial: you need to recreate the message content here,
+            // so it picks up the latest translation based on `i18n.language`.
+            let messageContent;
+            // You need a way to know if it's an 'out of time' game over or 'words complete' game over
+            // Let's assume you pass a `type` parameter to `setMessage` or use a different state for `isTimeUp`.
+            // For this example, let's simulate the `handleTimeUp` logic here.
+
+            // Assuming `endTime` being set AND submittedWords.length < 5 implies timeout
+            if (endTime && submittedWords.length < 5) { // Adjust this condition based on your actual game over states
+                messageContent = (
+                    <div>
+                        <p>{t('game_over.title')}</p>
+                        <p>{t('game_over.out_of_time',{words: submittedWords.length, score: score})}</p>
+                        <SocialShare score={score} playerName={playerName} />
+                    </div>
+                );
+            } else {
+
+                if (!gameOverStats) {
+                    // If the game is over, and it's 'words_complete' type,
+                    // but gameOverStats hasn't arrived yet from the async call,
+                    // simply return. This useEffect will re-run when gameOverStats updates.
+                    return;
+                }
+
+                // Reconstruct the messages using current translation and stored stats
+                let highestWordBeatMessage = '';
+                let gameScoreBeatMessage = '';
+
+                if (gameOverStats) {
+                    const { word_score_updated, word, word_score, game_score_updated, game_score } = gameOverStats;
+
+                    if (word_score_updated) {
+                        highestWordBeatMessage = t('game_over.new_word_high_score', { word: word, word_score: word_score });
+                    } else {
+                        highestWordBeatMessage = t('game_over.high_word_score', { word: word, word_score: word_score });
+                    }
+
+                    if (game_score_updated) {
+                        gameScoreBeatMessage = t('game_over.new_game_high_score', { game_score: game_score });
+                    } else {
+                        gameScoreBeatMessage = t('game_over.high_game_score', { game_score: game_score });
+                    }
+                }
+
+                messageContent = (
+                    <div>
+                        <p>{t('game_over.title')}</p>
+                        <p>{t('game_over.complete', { score: score })}</p>
+                        {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
+                        {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
+                        <SocialShare score={score} playerName={playerName} />
+                    </div>
+                );
+            }
+
+            setMessage({
+                text: messageContent,
+                autoDismiss: 0,
+                isError: false
+            });
+        }
+    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats,]); // Dependencies for this effect
+
+
     return (
 
         <div className="game-container">
+            {/*{(!playerId || playerName === 'daibara') && (*/}
+            {/*    <LanguageSwitcher />*/}
+            {/*)}*/}
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer isSplashHelpModalOpen={isSplashHelpModalOpen} isGameOver={isGameOver} onTimeUp={handleTimeUp} />
 
@@ -439,18 +531,18 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 <div className="letter-action-container">
                     {/* Shuffle Button */}
                     <button className="shuffle-button" onClick={shuffleLetters} disabled={isGameOver}>
-                        <ShuffleIcon/>&nbsp;Shuffle
+                        <ShuffleIcon/>&nbsp;{t('buttons.shuffle')}
                     </button>
 
                     {/* Delete Letters Button */}
-                    <button className="delete" onClick={handleDelete} disabled={isGameOver}>⌫<span> Delete letter</span></button>
+                    <button className="delete" onClick={handleDelete} disabled={isGameOver}>⌫<span> {t('buttons.delete_letter')}</span></button>
 
                     {/* Exchange Letters Button */}
                     <button className="exchange-button"
                             onClick={handleExchange}
                             disabled={isGameOver || (inputLetters.length === 0)}
                     >
-                        <ReplaceIcon/>&nbsp;Exchange
+                        <ReplaceIcon/>&nbsp;{t('buttons.exchange')}
                     </button>
                 </div>
 
@@ -471,7 +563,7 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 </div>
 
                 <div className="keyboard-row">
-                    <button className="key special enter" onClick={handleEnter} disabled={isGameOver || isValidating}>{isValidating ? "Checking word..." : "⏎ Submit"}</button>
+                    <button className="key special enter" onClick={handleEnter} disabled={isGameOver || isValidating}>{isValidating ? t("buttons.check_word") : t("buttons.submit")}</button>
                 </div>
 
             </div>
@@ -481,14 +573,14 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
             {/* Display 5 word blocks for submitted words */}
             <div className="submitted-words">
-                <h3>Your words submitted today</h3>
+                <h3>{t('submitted_words.title')}</h3>
                 <div className="word-blocks">
                     {[...Array(5)].map((_, index) => (
                         <div
                             key={index}
                             className={`word-block ${submittedWords[index] === "WORD-SKIPPED" ? "skipped" : submittedWords[index] ? "filled" : "empty"}`}
                         >
-                            {submittedWords[index] === "WORD-SKIPPED" ? "Exchanged" : submittedWords[index] || ""}
+                            {submittedWords[index] === "WORD-SKIPPED" ? exchangedText : submittedWords[index] || ""}
                         </div>
                     ))}
                 </div>

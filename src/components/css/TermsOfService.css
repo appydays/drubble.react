@@ -1,0 +1,48 @@
+/* src/components/TermsOfService.css */
+
+.terms-of-service-container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+    text-align: left;
+}
+
+.terms-of-service-container h1,
+.terms-of-service-container h2,
+.terms-of-service-container h3 {
+    font-family: Arial, sans-serif;
+    letter-spacing: unset;
+    text-align: center;
+    color: #2c3e50;
+}
+
+.terms-of-service-container h1 {
+    text-align: center;
+}
+
+.terms-of-service-container h2 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+.terms-of-service-container p {
+    margin-bottom: 10px;
+}
+
+.terms-of-service-container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.terms-of-service-container li {
+    margin-bottom: 5px;
+}
+
+.terms-of-service-container strong {
+    font-weight: bold;
+}

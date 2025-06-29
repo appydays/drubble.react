@@ -50,6 +50,10 @@ body {
   color: var(--text-color);
 }
 
+button:disabled {
+  color:lightgrey;
+}
+
 .App {
   text-align: center;
 }
@@ -74,6 +78,10 @@ button.submit {
 }
 .grecaptcha-badge {
   display:none;
+}
+
+.submitted-words {
+  padding-bottom:75px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -439,7 +447,8 @@ button.submit {
   color:black;
 }
 .letter-action-container button.delete span {
-  display:none;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
 .letter-action-container button.shuffle-button {
@@ -453,6 +462,11 @@ button.submit {
 .letter-action-container button.shuffle-button,
 .letter-action-container button.exchange-button {
   /*flex: 1 1 48%;*/
+}
+
+.letter-action-container button.exchange-button:disabled {
+  /*order:2;*/
+  color:lightgrey;
 }
 
 .message {
@@ -1482,7 +1496,6 @@ button:disabled {
   .modal-container form {
     display: flex;
     flex-direction: column;
-    width: 95%;
     margin: auto;
   }
 
@@ -1607,7 +1620,6 @@ button:disabled {
     display: flex;
     justify-content: flex-start;
     width: 400px;
-    margin: auto;
   }
 
   .modal-container.account .account__tabs button{

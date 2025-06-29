@@ -6,6 +6,7 @@ import useApiRequest from './useApiRequest';
 import CookieSettingsButton from "./CookieSettingsButton";
 import Swal from 'sweetalert2';
 import LanguageLevelSelect from "./LanguageLevelSelect"; // Import the LanguageLevelSelect component
+import { useTranslation } from 'react-i18next';
 
 function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess, player, onPlayerUpdate }) {
 
@@ -20,6 +21,8 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
     const apiUrl = baseUrl + '/api';
     // Destructure makeRequest directly, as data, loading, error will be managed locally for update
     const { makeRequest } = useApiRequest(apiUrl);
+
+    const { t } = useTranslation();
 
     // Effect to initialize form fields when the player prop changes
     useEffect(() => {
@@ -42,9 +45,9 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
 
     const [activeTab, setActiveTab] = useState("profile");
     const tabs = [
-        { key: "profile", label: "Profile" },
-        { key: "privacy", label: "Privacy" },
-        { key: "logout", label: "Logout" },
+        { key: "profile", label: t('account.tabs.profile.label') },
+        { key: "privacy", label: t('account.tabs.privacy.label') },
+        { key: "logout", label: t('account.tabs.logout.label') },
     ];
 
     const [isLoading, setIsLoading] = useState(false); // To manage loading state for async operations like delete/data request
@@ -93,30 +96,30 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
         try {
             const playerId = localStorage.getItem('playerId');
             if (!playerId) {
-                Swal.fire('Login Required', 'Please log in to request your data.', 'warning');
+                Swal.fire(t('account.alerts.login-required.title'), t('account.alerts.login-required.text'), 'warning');
                 return;
             }
 
             Swal.fire({
-                title: "Data Request",
-                text: "We will process your data request. are you sure?",
+                title: t('account.alerts.data-request.title'),
+                text: t('account.alerts.data-request.text'),
                 icon: "info",
                 showCancelButton: true,
-                confirmButtonText: "Yes",
-                cancelButtonText: "No, cancel"
+                confirmButtonText: t('account.alerts.data-request.confirm'),
+                cancelButtonText: t('account.alerts.data-request.cancel')
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
                         const responseData = await makeRequest(`/players/${playerId}/data-request`, 'POST', {});
-                        Swal.fire('Success!', responseData.message || 'Your data request has been processed,  you will receive an email shortly.', 'success');
+                        Swal.fire(t('alert.titles.success'), responseData.message || t('account.alerts.data-request.processed'), 'success');
                     } catch (err) {
-                        Swal.fire('Error!', err.message || 'Your data request failed, please try again later or contact us for assistance.', 'error');
+                        Swal.fire(t('alert.titles.error'), err.message || t('account.alerts.data-request.failed'), 'error');
                     }
                 }
             });
         } catch (error) {
             console.error("Error making data request:", error);
-            Swal.fire('Network Error!', 'Unable to connect to the server.', 'error');
+            Swal.fire(t('alert.titles.network-error'), t('account.alerts.data-request.connect-error'), 'error');
         } finally {
             setIsLoading(false);
         }
@@ -124,14 +127,14 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
 
     const handleDeleteAccount = () => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "Deleting your account will permanently delete all your user data and no history of your account will be kept. This cannot be undone!",
+            title: t('alert.titles.sure'),
+            text:  t('account.alerts.delete-request.text'),
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, delete my account!",
-            cancelButtonText: "No, don't delete"
+            confirmButtonText: t('account.alerts.delete-request.confirm'),
+            cancelButtonText: t('account.alerts.delete-request.cancel'),
         }).then(async (result) => {
             if (result.isConfirmed) {
                 setIsLoading(true);
@@ -141,12 +144,14 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                         throw new Error("Cannot delete account: Player ID not found.");
                     }
                     const responseData = await makeRequest(`/players/${player.id}/delete-account`, 'DELETE', {});
-                    Swal.fire('Deleted!', responseData.message || 'Your account has been deleted.', 'success');
+                    Swal.fire(t('account.alerts.delete-request.title.complete'), responseData.message || t('alert.delete-request.complete'), 'success');
                     onClose();
                     // Clear local storage for user data
                     clearClientSideData(); // Re-use the existing clear function
+
+                    window.location.href = '/';
                 } catch (err) {
-                    Swal.fire('Error!', err.message || 'Account deletion failed. Please try again later, if the problem persists, please let us know and we can process this request.', 'error');
+                    Swal.fire(t('alert.titles.error'), err.message || t('account.alerts.delete-request.error'), 'error');
                 } finally {
                     setIsLoading(false);
                 }
@@ -158,17 +163,17 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
         event.preventDefault();
 
         if (!player || !player.id) {
-            alert("You must login to update your profile.");
+            Swal.fire(t('account.alerts.login-required'), t('account.alerts.profile.login-required'), 'error');
             return;
         }
 
         let newErrors = {};
         if (!nickname.trim()) {
-            newErrors.nickname = "Nickname is required";
+            newErrors.nickname = t('account.validation.messages.nickname');
         }
         // Basic frontend validation for languageLevel
         if (typeof languageLevel !== 'number' || !Number.isInteger(languageLevel) || languageLevel < 1 || languageLevel > 3) {
-            newErrors.language_level = "Language level is required and must be a valid number.";
+            newErrors.language_level = t('account.validation.messages.language-level');
         }
         setErrors(newErrors);
 
@@ -200,18 +205,18 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                     };
                     onPlayerUpdate(updatedPlayer);
                 }
-                Swal.fire('Updated!', 'Your profile has been updated.', 'success'); // Success message
+                Swal.fire(t('alert.titles.updated'), t('account.alerts.profile.updated'), 'success'); // Success message
                 onClose();
             } else {
                 // If backend sends specific errors, display them
                 if (data && data.errors) {
                     setErrors(data.errors);
                 } else {
-                    Swal.fire('Error!', data?.message || 'An error occurred while updating.', 'error');
+                    Swal.fire(t('alert.titles.error'), data?.message || t('account.alerts.profile.failed'), 'error');
                 }
             }
         } catch (error) {
-            Swal.fire('Error!', 'An unexpected error has occurred. ' + error.message || error, 'error');// Display error message from makeRequest hook
+            Swal.fire(t('alert.titles.error'), t('alert.content.unexpected') + error.message || error, 'error');// Display error message from makeRequest hook
         }
     };
 
@@ -250,13 +255,13 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                 <form onSubmit={handleSubmit} className="profile">
                                     <>
                                         <div className="nickname">
-                                            <h5>Nickname (Your Username)</h5>
+                                            <h5>{t('account.forms.profile.labels.nickname')}</h5>
                                             <label>
                                                 <input
                                                     type="text"
                                                     className={`${errors.nickname ? "error" : ""}`}
                                                     value={nickname}
-                                                    placeholder="A unique nickname"
+                                                    placeholder={t('account.forms.profile.placehilders.nickname')}
                                                     onChange={(e) => setNickname(e.target.value)}
                                                 />
                                             </label>
@@ -269,36 +274,38 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                 onLevelChange={handleLanguageLevelChange}
                                                 initialLevel={languageLevel} // Pass current languageLevel state
                                             />
-                                            {errors.language_level && <span className="error">{errors.language_level}</span>}
+                                            {errors.language_level &&
+                                                <span className="error">{errors.language_level}</span>}
                                         </div>
 
 
                                         <div className="preferences">
-                                            <h5>Communication Preferences</h5>
+                                            <h5>{t('account.preferences.title')}</h5>
                                             <div className="inputs">
                                                 <label>
                                                     <input
                                                         type="checkbox"
                                                         checked={playerPrefReceiveNewsletter}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceiveNewsletter)}
-                                                    />Would you like to receive the latest news about Drubble and are you
-                                                    happy to receive occasional newsletters by email?
+                                                    />{t('account.preferences.newsletter-text')}
                                                 </label>
-                                                {errors.pref_receive_newsletter && <span className="error">{errors.pref_receive_newsletter}</span>}
+                                                {errors.pref_receive_newsletter &&
+                                                    <span className="error">{errors.pref_receive_newsletter}</span>}
                                                 <label>
                                                     <input
                                                         type="checkbox"
                                                         checked={playerPrefReceivePrompts}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceivePrompts)}
-                                                    />Would you like to receive tips and reminders to play Drubble?
+                                                    />{t('account.preferences.prompt-text')}
                                                 </label>
-                                                {errors.pref_receive_prompts && <span className="error">{errors.pref_receive_prompts}</span>}
+                                                {errors.pref_receive_prompts &&
+                                                    <span className="error">{errors.pref_receive_prompts}</span>}
                                             </div>
                                         </div>
 
                                         <button type="submit"
                                                 className="submit"
-                                        >Update Profile
+                                        >{t('account.forms.profile.update-button')}
                                         </button>
                                     </>
                                 </form>
@@ -312,7 +319,11 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                     borderRadius: '8px',
                                     boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                                 }}>
-                                    <h3 style={{textAlign: 'center', marginBottom: '25px', color: '#333'}}>Your Account</h3>
+                                    <h3 style={{
+                                        textAlign: 'center',
+                                        marginBottom: '25px',
+                                        color: '#333'
+                                    }}>{t('account.privacy.title')}</h3>
 
                                     <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
                                         <button
@@ -329,7 +340,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                 transition: 'background-color 0.3s ease',
                                             }}
                                         >
-                                            {isLoading ? 'Processing...' : 'Make data request'}
+                                            {isLoading ? t('account.privacy.data-request.processing') : t('account.privacy.data-request.make')}
                                         </button>
 
                                         <button
@@ -346,23 +357,23 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                 transition: 'background-color 0.3s ease',
                                             }}
                                         >
-                                            {isLoading ? 'Deleting...' : 'Delete Account'}
+                                            {isLoading ? t('account.privacy.delete.processing') : t('account.privacy.delete.make')}
                                         </button>
                                     </div>
 
-                                    <hr />
-                                    <CookieSettingsButton />
+                                    <hr/>
+                                    <CookieSettingsButton/>
 
                                 </div>
                             )}
                             {activeTab === "logout" && (
                                 <div className="logout-container">
-                                    <p className="mb-4">Would you like to logout?</p>
+                                    <p className="mb-4">{t('account.logout.title')}</p>
                                     <button
                                         className="key special logout"
                                         onClick={handleLogout}
                                     >
-                                        <LogoutIcon/>&nbsp;Logout
+                                        <LogoutIcon/>&nbsp;{t('alert.titles.logout')}
                                     </button>
                                 </div>
                             )}
@@ -370,17 +381,20 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                     </div>
                 ) : (
                     <div>
-                        <h3>Log in or register</h3>
-                        <p>By registering and signing in to play, you will be able to see your game statistics and
-                            your score is added to our daily leaderboard. See if you can get to
-                            top of the leaderboard!</p>
+                        <h3>{t('account.register.title')}</h3>
+                        <p>{t('account.register.text')}</p>
                         <AuthTabs onSignupSuccess={onSignupSuccess} onLoginSuccess={(playerData) => {
                             onLoginSuccess(playerData);
                             onClose();
                         }}/>
                     </div>
                 )}
-                <div className="support-link">For assistance, please contact us by email at <a href="mailto:support@drubble.uk">support@drubble.uk</a></div>
+                <div>{t('account.privacy.leader-text', {sitename: process.env.REACT_APP_SITE_NAME})}</div>
+                <div><a href="/privacy-policy?lang=x" target="_blank">{t('account.privacy-policy')}</a></div>
+                <div><a href="/terms-of-service" target="_blank">{t('account.terms-of-service')}</a></div>
+
+                <div className="support-link">{t('account.support-link-text')} <a
+                    href={`mailto:${process.env.REACT_APP_SUPPORT_EMAIL}`}>{process.env.REACT_APP_SUPPORT_EMAIL}</a></div>
             </div>
         </Modal>
     );

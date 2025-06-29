@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
+import { useTranslation } from 'react-i18next';
 
 function FeedbackModal({ isOpen, onClose }) {
     const [feedback, setFeedback] = useState("");
@@ -10,6 +11,8 @@ function FeedbackModal({ isOpen, onClose }) {
 
     const playerId = localStorage.getItem("playerId");
 
+    const { t } = useTranslation();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -19,22 +22,11 @@ function FeedbackModal({ isOpen, onClose }) {
         const newErrors = {};
 
         if (!feedback.trim()) {
-            newErrors.feedback = "Feedback is required."; // Feedback is required.
+            newErrors.feedback = t('feedback-modal.feedback-required'); // Feedback is required.
         } else {
-            // Option 1: Disallow < and > characters
-            // This is a simple regex that checks if the string contains either '<' or '>'.
-            // If it does, it's considered invalid for "standard text".
-            // if (/<|>/.test(feedback)) {
-            //     newErrors.feedback = "Characters such as '<' or '>' are not allowed."; // Characters like '<' or '>' are not allowed.
-            // }
-
-            // Option 2 (More Restrictive): Allow only alphanumeric, common punctuation, and spaces
-            // If you want to be more strict, you can define a whitelist of allowed characters.
-            // This regex allows letters, numbers, spaces, and common punctuation.
-            // Adjust the allowed punctuation inside the [] as needed.
-            // Example: /^[a-zA-Z0-9\s.,!?'"()\-&]+$/
+            
             if (!/^[a-zA-Z0-9\s.,!?'"()\-&]+$/.test(feedback)) {
-                newErrors.feedback = "Only standard text is accepted."; // Only standard text is accepted.
+                newErrors.feedback = t('feedback-modal.feedback-format');
             }
         }
 
@@ -64,30 +56,30 @@ function FeedbackModal({ isOpen, onClose }) {
                 setErrors({});
                 onClose();
             } else {
-                alert(data.message || 'The feedback failed.');
+                alert(data.message || t('feedback-modal.response.error-default'));
             }
         } catch (error) {
-            alert('Unexpected error: ' + error.message);
+            alert(t('feedback-modal.response.error-unexpected') + error.message);
         }
     };
 
     return (
         <Modal className="feedback-form" isOpen={isOpen} onClose={onClose}>
             <div>
-                <h2>Feedback</h2>
+                <h2>{t('feedback-modal.form.title')}</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
-                        <span>Feedback Content</span>
+                        <span>{t('feedback-modal.form.feedback.label')}</span>
                         <textarea
                             name="feedback"
                             rows="15"
-                            placeholder="Please provide feedback, including improvements, ideas and issues"
+                            placeholder={t('feedback-modal.form.feedback.placeholder')}
                             className={`${errors.feedback ? "error" : ""}`}
                             onChange={(e) => setFeedback(e.target.value)}
                         >{feedback}</textarea>
                     </label>
                     {errors.feedback && <span className="error">{errors.feedback}</span>}
-                    <button className="submit" type="submit">Submit Feedback</button>
+                    <button className="submit" type="submit">{t('feedback-modal.form.submit')}</button>
                 </form>
             </div>
         </Modal>

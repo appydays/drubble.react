@@ -4,28 +4,30 @@ import ThemeToggle from "./atoms/ThemeToggle";
 import ContrastToggle from "./atoms/ContrastToggle";
 import FeedbackButton from "./atoms/FeedbackButton";
 import FeedbackModal from "./FeedbackModal"; // <- import it
+import { useTranslation } from 'react-i18next';
 
 function SettingsModal({ isOpen, onClose }) {
     const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
+    const { t } = useTranslation();
+
     return (
         <>
             <Modal className="settings" isOpen={isOpen} onClose={onClose}>
-                <h2>Gosodiadau</h2>
+                <h2>{t('settings.title')}</h2>
                 <div className="settings-container">
                     <div className="setting-item">
-                        <div>Theme (Light / Dark)</div>
+                        <div>{t('settings.labels.theme')}</div>
                         <ThemeToggle/>
 
                     </div>
                     <div className="setting-item">
-                        <div>High Contrast</div>
+                        <div>{t('settings.labels.contrast')}</div>
                         <ContrastToggle/>
                     </div>
                     <hr/>
                     <div className="feedback-button-container">
-                        <p>If you have a problem and want to report a bug, or if you have any feedback on what you like or
-                            don't like, or have something you'd like to see on Drubble, We'd love to hear from you.</p>
+                        <p>{t('settings.feedback.text', { sitename : process.env.REACT_APP_SITE_NAME})}</p>
                         <FeedbackButton onClick={() => {
                             setIsFeedbackModalOpen(true);
                             onClose();

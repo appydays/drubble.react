@@ -30,6 +30,11 @@ import { ThemeProvider } from './ThemeContext';
 //import ThemeToggle from './components/atoms/ThemeToggle';
 import SettingsModal from "./components/SettingsModal";
 import WelcomePage from "./components/WelcomePage";
+import { useTranslation } from 'react-i18next';
+
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 
 function App() {
 
@@ -48,6 +53,8 @@ function App() {
 
     // New state to control showing the welcome page
     const [showWelcomePage, setShowWelcomePage] = useState(true);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Re-trigger CookieYes DOM scan after mount
@@ -108,7 +115,6 @@ function App() {
         setPlayerId(id);
     }
     const handleLoginSuccess = (playerData) => {
-        console.log("Login successful!", playerData);
         setPlayer(playerData);  // Update player state on login
         setPlayerName(playerData.nickname);
         setPlayerId(playerData.id);
@@ -149,58 +155,47 @@ function App() {
         setIsAccountModalOpen(true); // Open the login modal
     };
 
-    return (
-        <ThemeProvider>
-        <div className="App">
-            {showWelcomePage ? (
-                <WelcomePage
-                    playerId={playerId}
-                    onPlayAsGuest={handlePlayAsGuest}
-                    onLoginClick={handleLoginOption}
-                />
-            ) : (
-                // Render the main app content only if not showing the welcome page
-                <>
-                    <header className="App-header">
-                <img src="/drubble.png" alt={"Drubble"}/>
+    const MainAppContent = () => (
+        <>
+            <header className="App-header">
+                <img src={`/${process.env.REACT_APP_SITE_NAME_LOWER}.png`} alt={`Logo ${process.env.REACT_APP_SITE_NAME}`} />
             </header>
 
-                    <Panagram
-                        playerId={playerId}
-                        playerName={playerName}
-                        isSplashHelpModalOpen={isSplashHelpModalOpen}
-                    />
+            <Panagram
+                playerId={playerId}
+                playerName={playerName}
+                isSplashHelpModalOpen={isSplashHelpModalOpen}
+            />
 
-                    <footer className="mobile-footer">
-
+            <footer className="mobile-footer">
                 {player ? (
                     <div className="mobile-footer__account">
                         <button className="user account"
-                                onClick={() => setIsAccountModalOpen(true)}><FontAwesomeIcon icon={faUser} size="2x"
-                                                                                             color="#333"/>
+                                onClick={() => setIsAccountModalOpen(true)}>
+                            <FontAwesomeIcon icon={faUser} size="2x" color="#333" />
                         </button>
-                        {/* --- Use playerName state for display --- */}
-                        <p>{playerName ? playerName : `Player ${playerId}`}</p>
+                        <p>{playerName ? playerName : t('footer.player-label', {playerName: playerId})}</p>
                     </div>
                 ) : (
                     <div className="mobile-footer__account">
                         <button className="user signup"
-                                onClick={() => setIsAccountModalOpen(true)}><AccountIcon isLoggedIn={!!player}/>
+                                onClick={() => setIsAccountModalOpen(true)}>
+                            <AccountIcon isLoggedIn={!!player} />
                         </button>
-                        <p>Account</p>
+                        <p>{t('footer.tabs.account')}</p>
                     </div>
                 )}
                 <div className="mobile-footer__settings">
-                    <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen}/>
-                    <p>Settings</p>
+                    <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen} />
+                    <p>{t('footer.tabs.settings')}</p>
                 </div>
                 <div className="mobile-footer__leaderboard">
-                    <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen}/>
-                    <p>Leaderboard</p>
+                    <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen} />
+                    <p>{t('footer.tabs.leaderboard')}</p>
                 </div>
                 <div className="mobile-footer__help">
-                    <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen}/>
-                    <p>Help</p>
+                    <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen} />
+                    <p>{t('footer.tabs.help')}</p>
                 </div>
 
                 <AccountSettingsModal
@@ -211,17 +206,56 @@ function App() {
                     player={player}
                     onPlayerUpdate={handlePlayerUpdate}
                 />
-                <SettingsModal isOpen={isSettingsModalOpen}
-                                  onClose={() => setIsSettingsModalOpen(false)}/>
-                <LeaderboardModal playerId={playerId} isOpen={isLeaderboardModalOpen}
-                                  onClose={() => setIsLeaderboardModalOpen(false)}/>
-                <SplashHelpModal isOpen={isSplashHelpModalOpen}
-                                 onClose={() => setIsSplashHelpModalOpen(false)}/>
+                <SettingsModal
+                    isOpen={isSettingsModalOpen}
+                    onClose={() => setIsSettingsModalOpen(false)}
+                />
+                <LeaderboardModal
+                    playerId={playerId}
+                    isOpen={isLeaderboardModalOpen}
+                    onClose={() => setIsLeaderboardModalOpen(false)}
+                />
+                <SplashHelpModal
+                    isOpen={isSplashHelpModalOpen}
+                    onClose={() => setIsSplashHelpModalOpen(false)}
+                />
             </footer>
+        </>
+    );
 
-                </>
-            )}
-        </div>
+    return (
+        <ThemeProvider>
+            <Router>
+                <div className="App">
+                    <Routes>
+                        {/* Route for the Welcome Page or Main App Content */}
+                        <Route path="/" element={
+                            showWelcomePage ? (
+                                <WelcomePage
+                                    playerId={playerId}
+                                    onPlayAsGuest={handlePlayAsGuest}
+                                    onLoginClick={handleLoginOption}
+                                />
+                            ) : (
+                                <MainAppContent />
+                            )
+                        } />
+
+                        {/* Routes for your legal pages */}
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/terms-of-service" element={<TermsOfService />} />
+
+                        {/* If you have other main app routes that should bypass the WelcomePage directly,
+                            you would add them here. For example, if /game should always show the game:
+                            <Route path="/game" element={<MainAppContent />} />
+                        */}
+
+                        {/* Optional: Redirect any other paths to the home if showWelcomePage is true,
+                           or to a 404 page if you have one */}
+                        {/* <Route path="*" element={showWelcomePage ? <Navigate to="/" replace /> : <NotFoundPage />} /> */}
+                    </Routes>
+                </div>
+            </Router>
         </ThemeProvider>
     );
 }

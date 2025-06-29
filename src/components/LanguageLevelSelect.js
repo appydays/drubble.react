@@ -1,19 +1,23 @@
 // LanguageLevelSelect.js
 import React from 'react';
-import './css/LanguageLevelSelect.css'; // Still import CSS for base styling
+import './css/LanguageLevelSelect.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faBook, faGraduationCap } from '@fortawesome/free-solid-svg-icons'; // Example icons
+import { faStar, faBook, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 const LanguageLevelSelect = ({ onLevelChange, initialLevel }) => {
+
+    const { t } = useTranslation();
+
     const languageLevels = {
-        1: { label: 'Beginner', icon: faBook, description: 'In the process of learning the language' },
-        2: { label: 'Intermediate', icon: faGraduationCap, description: 'Can read, write and speak the language but is not yet fluent' },
-        3: { label: 'Advanced', icon: faStar, description: 'First language or now fluent in the language' },
+        1: { label: t('language-level.beginner.label'), icon: faBook, description: t('language-level.beginner.description') },
+        2: { label: t('language-level.intermediate.label'), icon: faGraduationCap, description: t('language-level.intermediate.description') },
+        3: { label: t('language-level.advanced.label'), icon: faStar, description: t('language-level.advanced.description') },
     };
 
     return (
         <div className="language-level-select">
-            <p>Your language level:</p>
+            <p>{t('language-level.title')}</p>
             <div className="radio-group">
                 {Object.entries(languageLevels).map(([level, data]) => (
                     <label key={level} className="custom-radio-label icon-radio-label">
