@@ -1,7 +1,7 @@
 {
   "welcome_page" : {
     "welcome_message": "Croeso i {{sitename}}!",
-    "welcome_content": "<p>Paratowch i roi eich geirfa ar y prawf eithaf!</p><p>Yn yr her eiriau ddyddiol hon, cewch <b>5 munud</b> i ddod o hyd i <b>5 gair cymraeg</b> dros <b>5 rownd</b> o <b>9 llythyren</b> yr un.</p><p>Ffeindiwch y gair hiraf posibl i sgorio'n fawr, a defnyddiwch lythrennau llai cyffredin am bwyntiau bonws!</p>",
+    "welcome_content": "<p>Paratowch i roi eich geirfa ar y prawf eithaf!</p><p>Yn yr her eiriau ddyddiol hon, cewch <b>5 munud</b> i ddod o hyd i <b>5 gair</b> dros <b>5 rownd</b> o <b>9 llythyren</b> yr un.</p><p>Ffeindiwch y gair hiraf posibl i sgorio'n fawr, a defnyddiwch lythrennau llai cyffredin am bwyntiau bonws!</p>",
     "played_today": {
       "score_message": "✅ Rydych chi eisoes wedi chwarae gêm heddiw. Eich sgôr oedd <strong>{{todayScore}}</strong>.",
       "not_complete": "Wnaethoch chi ddim cwblhau'r gêm.",
@@ -11,7 +11,7 @@
   },
   "how_to_play": {
     "title": "Sut i Chwarae",
-    "content_p1": "Bob dydd, mae pob chwaraewr yn gweithio o'r <b>union un pecyn o 9 llythyren ar hap</b>. Eich cenhadaeth? I ddod o hyd i'r <b>gair hiraf cymraeg posibl</b> y gallwch ei greu o'r llythrennau hynny. Po hiraf yw'r gair, yr uchaf fydd eich sgôr yn dringo! Ond nid dyna'r cyfan – mae chwarae strategol yn allweddol. Cadwch lygad am y llythrennau llai cyffredin hynny; bydd eu defnyddio yn rhoi hyd yn oed mwy o bwyntiau i chi ac yn rhoi hwb i'ch sgôr gyffredinol.",
+    "content_p1": "Bob dydd, mae pob chwaraewr yn gweithio o'r <b>union un pecyn o 9 llythyren ar hap</b>. Eich cenhadaeth? I ddod o hyd i'r <b>gair hiraf posibl</b> y gallwch ei greu o'r llythrennau hynny. Po hiraf yw'r gair, yr uchaf fydd eich sgôr yn dringo! Ond nid dyna'r cyfan – mae chwarae strategol yn allweddol. Cadwch lygad am y llythrennau llai cyffredin hynny; bydd eu defnyddio yn rhoi hyd yn oed mwy o bwyntiau i chi ac yn rhoi hwb i'ch sgôr gyffredinol.",
     "content_p2": "Allwch chi drechu'r gystadleuaeth ddyddiol a hawlio teitl y <b>prif sgoriwr</b>? Neu efallai y byddwch chi'n gosod record bersonol, neu fyd-eang, newydd drwy lunio'r <b>gair â'r sgôr uchaf</b> erioed? Mae pob gêm yn gyfle i brofi eich camp ieithyddol! Cofiwch, gallwch chi chwarae am hwyl a cheisio eto, ond dim ond eich <b>sgôr cyntaf</b> un y diwrnod fydd yn cyfrif tuag at y byrddau arweinwyr dyddiol a'ch goreuon personol."
   },
   "why_register": {
@@ -395,7 +395,7 @@
   },
   "help_modal": {
     "title": "Sut i chwarae {{siteName}}",
-    "intro_paragraph": "Crewch y gair Cymraeg hiraf posibl o'r 9 llythyren sydd ar gael. Mae llythrennau yn cael eu dewis ar hap ac yn newid yn ddyddiol, e.e.",
+    "intro_paragraph": "Crewch y gair hiraf posibl o'r 9 llythyren sydd ar gael. Mae llythrennau yn cael eu dewis ar hap ac yn newid yn ddyddiol, e.e.",
     "list_item_1": "Cliciwch ar y llythrennau i sillafu gair, bydd llythrennau dethol yn cael eu hanalluogi a bydd ymddangos yn y rhes geiriau.",
     "list_item_2": "Teipiwch y gair pan fyddwch chi'n barod, neu defnyddiwch y botwm Dileu ⌫ i ddadwneud y llythrennau a ddewiswyd gennych.",
     "list_item_3": "Bydd geiriau dilys yn cael eu hychwanegu at eich rhestr eiriau a gyflwynwyd.",
