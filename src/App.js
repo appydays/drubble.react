@@ -3,10 +3,11 @@ import React, {useState, useEffect} from "react";
 import './App.css';
 import Panagram from "./components/Panagram";
 import { ThemeProvider } from './ThemeContext';
+// import SettingsModal from "./components/SettingsModal"; // Keep if SettingsModal is used elsewhere or managed differently
 import WelcomePage from "./components/WelcomePage";
 import { useTranslation } from 'react-i18next';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 
@@ -14,141 +15,83 @@ import TermsOfService from './components/TermsOfService';
 // It needs to accept the props it will receive from App
 const MainAppContent = ({
                             playerId, playerName, player, setPlayer, setPlayerId, setPlayerName, setIsGuest,
-                            setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts, // <-- These are now correctly passed
+                            setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
                             openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
                         }) => (
     <>
         <Panagram
             playerId={playerId} playerName={playerName} player={player} setPlayer={setPlayer}
             setPlayerId={setPlayerId} setPlayerName={setPlayerName} setIsGuest={setIsGuest}
-            setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter} // <-- Correctly passed to Panagram
-            setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}     // <-- Correctly passed to Panagram
+            setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter}
+            setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
             openAccountModalOnGameLoad={openAccountModalOnGameLoad}
             setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
         />
+        {/* SettingsModal might still be here if it's a global setting not tied to game */}
+        {/* <SettingsModal
+            isOpen={isSettingsModalOpen}
+            onClose={() => setIsSettingsModalOpen(false)}
+        /> */}
     </>
 );
 
 function App() {
-    const { i18n } = useTranslation();
-    const [playerId, setPlayerId] = useState(() => localStorage.getItem('playerId'));
-    const [playerName, setPlayerName] = useState(() => localStorage.getItem('playerName') || 'Guest');
+    // Removed modal state, as Panagram will handle them
+    // const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+    // const [isLeaderboardModalOpen, setIsLeaderboardModalAsOpen] = useState(false);
+    // const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    // const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
+
     const [player, setPlayer] = useState(null);
-    const [isGuest, setIsGuest] = useState(() => !localStorage.getItem('playerId'));
+    const [playerId, setPlayerId] = useState(localStorage.getItem('playerId'));
+    const [playerName, setPlayerName] = useState(localStorage.getItem('playerName')?? "Guest");
+    const [isGuest, setIsGuest] = useState(true);
+    const [playerPrefReceiveNewsletter, setPlayerPrefReceiveNewsletter] = useState(localStorage.getItem('playerPrefReceiveNewsletter'));
+    const [playerPrefReceivePrompts, setPlayerPrefReceivePrompts] = useState(localStorage.getItem('playerPrefReceivePrompts'));
+
+    const [showWelcomePage, setShowWelcomePage] = useState(true);
+    // State to control if the account modal should open on game load
     const [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad] = useState(false);
 
-    // --- NEW STATE DECLARATIONS FOR PLAYER PREFERENCES ---
-    const [playerPrefReceiveNewsletter, setPlayerPrefReceiveNewsletter] = useState(() => {
-        // localStorage stores strings, convert to boolean
-        const storedPref = localStorage.getItem('playerPrefReceiveNewsletter');
-        return storedPref === 'true';
-    });
-    const [playerPrefReceivePrompts, setPlayerPrefReceivePrompts] = useState(() => {
-        const storedPref = localStorage.getItem('playerPrefReceivePrompts');
-        return storedPref === 'true';
-    });
-    // --- END NEW STATE DECLARATIONS ---
+    const { t, i18n } = useTranslation();
 
-
-    // Base URL for API requests
-    const baseUrl = process.env.REACT_APP_API_URL;
-    const apiUrl = baseUrl + '/api';
-
-    // This useEffect is crucial for populating the 'player' object and preferences
-    useEffect(() => {
-        const fetchAndSetPlayerProfile = async () => {
-            if (playerId) {
-                try {
-                    const authToken = localStorage.getItem('authToken');
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        ...(authToken && { 'Authorization': `Bearer ${authToken}` })
-                    };
-
-                    const response = await fetch(`${apiUrl}/players/${playerId}`, { headers });
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.player) {
-                            setPlayer(data.player);
-                            setPlayerName(data.player.nickname);
-                            setIsGuest(false);
-
-                            // --- IMPORTANT: Update the preference states here from fetched data ---
-                            setPlayerPrefReceiveNewsletter(data.player.pref_receive_newsletter);
-                            setPlayerPrefReceivePrompts(data.player.pref_receive_prompts);
-                            // ---
-
-                            localStorage.setItem('playerName', data.player.nickname);
-                            localStorage.setItem('playerPrefReceiveNewsletter', data.player.pref_receive_newsletter);
-                            localStorage.setItem('playerPrefReceivePrompts', data.player.pref_receive_prompts);
-                        } else {
-                            console.error("API response missing player object.");
-                            handleLogout();
-                        }
-                    } else {
-                        console.error("Failed to fetch player profile:", response.status, response.statusText);
-                        handleLogout();
-                    }
-                } catch (error) {
-                    console.error("Error fetching player profile:", error);
-                    handleLogout();
-                }
-            } else {
-                setPlayer(null);
-                setPlayerName('Guest');
-                setIsGuest(true);
-                // Ensure preferences are reset for guest
-                setPlayerPrefReceiveNewsletter(false);
-                setPlayerPrefReceivePrompts(false);
-            }
-        };
-
-        fetchAndSetPlayerProfile();
-    }, [playerId]);
-
-    // A utility function to handle clearing player data
-    const handleLogout = () => {
-        setPlayer(null);
-        setPlayerId(null);
-        setPlayerName('Guest');
-        setIsGuest(true);
-        setPlayerPrefReceiveNewsletter(false); // Reset on logout
-        setPlayerPrefReceivePrompts(false);   // Reset on logout
-        localStorage.removeItem('playerId');
-        localStorage.removeItem('playerName');
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('playerPrefReceiveNewsletter');
-        localStorage.removeItem('playerPrefReceivePrompts');
-    };
 
     const handlePlayAsGuest = () => {
         setIsGuest(true);
-        handleLogout(); // Ensure all player data is cleared if playing as guest
+        setPlayerId(null);
+        setPlayerName("Guest");
+        setShowWelcomePage(false);
+        setOpenAccountModalOnGameLoad(false); // Ensure it's false for guest
     };
 
-    // Handler passed to WelcomePage to open account modal directly
     const handleLoginOption = () => {
-        setOpenAccountModalOnGameLoad(true);
+        setShowWelcomePage(false);
+        setOpenAccountModalOnGameLoad(true); // Set to open the modal when Panagram loads
     };
 
     return (
         <ThemeProvider>
             <Router>
                 <div className="App">
+                    <header className="App-header">
+                        <img src={`/${process.env.REACT_APP_SITE_NAME_LOWER}.png`}
+                             alt={`Logo ${process.env.REACT_APP_SITE_NAME}`}/>
+                    </header>
                     <Routes>
                         <Route path="/" element={
-                            isGuest ? (
+                            showWelcomePage ? (
                                 <WelcomePage
                                     playerId={playerId}
                                     onPlayAsGuest={handlePlayAsGuest}
-                                    onLoginClick={handleLoginOption}
+                                    onLoginClick={handleLoginOption} // This click will just hide welcome page, Panagram will then handle opening modal
                                 />
                             ) : (
+                                // Pass all necessary props to MainAppContent
                                 <MainAppContent
                                     playerId={playerId} playerName={playerName} player={player} setPlayer={setPlayer}
                                     setPlayerId={setPlayerId} setPlayerName={setPlayerName} setIsGuest={setIsGuest}
-                                    setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter} // <-- Prop is now defined
-                                    setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}     // <-- Prop is now defined
+                                    setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter}
+                                    setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
                                     openAccountModalOnGameLoad={openAccountModalOnGameLoad}
                                     setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
                                 />
