@@ -8,14 +8,32 @@ import SocialShare from "./SocialShare";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from 'react-i18next';
 
+// Import all modal components and their related atoms/icons
+import AccountSettingsModal from "./Account"; // Adjust path if needed
+import LeaderboardModal from "./Leaderboard"; // Adjust path if needed
+import SettingsModal from "./SettingsModal"; // Adjust path if needed
+import SplashHelpModal from "./SplashHelpModal"; // Adjust path if needed
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import LeaderBoardButton from "./atoms/LeaderBoardButton";
+import SettingsButton from "./atoms/SettingsButton";
+import AccountIcon from "./atoms/AccountIcon";
+import HelpButton from "./atoms/HelpButton";
+
+
 const letterWeights = {
-    'A' : 12, 'E' : 16, 'I' : 9, 'O' : 8, 'U' : 4,
-    'B' : 2, 'C' : 3, 'D' : 4, 'F' : 2, 'G' : 3, 'H' : 3, 'J' : 1, 'K' : 2,
-    'L' : 4, 'M' : 2, 'N' : 6, 'P' : 2, 'Q' : 1, 'R' : 5, 'S' : 6, 'T' : 6,
-    'V' : 1, 'W' : 2, 'X' : 1, 'Y' : 2, 'Z' : 1
+    'A': 9, 'E' : 14, 'I' : 12, 'O' : 10, 'U' : 3, 'W' : 6, 'Y' : 8,
+    'B' : 4, 'C' : 5, 'D' : 7, 'F' : 5,
+    'G' : 3, 'H' : 7, 'J' : 1, 'L' : 8, 'M' : 4,
+    'N' : 7, 'P' : 3, 'R' : 8, 'S' : 5, 'T' : 6,
 };
 
-const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
+// Panagram now accepts player-related props and setters
+const Panagram = ({
+                      playerId, playerName, player, setPlayer,
+                      setPlayerId, setPlayerName, setIsGuest,
+                      setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts
+                  }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
@@ -23,16 +41,16 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
     const [vowels, setVowels] = useState([]);
     const [consonants, setConsonants] = useState([]);
-    const [letters, setLetters] = useState([]);  // 9 Letters from API (3 vowels, 6 consonants)
-    const [inputLetters, setInputLetters] = useState([]);  // User input (up to 9)
-    const [usedLetters, setUsedLetters] = useState([]);  // User input (up to 9)
-    const [message, setMessage] = useState({ text: null, autoDismiss: 0, isError: false }); // Word validation message
-    const [submittedWords, setSubmittedWords] = useState([]); // Store previously submitted words
+    const [letters, setLetters] = useState([]);
+    const [inputLetters, setInputLetters] = useState([]);
+    const [usedLetters, setUsedLetters] = useState({});
+    const [message, setMessage] = useState({ text: null, autoDismiss: 0, isError: false });
+    const [submittedWords, setSubmittedWords] = useState([]);
     const [lastSubmittedWord, setLastSubmittedWord] = useState("");
-    const [score, setScore] = useState(0); // Store player score
+    const [score, setScore] = useState(0);
     const [clickedLetters, setClickedLetters] = useState([]);
 
-    const [isGameOver, setIsGameOver] = useState(false); // Flag to stop the game
+    const [isGameOver, setIsGameOver] = useState(false);
     const [game, setGame] = useState(null);
     const [stats, setStats] = useState(null);
     const [gameOverStats, setGameOverStats] = useState(null);
@@ -43,14 +61,20 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
     const [endTime, setEndTime] = useState(null);
 
     const [vowelIndexState, setVowelIndex] = useState(3);
-    const [consonantIndexState, setConsonantIndex] = useState(6); //renamed to avoid confusion with local variable
+    const [consonantIndexState, setConsonantIndex] = useState(6);
 
-    // A ref to ensure game over logic only runs once, even if state updates trigger re-renders
     const isGameOverHandled = useRef(false);
 
     const { t, i18n } = useTranslation();
 
     const exchangedText = t('submitted_words.exchanged');
+
+    // State for modals - MOVED FROM APP.JS
+    const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+    const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
+
 
     let clickedOccurrences = {};
     clickedLetters.forEach((l) => {
@@ -58,7 +82,6 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
     });
 
     useEffect(() => {
-        // Called when the game starts
         setStartTime(Date.now());
     }, []);
 
@@ -72,7 +95,6 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
         }
     }, [message]);
 
-    // Fetch letters from API
     useEffect(() => {
         fetch(`${apiUrl}/daily-letters`)
             .then((response) => response.json())
@@ -85,60 +107,96 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
     }, [apiUrl]);
 
     useEffect(() => {
-        // Find the index of the next empty tile
         const nextEmpty = inputLetters.findIndex((letter) => !letter);
-        setNextEmptyIndex(nextEmpty === -1 ? inputLetters.length : nextEmpty); // Handle case where all tiles are filled
+        setNextEmptyIndex(nextEmpty === -1 ? inputLetters.length : nextEmpty);
     }, [inputLetters]);
 
-    // Initialize first 9 letters (4 vowels + 5 consonants)
-    const initializeLetters = (vowelArray, consonantArray) => {
-        const selectedVowels = vowelArray.slice(0, 4); // Get 4 vowels
-        const selectedConsonants = consonantArray.slice(0, 5); // Get 5 consonants
-        setLetters([...selectedVowels, ...selectedConsonants]); // Set 9 letters
-        setUsedLetters({}); // Reset used letters
+    // Handlers for login/signup/player updates - MOVED FROM APP.JS
+    const handleSignupSuccess = (id) => {
+        // Update both local state and App.js's state (via prop setter)
+        setPlayerId(id);
+        setPlayerId(id); // Update App.js's state
+    }
+
+    const handleLoginSuccess = (playerData) => {
+        // Update both local state and App.js's state (via prop setters)
+        setPlayer(playerData);
+        setPlayerName(playerData.nickname);
+        setPlayerId(playerData.id);
+        setPlayerPrefReceiveNewsletter(playerData.pref_receive_newsletter);
+        setPlayerPrefReceivePrompts(playerData.pref_receive_prompts);
+
+        // Update localStorage
+        localStorage.setItem('playerId', playerData.id);
+        localStorage.setItem('playerName', playerData.nickname);
+        localStorage.setItem('playerPrefReceiveNewsletter', playerData.pref_receive_newsletter);
+        localStorage.setItem('playerPrefReceivePrompts', playerData.pref_receive_prompts);
+
+        // Ensure App.js state is also updated
+        setPlayer(playerData);
+        setPlayerId(playerData.id);
+        setPlayerName(playerData.nickname);
+        setIsGuest(false);
+        setPlayerPrefReceiveNewsletter(playerData.pref_receive_newsletter);
+        setPlayerPrefReceivePrompts(playerData.pref_receive_prompts);
     };
 
-    // Shuffle the letters
+    const handlePlayerUpdate = (updatedPlayerData) => {
+        // Update both local state and App.js's state (via prop setters)
+        setPlayer(updatedPlayerData);
+        setPlayerName(updatedPlayerData.nickname);
+        setPlayerPrefReceiveNewsletter(updatedPlayerData.pref_receive_newsletter);
+        setPlayerPrefReceivePrompts(updatedPlayerData.pref_receive_prompts);
+
+        // Update localStorage
+        localStorage.setItem('playerName', updatedPlayerData.nickname);
+        localStorage.setItem('playerPrefReceiveNewsletter', updatedPlayerData.pref_receive_newsletter);
+        localStorage.setItem('playerPrefReceivePrompts', updatedPlayerData.pref_receive_prompts);
+
+        // Ensure App.js state is also updated
+        setPlayer(updatedPlayerData);
+        setPlayerName(updatedPlayerData.nickname);
+        setPlayerPrefReceiveNewsletter(updatedPlayerData.pref_receive_newsletter);
+        setPlayerPrefReceivePrompts(updatedPlayerData.pref_receive_prompts);
+    };
+
+    const initializeLetters = (vowelArray, consonantArray) => {
+        const selectedVowels = vowelArray.slice(0, 4);
+        const selectedConsonants = consonantArray.slice(0, 5);
+        setLetters([...selectedVowels, ...selectedConsonants]);
+        setUsedLetters({});
+    };
+
     const shuffleLetters = () => {
-        // Attach original indexes to letters
         const indexedLetters = letters.map((letter, index) => ({ letter, index }));
-
-        // Shuffle the indexed array
         const shuffledIndexedLetters = indexedLetters.sort(() => Math.random() - 0.5);
-
-        // Extract shuffled letters
         const shuffledLetters = shuffledIndexedLetters.map(item => item.letter);
         setLetters(shuffledLetters);
 
-        // Re-map clickedLetters based on new shuffled positions
         const updatedClickedLetters = clickedLetters.map(clickedItem => {
             const newIndex = shuffledIndexedLetters.findIndex(item => item.letter === clickedItem.letter && item.index === clickedItem.index);
             return newIndex !== -1 ? { index: newIndex, letter: clickedItem.letter } : null;
-        }).filter(Boolean); // Remove any invalid entries
+        }).filter(Boolean);
 
         setClickedLetters(updatedClickedLetters);
-        setUsedLetters({}); // Reset used letters after shuffle
+        setUsedLetters({});
     };
+
     const handleLetterClick = (letter) => {
         if (inputLetters.length < 9 && !isGameOver) {
             setInputLetters([...inputLetters, letter]);
-
         }
     };
 
     const handleClick = (index, letter) => {
-
-        //is the game over?
         if(!isGameOver) {
-            // Check if this exact letter instance (index + letter) is already clicked
             if (!clickedLetters.some(item => item.index === index && item.letter === letter)) {
-                setClickedLetters([...clickedLetters, {index, letter}]); // Track both index & letter
+                setClickedLetters([...clickedLetters, {index, letter}]);
                 handleLetterClick(letter);
             }
         }
     };
 
-    // Update used letter count
     const updateUsedLetters = (letter, count) => {
         setUsedLetters((prevUsedLetters) => ({
             ...prevUsedLetters,
@@ -150,12 +208,11 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
         if (clickedLetters.length > 0) {
             setInputLetters(inputLetters.slice(0, -1));
             const updatedLetters = [...clickedLetters];
-            updatedLetters.pop(); // Remove the last selected letter
+            updatedLetters.pop();
             setClickedLetters(updatedLetters);
         }
     };
 
-    // Handle "Enter" button - Validate word
     const handleEnter = async () => {
         if (isValidating || inputLetters.length === 0 || submittedWords.length >= 5) return;
 
@@ -170,28 +227,23 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 setSubmittedWords([...submittedWords, word]);
                 setLastSubmittedWord(word);
             } else {
-
                 setMessage({ text: t('word.invalid', {word: word}), autoDismiss: 3, isError: true });
             }
             setClickedLetters([]);
             setUsedLetters({});
-            // Clear input letters
             setInputLetters([]);
             setIsValidating(false);
         }
     };
 
-    // Replace used letters when a word is submitted
     const replaceUsedLetters = (word) => {
         let newLetters = [...letters];
-        let consonantIndex = consonantIndexState; //local index
-        let vowelIndex = vowelIndexState; //local index
+        let consonantIndex = consonantIndexState;
+        let vowelIndex = vowelIndexState;
 
         for (let i = 0; i < word.length; i++) {
             let letterUsed = word[i];
-            //now find where that letter is in the newLetters array.
             const position = newLetters.indexOf(letterUsed);
-
 
             if (vowels.includes(letterUsed)) {
                 if (vowelIndex < vowels.length) {
@@ -201,24 +253,16 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
             } else if (consonants.includes(letterUsed)) {
                 if (consonantIndex < consonants.length) {
                     newLetters[position] = consonants[consonantIndex];
-
                     consonantIndex++;
-
                 }
             }
-
         }
-
-        setConsonantIndex(consonantIndex); //update state after loop
-        setVowelIndex(vowelIndex); //update state after loop
+        setConsonantIndex(consonantIndex);
+        setVowelIndex(vowelIndex);
         setLetters(newLetters);
-
     };
 
-    // Function to handle letter exchange
     const handleExchange = () => {
-
-        //Wrap this code into a SweetAlert confirmation modal
         if (inputLetters.length > 0) {
             Swal.fire({
                 title: t('alerts.title.sure'),
@@ -240,110 +284,55 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 }
             });
         }
-
     };
 
     useEffect(() => {
         const processGameUpdate = async () => {
-            // Only proceed if lastSubmittedWord has changed (indicating a new word/skip)
-            // and if this game-over handling hasn't already been triggered.
             if (lastSubmittedWord.length > 0 && !isGameOverHandled.current) {
-                // If 5 words are submitted, it's game over
                 if (submittedWords.length >= 5) {
-                    setIsGameOver(true); // Set game over state
-                    setEndTime(Date.now()); // Set end time
-                    isGameOverHandled.current = true; // Mark game over logic as handled
+                    setIsGameOver(true);
+                    setEndTime(Date.now());
+                    isGameOverHandled.current = true;
 
-                    // Await the updateGameStatus call to get the latest stats
-                    const updatedData = await updateGameStatus(true); // Pass true for `complete`
-
+                    const updatedData = await updateGameStatus(true);
                     setGameOverStats(updatedData.stats);
-
-                    // let highestWordBeatMessage = '';
-                    // let gameScoreBeatMessage = '';
-                    //
-                    // // Check if stats data is available and contains the relevant info
-                    // if (updatedData && updatedData.stats) {
-                    //     const { word_score_updated, word, word_score, game_score_updated, game_score } = updatedData.stats;
-                    //
-                    //     // Check if current word beat personal best
-                    //     if (word_score_updated) {
-                    //         highestWordBeatMessage = t('game_over.new_word_high_score', { word: word, word_score: word_score });
-                    //     } else {
-                    //         // Display overall highest word if not beaten this turn
-                    //         highestWordBeatMessage = t('game_over.high_word_score', { word: word, word_score: word_score });
-                    //     }
-                    //
-                    //     // Check if current game score beat personal best
-                    //     if (game_score_updated) {
-                    //         // If current game score beat personal best
-                    //         gameScoreBeatMessage = t('game_over.new_game_high_score', { game_score: game_score });
-                    //     } else {
-                    //         // Display overall highest game score if not beaten this turn
-                    //         gameScoreBeatMessage = t('game_over.high_game_score', { game_score: game_score });
-                    //     }
-                    // }
-                    //
-                    // // Set the final game over message
-                    // setMessage({
-                    //     text: (
-                    //         <div>
-                    //             <p>{t('game_over.title')}</p>
-                    //             <p>{t('game_over.complete', {score: score})}</p>
-                    //             {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
-                    //             {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
-                    //
-                    //             <SocialShare score={score} playerName={playerName} />
-                    //         </div>
-                    //     ),
-                    //     autoDismiss: 0, // Don’t auto-dismiss this one
-                    //     isError: false
-                    // });
-
                 } else if (lastSubmittedWord !== 'WORD-SKIPPED') {
-                    // For words 1-4, just replace letters and update game status without waiting
                     replaceUsedLetters(lastSubmittedWord);
-                    updateGameStatus(false); // Pass false for `complete`
+                    updateGameStatus(false);
                 }
             }
         };
+        processGameUpdate();
+    }, [submittedWords, lastSubmittedWord]);
 
-        processGameUpdate(); // Call the async function
-    }, [submittedWords, lastSubmittedWord]); // Dependencies are submittedWords and lastSubmittedWord
-
-    const updateGameStatus = async (isGameComplete = false) => { // Added default false
+    const updateGameStatus = async (isGameComplete = false) => {
         try {
             let responseData;
-
             if (!game && playerId) {
-                // No game exists yet → Create a new game
                 responseData = await makeRequest(`/games`, 'POST', {
                     user_id: parseInt(playerId),
-                    complete: isGameComplete ? 1 : 0, // Use the passed flag
+                    complete: isGameComplete ? 1 : 0,
                     score: score,
                     words_used: submittedWords,
                     start_timestamp: startTime,
-                    end_timestamp: isGameComplete ? Date.now() : undefined // Only set end_timestamp if game is complete
+                    end_timestamp: isGameComplete ? Date.now() : undefined
                 });
             } else if (playerId) {
-                // Game exists → Update it
                 responseData = await makeRequest(`/games/${game.id}/update`, 'POST', {
                     user_id: parseInt(playerId),
-                    score: score,  // Update score
-                    words_used: submittedWords,  // Add word
+                    score: score,
+                    words_used: submittedWords,
                     start_timestamp: startTime,
-                    end_timestamp: isGameComplete ? Date.now() : undefined, // Only set end_timestamp if game is complete
-                    complete: isGameComplete ? 1 : 0,  // Use the passed flag
+                    end_timestamp: isGameComplete ? Date.now() : undefined,
+                    complete: isGameComplete ? 1 : 0,
                 });
             }
-
             if (responseData && responseData.success) {
-                setGame(responseData.game);  // Store updated game object in state
-                setStats(responseData.stats); // Store updated user stats in state
-                return responseData; // Return the entire data object for use in calling effects
+                setGame(responseData.game);
+                setStats(responseData.stats);
+                return responseData;
             } else {
                 console.error("Error:", responseData ? responseData.message : "Unknown error updating game status");
-                // Log the full server response if available for debugging
                 if (responseData) console.error("Server Response:", responseData);
                 return null;
             }
@@ -353,26 +342,15 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
         }
     };
 
-    // Call an external API to validate the word
     const validateWord = async (word) => {
         try {
-
             const data = await makeRequest(`/validate-word?lang=cy&word=${word}`, 'GET');
-
-            // if (!response.ok) {
-            //     setUsedLetters({});
-            //     return false;
-            // }
-            // const data = await response.json();
-
-            //if the data returned has a length setting - the word is valid
             if (data.success && data.valid) {
                 setScore(prev => prev + calculateWordScore(word));
                 return true;
             }
             setUsedLetters({});
-            return false
-
+            return false;
         } catch (error) {
             console.error("Error validating word:", error);
             return false;
@@ -381,13 +359,8 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
     const calculateWordScore = (word, baseValue = 20) => {
         const upperCaseWord = word.toUpperCase();
-
-        //Set the base score to 2 x the length of the submitted
         let score = word.length * 2;
-
-        //Add a bonus for a 9 letter word
         if(word.length === 9) { score += 25; }
-
         for (let i = 0; i < upperCaseWord.length; i++) {
             const letter = upperCaseWord[i];
             if (letterWeights[letter]) {
@@ -396,58 +369,19 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 score += 0;
             }
         }
-
         return score;
     };
 
     const handleTimeUp = () => {
-
         setIsGameOver(true);
-        // setMessage(
-        //     {
-        //         text: (
-        //             <div>
-        //                 <p>{t('game_over.title')}</p>
-        //                 <p>{t('game_over.out_of_time',{words: submittedWords.length, score: score})}</p>
-        //
-        //                 <SocialShare score={score} playerName={playerName} />
-        //
-        //             </div>
-        //         ),
-        //         autoDismiss: 0,
-        //         isError:false});
         setEndTime(Date.now());
         updateGameStatus();
     };
 
-    // --- NEW useEffect to handle game over messages and re-translate them ---
     useEffect(() => {
-        // This effect will run when `isGameOver` changes or when `i18n.language` changes
         if (isGameOver) {
-            // Determine the reason for game over (time up or 5 words submitted)
-            // You'll need a way to distinguish this. A simple way is a new state variable.
-            // Let's assume you set a state like `gameOverReason` in handleTimeUp or when 5 words are submitted.
-            // For now, let's assume if endTime is set and submittedWords.length < 5, it's time out.
-            // Or, more robustly, you could set a `gameOverType` state in handleTimeUp.
-
-            // Example: Add a new state variable to track the game over type
-            // const [gameOverType, setGameOverType] = useState(null);
-            // In handleTimeUp: setGameOverType('time_up');
-            // In processGameUpdate for 5 words: setGameOverType('words_complete');
-
-            // For simplicity in this example, let's just re-evaluate if it's "out of time"
-            // You'll need to know *why* the game ended (time up vs. words submitted)
-
-            // Re-evaluate game over message if game is over
-            // This is crucial: you need to recreate the message content here,
-            // so it picks up the latest translation based on `i18n.language`.
             let messageContent;
-            // You need a way to know if it's an 'out of time' game over or 'words complete' game over
-            // Let's assume you pass a `type` parameter to `setMessage` or use a different state for `isTimeUp`.
-            // For this example, let's simulate the `handleTimeUp` logic here.
-
-            // Assuming `endTime` being set AND submittedWords.length < 5 implies timeout
-            if (endTime && submittedWords.length < 5) { // Adjust this condition based on your actual game over states
+            if (endTime && submittedWords.length < 5) {
                 messageContent = (
                     <div>
                         <p>{t('game_over.title')}</p>
@@ -456,34 +390,24 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     </div>
                 );
             } else {
-
                 if (!gameOverStats) {
-                    // If the game is over, and it's 'words_complete' type,
-                    // but gameOverStats hasn't arrived yet from the async call,
-                    // simply return. This useEffect will re-run when gameOverStats updates.
                     return;
                 }
-
-                // Reconstruct the messages using current translation and stored stats
                 let highestWordBeatMessage = '';
                 let gameScoreBeatMessage = '';
-
                 if (gameOverStats) {
                     const { word_score_updated, word, word_score, game_score_updated, game_score } = gameOverStats;
-
                     if (word_score_updated) {
                         highestWordBeatMessage = t('game_over.new_word_high_score', { word: word, word_score: word_score });
                     } else {
                         highestWordBeatMessage = t('game_over.high_word_score', { word: word, word_score: word_score });
                     }
-
                     if (game_score_updated) {
                         gameScoreBeatMessage = t('game_over.new_game_high_score', { game_score: game_score });
                     } else {
                         gameScoreBeatMessage = t('game_over.high_game_score', { game_score: game_score });
                     }
                 }
-
                 messageContent = (
                     <div>
                         <p>{t('game_over.title')}</p>
@@ -494,28 +418,23 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     </div>
                 );
             }
-
             setMessage({
                 text: messageContent,
                 autoDismiss: 0,
                 isError: false
             });
         }
-    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats,]); // Dependencies for this effect
+    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats]);
 
 
     return (
-
         <div className="game-container">
-            {/*{(!playerId || playerName === 'daibara') && (*/}
-            {/*    <LanguageSwitcher />*/}
-            {/*)}*/}
+            <LanguageSwitcher />
+
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer isSplashHelpModalOpen={isSplashHelpModalOpen} isGameOver={isGameOver} onTimeUp={handleTimeUp} />
 
-                {/* Display the 9 available letters */}
                 <div className="tile-container daily-letters">
-
                     {letters.map((letter, index) => (
                         <div
                             key={index}
@@ -529,15 +448,10 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 </div>
 
                 <div className="letter-action-container">
-                    {/* Shuffle Button */}
                     <button className="shuffle-button" onClick={shuffleLetters} disabled={isGameOver}>
                         <ShuffleIcon/>&nbsp;{t('buttons.shuffle')}
                     </button>
-
-                    {/* Delete Letters Button */}
                     <button className="delete" onClick={handleDelete} disabled={isGameOver}>⌫<span> {t('buttons.delete_letter')}</span></button>
-
-                    {/* Exchange Letters Button */}
                     <button className="exchange-button"
                             onClick={handleExchange}
                             disabled={isGameOver || (inputLetters.length === 0)}
@@ -547,7 +461,6 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                 </div>
 
                 <hr className="word-divider"/>
-                {/* Empty tiles for user input */}
                 <div className="tile-container new-word">
                     {[...Array(9)].map((_, index) => (
                         <div
@@ -568,10 +481,8 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
 
             </div>
 
-            {/* Display word validation message */}
             {message.text && <div className={`message-box message ${message.isError ? "error" : "success"} ${message.text ? "fade-in" : "fade-out"}`}>{message.text}</div>}
 
-            {/* Display 5 word blocks for submitted words */}
             <div className="submitted-words">
                 <h3>{t('submitted_words.title')}</h3>
                 <div className="word-blocks">
@@ -585,6 +496,61 @@ const Panagram = ({playerId, playerName, isSplashHelpModalOpen}) => {
                     ))}
                 </div>
             </div>
+
+            {/* MOVED FOOTER AND MODALS HERE */}
+            <footer className="mobile-footer">
+                {player ? (
+                    <div className="mobile-footer__account">
+                        <button className="user account"
+                                onClick={() => setIsAccountModalOpen(true)}>
+                            <FontAwesomeIcon icon={faUser} size="2x" color="#333" />
+                        </button>
+                        <p>{playerName ? playerName : t('footer.player-label', {playerName: playerId})}</p>
+                    </div>
+                ) : (
+                    <div className="mobile-footer__account">
+                        <button className="user signup"
+                                onClick={() => setIsAccountModalOpen(true)}>
+                            <AccountIcon isLoggedIn={!!player} />
+                        </button>
+                        <p>{t('footer.tabs.account')}</p>
+                    </div>
+                )}
+                <div className="mobile-footer__settings">
+                    <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen} />
+                    <p>{t('footer.tabs.settings')}</p>
+                </div>
+                <div className="mobile-footer__leaderboard">
+                    <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen} />
+                    <p>{t('footer.tabs.leaderboard')}</p>
+                </div>
+                <div className="mobile-footer__help">
+                    <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen} />
+                    <p>{t('footer.tabs.help')}</p>
+                </div>
+
+                <AccountSettingsModal
+                    isOpen={isAccountModalOpen}
+                    onClose={() => setIsAccountModalOpen(false)}
+                    onSignupSuccess={handleSignupSuccess}
+                    onLoginSuccess={handleLoginSuccess}
+                    player={player}
+                    onPlayerUpdate={handlePlayerUpdate}
+                />
+                <SettingsModal
+                    isOpen={isSettingsModalOpen}
+                    onClose={() => setIsSettingsModalOpen(false)}
+                />
+                <LeaderboardModal
+                    playerId={playerId} // Use the prop playerId
+                    isOpen={isLeaderboardModalOpen}
+                    onClose={() => setIsLeaderboardModalOpen(false)}
+                />
+                <SplashHelpModal
+                    isOpen={isSplashHelpModalOpen}
+                    onClose={() => setIsSplashHelpModalOpen(false)}
+                />
+            </footer>
         </div>
     );
 };
