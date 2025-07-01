@@ -459,7 +459,7 @@ const Panagram = ({
     return (
 
         <div className="game-container">
-            <LanguageSwitcher />
+            {/*<LanguageSwitcher />*/}
 
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer isSplashHelpModalOpen={isSplashHelpModalOpen} isGameOver={isGameOver} onTimeUp={handleTimeUp} />
