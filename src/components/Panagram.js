@@ -474,8 +474,6 @@ const Panagram = ({
     return (
 
         <div className="game-container">
-            {/*<LanguageSwitcher />*/}
-
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer isSplashHelpModalOpen={isSplashHelpModalOpen} isGameOver={isGameOver} onTimeUp={handleTimeUp} />
 
@@ -542,7 +540,6 @@ const Panagram = ({
                 </div>
             </div>
 
-            {/* MOVED FOOTER AND MODALS HERE */}
             <footer className="mobile-footer">
                 {/* Use localPlayer for conditional rendering */}
                 {localPlayer ? (
@@ -582,7 +579,7 @@ const Panagram = ({
                     onClose={handleAccountModalClose}
                     onSignupSuccess={handleSignupSuccess}
                     onLoginSuccess={handleLoginSuccess}
-                    player={localPlayer}
+                    player={localPlayer} {/* Pass localPlayer to modal */}
                     onPlayerUpdate={handlePlayerUpdate}
                 />
                 <SettingsModal

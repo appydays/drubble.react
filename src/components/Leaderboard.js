@@ -6,6 +6,7 @@ import PlayerStats from "./PlayerStats";
 import useApiRequest from './useApiRequest';
 import TopStatTable from "./TopStatTable";
 import { useTranslation } from 'react-i18next';
+import DailyLeaderboardTable from './DailyLeaderboardTable';
 
 function LeaderboardModal({ playerId, isOpen, onClose }) {
     const [dailyLeaderboardData, setDailyLeaderboardData] = useState([]);
@@ -228,44 +229,48 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         >{t('leaderboard.yesterday')}</button>
                     </div>
 
-                    {currentDailyData && currentDailyData.top20 && currentDailyData.top20.length > 0 ? (
-                        <table style={{ width: '100%' }}>
-                            <thead>
-                            <tr>
-                                <th className="rank">{t('leaderboard.stats.table.position')}</th>
-                                <th className="name">{t('leaderboard.stats.table.nickname')}</th>
-                                <th className="score">{t('leaderboard.stats.table.score')}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {currentDailyData.top20.map((player, index) => (
-                                <tr key={player.id ?? `daily-${selectedDailyView}-${index}`}
-                                    className={(parseInt(player.id) === parseInt(playerId)) ? 'current-player' : ''}>
-                                    <td className="rank">{index + 1}</td>
-                                    <td className="name">{player.nickname}</td>
-                                    <td className="score">{player.score}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>{t('leaderboard.stats.table.no-data')}</p>
-                    )}
+                    <DailyLeaderboardTable
+                        currentDailyData={currentDailyData}
+                        playerId={playerId}
+                        selectedDailyView={selectedDailyView} />
+                    {/*{currentDailyData && currentDailyData.top20 && currentDailyData.top20.length > 0 ? (*/}
+                    {/*    <table style={{ width: '100%' }}>*/}
+                    {/*        <thead>*/}
+                    {/*        <tr>*/}
+                    {/*            <th className="rank">{t('leaderboard.stats.table.position')}</th>*/}
+                    {/*            <th className="name">{t('leaderboard.stats.table.nickname')}</th>*/}
+                    {/*            <th className="score">{t('leaderboard.stats.table.score')}</th>*/}
+                    {/*        </tr>*/}
+                    {/*        </thead>*/}
+                    {/*        <tbody>*/}
+                    {/*        {currentDailyData.top20.map((player, index) => (*/}
+                    {/*            <tr key={player.id ?? `daily-${selectedDailyView}-${index}`}*/}
+                    {/*                className={(parseInt(player.id) === parseInt(playerId)) ? 'current-player' : ''}>*/}
+                    {/*                <td className="rank">{index + 1}</td>*/}
+                    {/*                <td className="name">{player.nickname}</td>*/}
+                    {/*                <td className="score">{player.score}</td>*/}
+                    {/*            </tr>*/}
+                    {/*        ))}*/}
+                    {/*        </tbody>*/}
+                    {/*    </table>*/}
+                    {/*) : (*/}
+                    {/*    <p>{t('leaderboard.stats.table.no-data')}</p>*/}
+                    {/*)}*/}
 
-                    {currentDailyData && currentDailyData.playerPosition && (currentDailyData.playerPosition.rank > 10) ? (
-                            <table style={{width: '100%'}}>
-                                <tbody>
-                                {/* Access properties directly from currentDailyData.playerPosition */}
-                                <tr>
-                                    <td className="rank">{currentDailyData.playerPosition.rank}</td>
-                                    <td className="name">{currentDailyData.playerPosition.nickname}</td>
-                                    <td className="score">{currentDailyData.playerPosition.score}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                    ) : (
-                        <div>{/* Optional: You can put a message here if rank is not > 10 or no playerPosition */}</div>
-                    )}
+                    {/*{currentDailyData && currentDailyData.playerPosition && (currentDailyData.playerPosition.rank > 10) ? (*/}
+                    {/*        <table style={{width: '100%'}}>*/}
+                    {/*            <tbody>*/}
+                    {/*            /!* Access properties directly from currentDailyData.playerPosition *!/*/}
+                    {/*            <tr>*/}
+                    {/*                <td className="rank">{currentDailyData.playerPosition.rank}</td>*/}
+                    {/*                <td className="name">{currentDailyData.playerPosition.nickname}</td>*/}
+                    {/*                <td className="score">{currentDailyData.playerPosition.score}</td>*/}
+                    {/*            </tr>*/}
+                    {/*            </tbody>*/}
+                    {/*        </table>*/}
+                    {/*) : (*/}
+                    {/*    <div>/!* Optional: You can put a message here if rank is not > 10 or no playerPosition *!/</div>*/}
+                    {/*)}*/}
                 </div>
             )}
 
