@@ -28,12 +28,12 @@ const letterWeights = {
     'V' : 1, 'W' : 2, 'X' : 1, 'Y' : 2, 'Z' : 1
 };
 
-// Panagram now accepts player-related props and setters, and new modal open prop
 const Panagram = ({
+                      // Directly use props from App.js as the source of truth
                       playerId, playerName, player, setPlayer,
                       setPlayerId, setPlayerName, setIsGuest,
                       setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
-                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad // New props
+                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
                   }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -70,12 +70,14 @@ const Panagram = ({
 
     const exchangedText = t('submitted_words.exchanged');
 
-    // State for modals - MOVED FROM APP.JS
+    // State for modals
     const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
     const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
 
+    // Removed localPlayerId, localPlayerName, localPlayer states
+    // Removed useEffect for local state synchronization
 
     let clickedOccurrences = {};
     clickedLetters.forEach((l) => {
@@ -131,54 +133,35 @@ const Panagram = ({
         setNextEmptyIndex(nextEmpty === -1 ? inputLetters.length : nextEmpty);
     }, [inputLetters]);
 
-    // Handlers for login/signup/player updates - MOVED FROM APP.JS
+    // Handlers for login/signup/player updates - These now only update App.js's state via props
     const handleSignupSuccess = (id) => {
-        // Update both local state and App.js's state (via prop setter)
         setPlayerId(id);
-        setPlayerId(id); // Update App.js's state
+        localStorage.setItem('playerId', id);
     }
 
     const handleLoginSuccess = (playerData) => {
-        // Update both local state and App.js's state (via prop setters)
         setPlayer(playerData);
         setPlayerName(playerData.nickname);
         setPlayerId(playerData.id);
+        setIsGuest(false);
         setPlayerPrefReceiveNewsletter(playerData.pref_receive_newsletter);
         setPlayerPrefReceivePrompts(playerData.pref_receive_prompts);
 
-        // Update localStorage
-        localStorage.setItem('player', playerData);
         localStorage.setItem('playerId', playerData.id);
         localStorage.setItem('playerName', playerData.nickname);
         localStorage.setItem('playerPrefReceiveNewsletter', playerData.pref_receive_newsletter);
         localStorage.setItem('playerPrefReceivePrompts', playerData.pref_receive_prompts);
-
-        // Ensure App.js state is also updated
-        setPlayer(playerData);
-        setPlayerId(playerData.id);
-        setPlayerName(playerData.nickname);
-        setIsGuest(false);
-        setPlayerPrefReceiveNewsletter(playerData.pref_receive_newsletter);
-        setPlayerPrefReceivePrompts(playerData.pref_receive_prompts);
     };
 
     const handlePlayerUpdate = (updatedPlayerData) => {
-        // Update both local state and App.js's state (via prop setters)
         setPlayer(updatedPlayerData);
         setPlayerName(updatedPlayerData.nickname);
         setPlayerPrefReceiveNewsletter(updatedPlayerData.pref_receive_newsletter);
         setPlayerPrefReceivePrompts(updatedPlayerData.pref_receive_prompts);
 
-        // Update localStorage
         localStorage.setItem('playerName', updatedPlayerData.nickname);
         localStorage.setItem('playerPrefReceiveNewsletter', updatedPlayerData.pref_receive_newsletter);
         localStorage.setItem('playerPrefReceivePrompts', updatedPlayerData.pref_receive_prompts);
-
-        // Ensure App.js state is also updated
-        setPlayer(updatedPlayerData);
-        setPlayerName(updatedPlayerData.nickname);
-        setPlayerPrefReceiveNewsletter(updatedPlayerData.pref_receive_newsletter);
-        setPlayerPrefReceivePrompts(updatedPlayerData.pref_receive_prompts);
     };
 
     const initializeLetters = (vowelArray, consonantArray) => {
@@ -329,6 +312,7 @@ const Panagram = ({
     const updateGameStatus = async (isGameComplete = false) => {
         try {
             let responseData;
+            // Use playerId for API calls
             if (!game && playerId) {
                 responseData = await makeRequest(`/games`, 'POST', {
                     user_id: parseInt(playerId),
@@ -402,6 +386,7 @@ const Panagram = ({
     useEffect(() => {
         if (isGameOver) {
             let messageContent;
+            // Use playerId and playerName directly
             if (!playerId) {
                 messageContent = (
                     <div>
@@ -454,14 +439,12 @@ const Panagram = ({
                 isError: false
             });
         }
-    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats]);
+    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats, playerId]);
 
 
     return (
 
         <div className="game-container">
-            {/*<LanguageSwitcher />*/}
-
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer isSplashHelpModalOpen={isSplashHelpModalOpen} isGameOver={isGameOver} onTimeUp={handleTimeUp} />
 
@@ -528,20 +511,22 @@ const Panagram = ({
                 </div>
             </div>
 
-            {/* MOVED FOOTER AND MODALS HERE */}
             <footer className="mobile-footer">
-                {playerName ? (
+                {/* Use player prop for conditional rendering */}
+                {player ? (
                     <div className="mobile-footer__account">
                         <button className="user account"
                                 onClick={() => setIsAccountModalOpen(true)}>
                             <FontAwesomeIcon icon={faUser} size="2x" color="#333" />
                         </button>
+                        {/* Use playerName and playerId for display */}
                         <p>{playerName ? playerName : t('footer.player-label', {playerName: playerId})}</p>
                     </div>
                 ) : (
                     <div className="mobile-footer__account">
                         <button className="user signup"
                                 onClick={() => setIsAccountModalOpen(true)}>
+                            {/* Pass player prop to AccountIcon */}
                             <AccountIcon isLoggedIn={!!player} />
                         </button>
                         <p>{t('footer.tabs.account')}</p>
@@ -563,7 +548,6 @@ const Panagram = ({
                 <AccountSettingsModal
                     isOpen={isAccountModalOpen || openAccountModalOnGameLoad}
                     onClose={handleAccountModalClose}
-                    // onClose={() => setIsAccountModalOpen(false)}
                     onSignupSuccess={handleSignupSuccess}
                     onLoginSuccess={handleLoginSuccess}
                     player={player}
@@ -574,7 +558,7 @@ const Panagram = ({
                     onClose={() => setIsSettingsModalOpen(false)}
                 />
                 <LeaderboardModal
-                    playerId={playerId} // Use the prop playerId
+                    playerId={playerId} // Use the playerId prop
                     isOpen={isLeaderboardModalOpen}
                     onClose={() => setIsLeaderboardModalOpen(false)}
                 />
