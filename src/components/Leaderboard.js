@@ -251,6 +251,21 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     ) : (
                         <p>{t('leaderboard.stats.table.no-data')}</p>
                     )}
+
+                    {currentDailyData && currentDailyData.playerPosition && (currentDailyData.playerPosition.rank > 10) ? (
+                        <div>
+                            <table style={{width: '100%'}}>
+                                <tbody>
+                                    <tr>
+                                        <td className="rank">currentDailyData.playerPosition.rank</td>
+                                        <td className="name">player.nickname</td>
+                                        <td className="score">player.score</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (<div></div>)
+                    }
                 </div>
             )}
 
@@ -268,10 +283,10 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     </div>
 
                     {currentMonthlyData && currentMonthlyData.top20 && currentMonthlyData.top20.length > 0 ? (
-                        <table style={{ width: '100%' }}>
+                        <table style={{width: '100%'}}>
                             <thead>
                             <tr>
-                                <th className="rank">{t('leaderboard.stats.table.position')}</th>
+                            <th className="rank">{t('leaderboard.stats.table.position')}</th>
                                 <th className="name">{t('leaderboard.stats.table.nickname')}</th>
                                 <th className="score">{t('leaderboard.stats.table.score')}</th>
                             </tr>
