@@ -253,7 +253,6 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                     )}
 
                     {currentDailyData && currentDailyData.playerPosition && (currentDailyData.playerPosition.rank > 10) ? (
-                        <div>
                             <table style={{width: '100%'}}>
                                 <tbody>
                                 {/* Access properties directly from currentDailyData.playerPosition */}
@@ -264,7 +263,6 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
                     ) : (
                         <div>{/* Optional: You can put a message here if rank is not > 10 or no playerPosition */}</div>
                     )}
