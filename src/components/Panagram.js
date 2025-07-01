@@ -579,7 +579,7 @@ const Panagram = ({
                     onClose={handleAccountModalClose}
                     onSignupSuccess={handleSignupSuccess}
                     onLoginSuccess={handleLoginSuccess}
-                    player={localPlayer} {/* Pass localPlayer to modal */}
+                    player={localPlayer}
                     onPlayerUpdate={handlePlayerUpdate}
                 />
                 <SettingsModal
