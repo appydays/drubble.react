@@ -65,6 +65,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                 if (response.ok) {
                     const data = await response.json();
 
+                    console.log(data);
                     setDailyLeaderboardData(data.daily);
                     setYesterdayDailyLeaderboardData(data.yesterday || null);
                     setMonthlyLeaderboardData(data.monthly);
