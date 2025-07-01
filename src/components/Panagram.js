@@ -22,17 +22,18 @@ import HelpButton from "./atoms/HelpButton";
 
 
 const letterWeights = {
-    'A': 9, 'E' : 14, 'I' : 12, 'O' : 10, 'U' : 3, 'W' : 6, 'Y' : 8,
-    'B' : 4, 'C' : 5, 'D' : 7, 'F' : 5,
-    'G' : 3, 'H' : 7, 'J' : 1, 'L' : 8, 'M' : 4,
-    'N' : 7, 'P' : 3, 'R' : 8, 'S' : 5, 'T' : 6,
+    'A' : 12, 'E' : 16, 'I' : 9, 'O' : 8, 'U' : 4,
+    'B' : 2, 'C' : 3, 'D' : 4, 'F' : 2, 'G' : 3, 'H' : 3, 'J' : 1, 'K' : 2,
+    'L' : 4, 'M' : 2, 'N' : 6, 'P' : 2, 'Q' : 1, 'R' : 5, 'S' : 6, 'T' : 6,
+    'V' : 1, 'W' : 2, 'X' : 1, 'Y' : 2, 'Z' : 1
 };
 
-// Panagram now accepts player-related props and setters
+// Panagram now accepts player-related props and setters, and new modal open prop
 const Panagram = ({
                       playerId, playerName, player, setPlayer,
                       setPlayerId, setPlayerName, setIsGuest,
-                      setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts
+                      setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
+                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad // New props
                   }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -84,6 +85,25 @@ const Panagram = ({
     useEffect(() => {
         setStartTime(Date.now());
     }, []);
+
+    const handleAccountModalClose = () => {
+        console.log('AccountSettingsModal: onClose prop called, setting isAccountModalOpen to FALSE');
+        setIsAccountModalOpen(false);
+    };
+
+    // New useEffect to handle opening the Account Modal on load
+    useEffect(() => {
+        if (openAccountModalOnGameLoad) {
+            console.log('Panagram useEffect: openAccountModalOnGameLoad is TRUE. Setting isAccountModalOpen to TRUE.');
+            setIsAccountModalOpen(true);
+            // Add a small delay before resetting the prop from App.js
+            const timer = setTimeout(() => {
+                setOpenAccountModalOnGameLoad(false);
+            }, 100); // 100ms delay, adjust as needed
+
+            return () => clearTimeout(timer); // Cleanup timer if component unmounts
+        }
+    }, [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad]);
 
     useEffect(() => {
         if (message.text && message.autoDismiss > 0) {
@@ -381,7 +401,16 @@ const Panagram = ({
     useEffect(() => {
         if (isGameOver) {
             let messageContent;
-            if (endTime && submittedWords.length < 5) {
+            if (!playerId) {
+                messageContent = (
+                    <div>
+                        <p>{t('game_over.not-logged-in.login_prompt_title')}</p>
+                        <p>{t('game_over.not-logged-in.login_prompt_message')}</p>
+                        {/* You could add a button here to navigate to the login page */}
+                        {/* <button onClick={() => navigate('/login')}>Login Now</button> */}
+                    </div>
+                );
+            } else if (endTime && submittedWords.length < 5) {
                 messageContent = (
                     <div>
                         <p>{t('game_over.title')}</p>
@@ -428,6 +457,7 @@ const Panagram = ({
 
 
     return (
+
         <div className="game-container">
             <LanguageSwitcher />
 
@@ -530,8 +560,9 @@ const Panagram = ({
                 </div>
 
                 <AccountSettingsModal
-                    isOpen={isAccountModalOpen}
-                    onClose={() => setIsAccountModalOpen(false)}
+                    isOpen={isAccountModalOpen || openAccountModalOnGameLoad}
+                    onClose={handleAccountModalClose}
+                    // onClose={() => setIsAccountModalOpen(false)}
                     onSignupSuccess={handleSignupSuccess}
                     onLoginSuccess={handleLoginSuccess}
                     player={player}

@@ -22,7 +22,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
     // Destructure makeRequest directly, as data, loading, error will be managed locally for update
     const { makeRequest } = useApiRequest(apiUrl);
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const siteName = process.env.REACT_APP_SITE_NAME;
 
     // Effect to initialize form fields when the player prop changes
@@ -68,6 +68,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${authToken}`,
+                    'Accept-Language': i18n.language
                 },
             });
 
@@ -288,7 +289,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                         type="checkbox"
                                                         checked={playerPrefReceiveNewsletter}
                                                         onChange={handleCheckboxChange(setPlayerPrefReceiveNewsletter)}
-                                                    />{t('account.preferences.newsletter-text',{siteName: siteName})}
+                                                    />{t('account.preferences.newsletter-text', {siteName:siteName})}
                                                 </label>
                                                 {errors.pref_receive_newsletter &&
                                                     <span className="error">{errors.pref_receive_newsletter}</span>}
@@ -312,14 +313,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                 </form>
                             )}
                             {activeTab === "privacy" && (
-                                <div className="account__settings" style={{
-                                    padding: '20px',
-                                    maxWidth: '400px',
-                                    margin: 'auto',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '8px',
-                                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-                                }}>
+                                <div className="account__settings">
                                     <h3 style={{
                                         textAlign: 'center',
                                         marginBottom: '25px',

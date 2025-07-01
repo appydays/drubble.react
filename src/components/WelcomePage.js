@@ -64,6 +64,10 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
         onPlayAsGuest();
     };
 
+    const handleLoginClick = () => {
+        onLoginClick();
+    };
+
     const handleLogout = () => {
         localStorage.removeItem("playerId");
         localStorage.removeItem("playerName");
@@ -78,13 +82,8 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
 
     return (
         <div className="welcome-full-screen-container">
-            <div className="welcome-app-header">
-                <img src={`/${process.env.REACT_APP_SITE_NAME_LOWER}.png`} alt={`Logo ${process.env.REACT_APP_SITE_NAME}`} className="welcome-logo"/>
-            </div>
 
-            {/*{(!playerName || playerName === 'daibara') && (*/}
-            {/*    <LanguageSwitcher />*/}
-            {/*)}*/}
+            <LanguageSwitcher />
 
             <div className="welcome-main-content">
                 <h2 className="welcome-title">{t('welcome_page.welcome_message', { sitename : process.env.REACT_APP_SITE_NAME} )}</h2>
@@ -133,7 +132,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                                 <button onClick={handlePlayClick} className="welcome-button play-button">
                                     {t('buttons.play_as_guest')}
                                 </button>
-                                <button onClick={onLoginClick} className="welcome-button primary-button">
+                                <button onClick={handleLoginClick} className="welcome-button primary-button">
                                     {t('buttons.register_or_login')}
                                 </button>
                             </>

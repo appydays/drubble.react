@@ -325,6 +325,9 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
             )}
             {activeTab === 'global' && (
                 <div id="global-statistics" className="tab-content">
+                    {!playerId ? (
+                        <p>{t('leaderboard.stats.record-stats.not-logged-in', { siteName : process.env.REACT_APP_SITE_NAME})}</p>
+                    ) : (
                     <>
                         {isRecordStatsLoading && <p>{t('leaderboard.stats.your-stats.loading')}</p>}
                         {recordStatsError &&
@@ -366,6 +369,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         {!isRecordStatsLoading && !recordStatsError && !recordStatsData &&
                             <p>{t('leaderboard.stats.your-stats.no-data')}</p>}
                     </>
+                    )}
                 </div>
             )}
         </Modal>

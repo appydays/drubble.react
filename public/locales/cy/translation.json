@@ -71,7 +71,11 @@
     "new_game_high_score": "\uD83C\uDFC6 Newyddion Da: Rydych chi newydd osod record gêm bersonol newydd gyda sgôr o {{game_score}}!",
     "high_game_score": "Eich sgôr gêm uchaf erioed yw {{game_score}}.",
     "new_word_high_score": "\uD83D\uDE80 Newyddion Da: Rydych chi newydd osod record bersonol newydd am y gair sgoer uchaf gyda'r gair '{{word}}' a sgôr o {{word_score}}!",
-    "high_word_score": "Eich gair uchaf erioed yw '{{word}}' gyda sgôr o {{word_score}}."
+    "high_word_score": "Eich gair uchaf erioed yw '{{word}}' gyda sgôr o {{word_score}}.",
+    "not-logged-in": {
+      "login_prompt_title": "Datgloi Eich Potensial Gêm",
+      "login_prompt_message": "Rydych chi wedi gorffen y gêm! I weld eich sgôr ar y bwrdd arweinwyr ac olrhain eich ystadegau personol, cofrestrwch neu mewngofnodwch nawr. Peidiwch â gadael i'ch gemau gorau fynd heb eu cofnodi!"
+    }
   },
   "alert": {
     "titles": {
@@ -252,7 +256,10 @@
       "recaptcha": {
         "error-title": "Methodd reCaptcha",
         "not-available": "Nid yw reCAPTCHA ar gael. Ceisiwch eto yn nes ymlaen.",
-        "error-token": "Methodd dilysu reCAPTCHA. Ceisiwch eto."
+        "error-token": "Methodd dilysu reCAPTCHA. Ceisiwch eto.",
+        "verify": {
+          "fail": "Methodd dilysu reCAPTCHA. Ceisiwch eto."
+        }
       },
       "password-confirm": {
         "not-match": "Nid yw cyfrineiriau yn cyfateb",
@@ -305,7 +312,7 @@
   },
   "feedback-modal": {
     "feedback-required": "Mae angen adborth.",
-    "feedback-format": "Ni chaniateir nodau fel '<' neu '>'.",
+    "feedback-format": "Canfuwyd nodau annilys yn yr adborth, adolygwch a cheisiwch eto.",
     "response": {
       "error-default": "Methodd yr adborth.",
       "error-unexpected": "Digwyddodd gwall: "
@@ -369,7 +376,7 @@
         "loading": "Yn llwytho eich data ystadegau...",
         "loading-error": "Gwall wrth lwytho ystadegau: ",
         "no-data": "Dim data ystadegau ar gael eto. Chwarae rhai gemau!",
-        "not-logged-in": "Mewngofnodwch i weld eich ystadegau gair."
+        "not-logged-in": "Cofrestrwch a mewngofnodwch i weld eich ystadegau gair."
       },
       "histogram": {
         "no-data": "Does dim histogram i'w weld.",
@@ -381,26 +388,27 @@
         "best-word-score": "\uD83D\uDCA5 Sgôr Geiriau Gorau",
         "best-game-score": "\uD83C\uDFAE Sgôr Gêm Gorau",
         "games-played": "\uD83E\uDDEE Gemau a Chwaraewyd",
-        "average-score": "\uD83D\uDCCA Sgôr Gêm Cyfartalog"
+        "average-score": "\uD83D\uDCCA Sgôr Gêm Cyfartalog",
+        "not-logged-in": "Cofrestrwch a mewngofnodwch i weld cofnodion {{siteName}}."
       }
     }
   },
   "help_modal": {
-    "title": "Sut i chwarae {{sitename}}",
+    "title": "Sut i chwarae {{siteName}}",
     "intro_paragraph": "Crewch y gair Cymraeg hiraf posibl o'r 9 llythyren sydd ar gael. Mae llythrennau yn cael eu dewis ar hap ac yn newid yn ddyddiol, e.e.",
     "list_item_1": "Cliciwch ar y llythrennau i sillafu gair, bydd llythrennau dethol yn cael eu hanalluogi a bydd ymddangos yn y rhes geiriau.",
     "list_item_2": "Teipiwch y gair pan fyddwch chi'n barod, neu defnyddiwch y botwm Dileu ⌫ i ddadwneud y llythrennau a ddewiswyd gennych.",
     "list_item_3": "Bydd geiriau dilys yn cael eu hychwanegu at eich rhestr eiriau a gyflwynwyd.",
     "list_item_4": "Bydd geiriau annilys yn cael eu gwrthod.",
-    "list_item_5": "Sgoriwch bwyntiau am air dilys, ond cewch well sgorau trwy ddefnyddio'r llythrennau llai aml os ydynt ar gael, e.e fel J ac TH.",
+    "list_item_5": "Sgoriwch bwyntiau am air dilys, ond cewch well sgorau trwy ddefnyddio'r llythrennau llai aml os ydynt ar gael, e.e fel J",
     "shuffle_button_text": "Siffrwd",
-    "shuffle_list_item": "I ad-drefnu y llythyrau, defnyddiwch y botwm Siffrwd {{shuffle_button}}.",
+    "shuffle_list_item": "I ad-drefnu y llythyrau, defnyddiwch y botwm Siffrwd <0></0>.",
     "exchange_button_text": "Cyfnewid",
-    "exchange_list_item": "I gyfnewid llythyrau allan, Defnyddiwch y botwm Cyfnewid {{exchange_button}} - dewiswch y llythrennau yn y blychau geiriau a chliciwch ar gyfnewid. <br/><br/><b>*Rhybudd</b> bydd cyfnewid llythyrau yn costio slot geiriau i chi gan leihau eich gallu i sgorio pwyntiau!",
+    "exchange_list_item": "I gyfnewid llythyrau allan, Defnyddiwch y botwm Cyfnewid <0></0> - dewiswch y llythrennau yn y blychau geiriau a chliciwch ar gyfnewid. <br/><br/><b>*Rhybudd</b> bydd cyfnewid llythyrau yn costio slot geiriau i chi gan leihau eich gallu i sgorio pwyntiau!",
     "rounds_paragraph_1": "Mae 5 rownd a bydd gennych 5 munud i gyflwyno 5 gair.",
     "rounds_paragraph_2": "Ar ôl i bob gair gael ei fewnbynnu bydd y llythrennau a ddefnyddir yn cael eu disodli gan y math, llafariad neu gytsain cyfatebol.",
     "account_paragraph_1": "Nid oes rhaid i chi greu cyfrif i chwarae, fodd bynnag, os nad ydych wedi mewngofnodi - ni fydd eich sgôr yn cael ei ychwanegu at y bwrdd arweinwyr!",
-    "account_paragraph_2": "Bydd cofrestru i chwarae yn eich galluogi i chwarae yn erbyn eich ffrindiau a'ch teulu, gweld a allwch chi eu curo neu geisio cyrraedd yr 20 uchaf!",
+    "account_paragraph_2": "Bydd cofrestru i chwarae yn eich galluogi i chwarae yn erbyn eich ffrindiau a'ch teulu, gweld a allwch chi eu curo neu geisio cyrraedd yr 10 uchaf!",
     "good_luck_message": "Diolch yn fawr... a Pob Lwc!"
   },
   "privacy_policy": {

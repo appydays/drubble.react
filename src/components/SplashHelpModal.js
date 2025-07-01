@@ -1,8 +1,10 @@
 import React from 'react';
 import Modal from './Modal';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { Trans, useTranslation } from 'react-i18next'; // Import useTranslation
 import ShuffleIcon from "./atoms/ShuffleIcon"; // Make sure these are accessible
-import ReplaceIcon from "./atoms/ReplaceIcon"; // Make sure these are accessible
+import ReplaceIcon from "./atoms/ReplaceIcon";
+
+import {FaExchangeAlt, FaRandom} from "react-icons/fa"; // Make sure these are accessible
 
 function SplashHelpModal({ isOpen, onClose }) {
     const { t } = useTranslation(); // Use the t function
@@ -23,7 +25,7 @@ function SplashHelpModal({ isOpen, onClose }) {
 
     return (
         <Modal className="help" isOpen={isOpen} onClose={onClose}>
-            <h2>{t('help_modal.title', {siteName:siteName})}</h2>
+            <h2>{t('help_modal.title', {siteName: siteName})}</h2>
 
             <div className="help-content scroll-fade">
                 <div className="help-content__wrapper">
@@ -52,19 +54,15 @@ function SplashHelpModal({ isOpen, onClose }) {
                             <ul>
                                 {/* Using i18n's Trans component for interpolation */}
                                 <li>
-                                    {t('help_modal.shuffle_list_item', {
-                                        shuffle_button: shuffleButtonComponent,
-                                        interpolation: { escapeValue: false } // Required for JSX interpolation
-                                    })}
+                                    <Trans i18nKey="help_modal.shuffle_list_item">
+                                        <FaRandom size={24} />
+                                    </Trans>
                                 </li>
                                 <li>
                                     {/* Using dangerouslySetInnerHTML for HTML tags like <br/> and <b> within the string */}
-                                    <span dangerouslySetInnerHTML={{
-                                        __html: t('help_modal.exchange_list_item', {
-                                            exchange_button: exchangeButtonComponent,
-                                            interpolation: { escapeValue: false }
-                                        })
-                                    }}></span>
+                                    <Trans i18nKey="help_modal.exchange_list_item">
+                                        <FaExchangeAlt size={24} />
+                                    </Trans>
                                 </li>
                             </ul>
                         </div>

@@ -1,15 +1,17 @@
+// src/components/WelcomePage.js
 import React, { useEffect, useState } from 'react';
-import './css/WelcomePage.css'; // Your CSS file
-// import './css/WelcomePageAnimations.css'; // Optional: for transitions/animations
+import './css/WelcomePage.css';
 import useApiRequest from './useApiRequest';
 import SocialShare from "./SocialShare";
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher'; // Assuming this path is correct
 
 const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) => {
     const [playerName, setPlayerName] = useState(null);
     const [showWhyDrubble, setShowWhyDrubble] = useState(false); // State for expandable section
-    const [showHowToPlay, setShowHowToPlay] = useState(false); // State for expandable section
-    const [showWhyRegister, setShowWhyRegister] = useState(false); // State for expandable section
-    const [showFuturePlans, setShowFuturePlans] = useState(false); // State for expandable section
+    const [showHowToPlay, setShowHowToPlay] = useState(false);
+    const [showWhyRegister, setShowWhyRegister] = useState(false);
+    const [showFuturePlans, setShowFuturePlans] = useState(false);
 
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
@@ -18,7 +20,12 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
     const [hasPlayedToday, setHasPlayedToday] = useState(false);
     const [todayScore, setTodayScore] = useState(null);
     const [todayWords, setTodayWords] = useState([]);
-    const [gameComplete, setGameComplete] = useState([]);
+    const [gameComplete, setGameComplete] = useState(false); // Initialize as boolean
+
+    const { t } = useTranslation();
+
+    // Use t() for welcome content
+    const welcomeContentHtml = t('welcome_page.welcome_content');
 
     useEffect(() => {
         const fetchPlayerData = async () => {
@@ -32,18 +39,14 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                     let responseData = await makeRequest(`/players/${playerId}/today`, 'GET');
 
                     if (responseData && responseData.success) {
-                        if (responseData.hasPlayedToday && responseData.complete) {
-                            setHasPlayedToday(true);
+                        setHasPlayedToday(responseData.hasPlayedToday);
+                        setGameComplete(responseData.complete); // Ensure gameComplete is set
+                        if (responseData.hasPlayedToday) {
                             setTodayScore(responseData.score);
                             setTodayWords(responseData.wordsUsed || []);
-                            setGameComplete(true);
-                        } else if (responseData.hasPlayedToday && !responseData.complete) {
-                            setHasPlayedToday(true);
-                            setTodayWords(responseData.wordsUsed || []);
-                            setGameComplete(false);
                         } else {
-                            setHasPlayedToday(false);
-                            setGameComplete(false);
+                            setTodayScore(null);
+                            setTodayWords([]);
                         }
                     } else {
                         console.error("Error checking today's game status:", responseData.message);
@@ -54,127 +57,90 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
             }
         };
 
-        fetchPlayerData(); // Invoke the async function
-
-    }, [playerId, makeRequest]);
-
-    const clearClientSideData = () => {
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("playerId");
-        localStorage.removeItem("playerName");
-        localStorage.removeItem("playerPrefReceiveNewsletter");
-        localStorage.removeItem("playerPrefReceivePrompts");
-        // Add any other localStorage items related to player/authentication
-    };
+        fetchPlayerData();
+    }, [playerId, makeRequest]); // Add makeRequest to dependencies as it's from useApiRequest
 
     const handlePlayClick = () => {
-        onPlayAsGuest(); // Assumes this leads to game start regardless of guest/logged in
+        onPlayAsGuest();
     };
 
-    const handleLogout = async () => {
-        const authToken = localStorage.getItem('auth_token');
-
-        if (!authToken) {
-            clearClientSideData();
-            window.location.reload();
-            return;
-        }
-
-        try {
-            const response = await fetch(`${apiUrl}/logout`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${authToken}`,
-                },
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Backend logout failed:', errorData);
-            }
-        } catch (error) {
-            console.error('Network error during logout:', error);
-        } finally {
-            clearClientSideData();
-            setPlayerName(null);
-            if (onLogoutClick) {
-                onLogoutClick();
-            }
-            window.location.reload();
+    const handleLogout = () => {
+        localStorage.removeItem("playerId");
+        localStorage.removeItem("playerName");
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("playerPrefReceiveNewsletter");
+        localStorage.removeItem("playerPrefReceivePrompts");
+        setPlayerName(null);
+        if (onLogoutClick) {
+            onLogoutClick();
         }
     };
 
     return (
         <div className="welcome-full-screen-container">
             <div className="welcome-app-header">
-                <img src="/drubble.png" alt="Drubble Logo" className="welcome-logo"/>
+                <img src={`/${process.env.REACT_APP_SITE_NAME_LOWER}.png`} alt={`Logo ${process.env.REACT_APP_SITE_NAME}`} className="welcome-logo"/>
             </div>
 
+            {/*{(!playerName || playerName === 'daibara') && (*/}
+            {/*    <LanguageSwitcher />*/}
+            {/*)}*/}
+
             <div className="welcome-main-content">
-                <h2 className="welcome-title">Welcome to Drubble!</h2>
-                {/* Core Game Intro (Condensed) */}
+                <h2 className="welcome-title">{t('welcome_page.welcome_message', { sitename : process.env.REACT_APP_SITE_NAME} )}</h2>
                 <div className="welcome-section welcome-intro">
-                    {!hasPlayedToday &&
-                        <>
-                            <p>Get ready to put your vocabulary to the ultimate test!</p>
-                            <p>In this daily word challenge, you have <b>5 minutes</b> to find <b>5 words</b> over <b>5 rounds</b> of <b>9 letters</b> each.</p>
-                            <p>Find the longest possible word to score big, and use less common letters for bonus points!</p>
-                        </>
-                    }
+                    {!hasPlayedToday && (
+                        <div dangerouslySetInnerHTML={{ __html: welcomeContentHtml }}></div>
+                    )}
 
                     {playerName && hasPlayedToday && (
                         <div className="info-box">
                             <p>
-                                ✅ You’ve already played today’s game. Your score was <strong>{todayScore}</strong>.
+                                {/* Use translation key with interpolation for todayScore */}
+                                <span dangerouslySetInnerHTML={{ __html: t('welcome_page.played_today.score_message', { todayScore: todayScore }) }}></span>
                                 {
                                     !gameComplete &&
-                                        <>
-                                            You did not complete the game.
-                                        </>
+                                    <>
+                                        <br/> {/* Add a line break for better formatting */}
+                                        {t('welcome_page.played_today.not_complete')}
+                                    </>
                                 }
                             </p>
                             {todayWords.length > 0 && (
-                                <p>Words you played: {todayWords.join(", ")}</p>
-                                // <SocialShare score={todayScore} playerName={playerName} />
-                            )}
-                            {playerName && (playerName==='daibara') && hasPlayedToday && (
-                                <SocialShare score={todayScore} playerName={playerName} />
+                                <>
+                                    <p>{t('welcome_page.played_today.words_played', { wordsList: todayWords.join(", ") })}</p>
+                                    <SocialShare score={todayScore} playerName={playerName} />
+                                </>
                             )}
                             <p className="warning">
-                                You can still play again for fun — but new scores won’t be submitted or count on the leaderboard.
+                                {t('welcome_page.played_today.warning_message')}
                             </p>
                         </div>
                     )}
 
-                    {/* Main Action Buttons */}
                     <div className="button-group welcome-cta-buttons">
                         {playerName ? (
                             <>
                                 <button onClick={handlePlayClick} className="welcome-button play-button">
-                                    Play as {playerName}
+                                    {t('buttons.play_as_player', { playerName: playerName })}
                                 </button>
                                 <button onClick={handleLogout} className="welcome-button secondary-button">
-                                    Log out
+                                    {t('buttons.logout')}
                                 </button>
                             </>
                         ) : (
                             <>
                                 <button onClick={handlePlayClick} className="welcome-button play-button">
-                                    Play as a guest
+                                    {t('buttons.play_as_guest')}
                                 </button>
                                 <button onClick={onLoginClick} className="welcome-button primary-button">
-                                    Register or Sign In
+                                    {t('buttons.register_or_login')}
                                 </button>
                             </>
                         )}
                     </div>
-
                 </div>
 
-
-
-                {/* Expandable Sections for more info */}
                 <div className="welcome-section welcome-details">
                     <h2 className="section-title" onClick={() => setShowWhyDrubble(!showWhyDrubble)}>
                         Why Drubble? <span className="toggle-icon">{showWhyDrubble ? '▲' : '▼'}</span>
@@ -183,8 +149,8 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                         <div className="section-content expanded">
                             <div>
                                 <p>This game was originally developed as Wordscram, but unfortunately it was found that another game was already
-                                out there with that name! So we thought hard and long on various names related to words and puzzles, but they've pretty
-                                much all been thought of before.</p>
+                                    out there with that name! So we thought hard and long on various names related to words and puzzles, but they've pretty
+                                    much all been thought of before.</p>
                                 <p>So why <b>Drubble?</b></p>
                                 <p>
                                     Etymology of "Drub":
@@ -206,49 +172,49 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                             </div>
                         </div>
                     )}
+
                     <h2 className="section-title" onClick={() => setShowHowToPlay(!showHowToPlay)}>
-                        How to play <span className="toggle-icon">{showHowToPlay ? '▲' : '▼'}</span>
+                        {t('how_to_play.title')} <span className="toggle-icon">{showHowToPlay ? '▲' : '▼'}</span>
                     </h2>
                     {showHowToPlay && (
                         <div className="section-content expanded">
-                            <div>Each day, every player works from the <b>same pack of random letters</b>. Your mission? To find the <b>longest possible word</b> you can create from those letters. The longer the word, the higher your score will climb! But that's not all - strategic play is key. Keep an eye out for those less common letters; using them will give you even more points and boost your overall score.</div>
+                            <div dangerouslySetInnerHTML={{ __html: t('how_to_play.content_p1') }}></div>
                             <br/>
-                                <div>Can you beat the daily competition and claim the title of <b>top scorer</b>? Or maybe you'll set a new personal, or Drubble record by coming up with the <b>highest scoring word</b> ever? Each game is an opportunity to test your linguistic skill! Remember, you can play for fun and try again, but only your <b>first score</b> of the day will count towards the daily leaderboards and your personal bests.</div>
+                            <div dangerouslySetInnerHTML={{ __html: t('how_to_play.content_p2',{ sitename : process.env.REACT_APP_SITE_NAME}) }}></div>
                         </div>
                     )}
 
                     <h2 className="section-title" onClick={() => setShowWhyRegister(!showWhyRegister)}>
-                        Why register? <span className="toggle-icon">{showWhyRegister ? '▲' : '▼'}</span>
+                        {t('why_register.title')} <span className="toggle-icon">{showWhyRegister ? '▲' : '▼'}</span>
                     </h2>
                     {showWhyRegister && (
                         <div className="section-content expanded">
-                            <div><b>Play as a guest to jump right into the fun</b>, or <b>register for free to unlock more!</b> Registered players can participate in daily leaderboards, track their game history, and view their detailed personal statistics.</div>
+                            <div dangerouslySetInnerHTML={{ __html: t('why_register.content_p1') }}></div>
                             <br/>
-                            <div>After you complete your daily challenge, be sure to share your score with friends and see who reigns supreme! Whether you're looking for a quick brain teaser, a fun way to pass the time, or a friendly competition with your friends, Drubble offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate wordsmith!</div>
+                            <div dangerouslySetInnerHTML={{ __html: t('why_register.content_p2',{ sitename : process.env.REACT_APP_SITE_NAME}) }}></div>
                         </div>
                     )}
-                    {/*<h2 className="section-title" onClick={() => setShowFuturePlans(!showFuturePlans)}>*/}
-                    {/*    What plans are there for future development? <span className="toggle-icon">{showFuturePlans ? '▲' : '▼'}</span>*/}
-                    {/*</h2>*/}
-                    {/*{showFuturePlans && (*/}
-                    {/*    <p className="section-content expanded">*/}
-                    {/*        <p>We have a couple of ideas in the pipeline for future development and to enhance the experience:</p>*/}
-                    {/*        <ol>*/}
-                    {/*            <li>Add access to more stats, e.g. on results of previous days and months ,</li>*/}
-                    {/*            <li>Implement a "learner" mode - enable players to hover over text for translations and meaning of words.</li>*/}
-                    {/*            <li>Enhance statistics to enable players to filter leader boards by language level, so instead of displaying just the top 10 global leaders, the top 10 learners , or Intermediate or Advanced levels can be shown.</li>*/}
-                    {/*            <li>We plan to add links to learning resources</li>*/}
-                    {/*        </ol>*/}
-                    {/*        <p>If you do have any features you would like to see in the game, we would love to hear from you, please either submit the feedback form or email us at support@scramair.cymru</p>*/}
-                    {/*        <p>Or if you would like to hear of news and updates to Scramair , please do make sure you check your preferences and enable us to inlclude you on the regular newletters. You can opt in or opt out at any time. </p>*/}
-                    {/*    </p>*/}
-                    {/*)}*/}
+
+                    <h2 className="section-title" onClick={() => setShowFuturePlans(!showFuturePlans)}>
+                        {t('future_plans.title')} <span className="toggle-icon">{showFuturePlans ? '▲' : '▼'}</span>
+                    </h2>
+                    {showFuturePlans && (
+                        <div className="section-content expanded">
+                            <p>{t('future_plans.content_p1')}</p>
+                            <ol>
+                                <li>{t('future_plans.list_item_1')}</li>
+                                <li>{t('future_plans.list_item_2')}</li>
+                                <li>{t('future_plans.list_item_3')}</li>
+                                <li>{t('future_plans.list_item_4')}</li>
+                            </ol>
+                            <p>{t('future_plans.contact_message', {supportEmail: process.env.REACT_APP_SUPPORT_EMAIL})}</p>
+                            <p>{t('future_plans.newsletter_message', { sitename : process.env.REACT_APP_SITE_NAME})}</p>
+                        </div>
+                    )}
                 </div>
 
-                {/* Footer or additional links */}
                 <div className="welcome-footer">
-                    {/* Add links to Privacy Policy, Terms of Service etc. */}
-                    <p>&copy; 2025 Drubble. All rights reserved.</p>
+                    <p>{t('footer.copyright',{ sitename : process.env.REACT_APP_SITE_NAME})}</p>
                 </div>
             </div>
         </div>
