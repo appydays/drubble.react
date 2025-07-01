@@ -1,4 +1,4 @@
-// src/App.js
+// src/components/App.js
 import React, {useState, useEffect} from "react";
 import './App.css';
 import Panagram from "./components/Panagram";
@@ -10,18 +10,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 
-// Define MainAppContent OUTSIDE the App component (as you already have it)
+// Define MainAppContent OUTSIDE the App component
+// It needs to accept the props it will receive from App
 const MainAppContent = ({
                             playerId, playerName, player, setPlayer, setPlayerId, setPlayerName, setIsGuest,
-                            setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
+                            setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts, // <-- These are now correctly passed
                             openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
                         }) => (
     <>
         <Panagram
             playerId={playerId} playerName={playerName} player={player} setPlayer={setPlayer}
             setPlayerId={setPlayerId} setPlayerName={setPlayerName} setIsGuest={setIsGuest}
-            setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter}
-            setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
+            setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter} // <-- Correctly passed to Panagram
+            setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}     // <-- Correctly passed to Panagram
             openAccountModalOnGameLoad={openAccountModalOnGameLoad}
             setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
         />
@@ -32,65 +33,78 @@ function App() {
     const { i18n } = useTranslation();
     const [playerId, setPlayerId] = useState(() => localStorage.getItem('playerId'));
     const [playerName, setPlayerName] = useState(() => localStorage.getItem('playerName') || 'Guest');
-    // Initialize player as null or a default object if no playerId exists.
-    // The useEffect below will populate it if playerId is present.
     const [player, setPlayer] = useState(null);
     const [isGuest, setIsGuest] = useState(() => !localStorage.getItem('playerId'));
     const [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad] = useState(false);
 
+    // --- NEW STATE DECLARATIONS FOR PLAYER PREFERENCES ---
+    const [playerPrefReceiveNewsletter, setPlayerPrefReceiveNewsletter] = useState(() => {
+        // localStorage stores strings, convert to boolean
+        const storedPref = localStorage.getItem('playerPrefReceiveNewsletter');
+        return storedPref === 'true';
+    });
+    const [playerPrefReceivePrompts, setPlayerPrefReceivePrompts] = useState(() => {
+        const storedPref = localStorage.getItem('playerPrefReceivePrompts');
+        return storedPref === 'true';
+    });
+    // --- END NEW STATE DECLARATIONS ---
+
+
     // Base URL for API requests
     const baseUrl = process.env.REACT_APP_API_URL;
-    const apiUrl = baseUrl + '/api'; // Assuming your API endpoint is /api
+    const apiUrl = baseUrl + '/api';
 
-    // --- IMPORTANT: This useEffect is crucial for populating the 'player' object ---
+    // This useEffect is crucial for populating the 'player' object and preferences
     useEffect(() => {
         const fetchAndSetPlayerProfile = async () => {
             if (playerId) {
                 try {
-                    // Make an API request to fetch the full player profile using the playerId
-                    // You might also need to send an authentication token if your API requires it
-                    const authToken = localStorage.getItem('authToken'); // Assuming you store an auth token
+                    const authToken = localStorage.getItem('authToken');
                     const headers = {
                         'Content-Type': 'application/json',
-                        ...(authToken && { 'Authorization': `Bearer ${authToken}` }) // Add auth header if token exists
+                        ...(authToken && { 'Authorization': `Bearer ${authToken}` })
                     };
 
-                    const response = await fetch(`${apiUrl}/players/${playerId}`, { headers }); // Adjust endpoint as needed
+                    const response = await fetch(`${apiUrl}/players/${playerId}`, { headers });
                     if (response.ok) {
                         const data = await response.json();
-                        // Assuming the response body contains a 'player' object
                         if (data.player) {
-                            setPlayer(data.player); // Set the full player object
-                            setPlayerName(data.player.nickname); // Ensure playerName is also synced from the fetched data
+                            setPlayer(data.player);
+                            setPlayerName(data.player.nickname);
                             setIsGuest(false);
-                            // Also update localStorage for consistency if any preferences change on server
+
+                            // --- IMPORTANT: Update the preference states here from fetched data ---
+                            setPlayerPrefReceiveNewsletter(data.player.pref_receive_newsletter);
+                            setPlayerPrefReceivePrompts(data.player.pref_receive_prompts);
+                            // ---
+
                             localStorage.setItem('playerName', data.player.nickname);
                             localStorage.setItem('playerPrefReceiveNewsletter', data.player.pref_receive_newsletter);
                             localStorage.setItem('playerPrefReceivePrompts', data.player.pref_receive_prompts);
                         } else {
-                            // If API call successful but 'player' object is missing, treat as guest
                             console.error("API response missing player object.");
-                            handleLogout(); // Call a logout-like function to clear state
+                            handleLogout();
                         }
                     } else {
-                        // Handle cases where fetching profile fails (e.g., invalid ID, token expired)
                         console.error("Failed to fetch player profile:", response.status, response.statusText);
-                        handleLogout(); // Clear local storage and reset state
+                        handleLogout();
                     }
                 } catch (error) {
                     console.error("Error fetching player profile:", error);
-                    handleLogout(); // Clear local storage and reset state
+                    handleLogout();
                 }
             } else {
-                // If no playerId in localStorage, ensure player object is null and set as guest
                 setPlayer(null);
                 setPlayerName('Guest');
                 setIsGuest(true);
+                // Ensure preferences are reset for guest
+                setPlayerPrefReceiveNewsletter(false);
+                setPlayerPrefReceivePrompts(false);
             }
         };
 
         fetchAndSetPlayerProfile();
-    }, [playerId]); // Re-run this effect whenever playerId changes (e.g., on initial load or after login/logout)
+    }, [playerId]);
 
     // A utility function to handle clearing player data
     const handleLogout = () => {
@@ -98,12 +112,18 @@ function App() {
         setPlayerId(null);
         setPlayerName('Guest');
         setIsGuest(true);
+        setPlayerPrefReceiveNewsletter(false); // Reset on logout
+        setPlayerPrefReceivePrompts(false);   // Reset on logout
         localStorage.removeItem('playerId');
         localStorage.removeItem('playerName');
-        localStorage.removeItem('authToken'); // Clear auth token if present
+        localStorage.removeItem('authToken');
         localStorage.removeItem('playerPrefReceiveNewsletter');
         localStorage.removeItem('playerPrefReceivePrompts');
-        // You might want to navigate to welcome page or refresh here
+    };
+
+    const handlePlayAsGuest = () => {
+        setIsGuest(true);
+        handleLogout(); // Ensure all player data is cleared if playing as guest
     };
 
     // Handler passed to WelcomePage to open account modal directly
@@ -111,27 +131,24 @@ function App() {
         setOpenAccountModalOnGameLoad(true);
     };
 
-    // ... (rest of your App.js, including routes and JSX) ...
-
     return (
         <ThemeProvider>
             <Router>
                 <div className="App">
-                    {/* LanguageSwitcher and other global components if any */}
                     <Routes>
                         <Route path="/" element={
                             isGuest ? (
                                 <WelcomePage
-                                    playerId={playerId} // Still pass playerId to WelcomePage if needed there
-                                    onPlayAsGuest={() => setIsGuest(true)}
+                                    playerId={playerId}
+                                    onPlayAsGuest={handlePlayAsGuest}
                                     onLoginClick={handleLoginOption}
                                 />
                             ) : (
                                 <MainAppContent
                                     playerId={playerId} playerName={playerName} player={player} setPlayer={setPlayer}
                                     setPlayerId={setPlayerId} setPlayerName={setPlayerName} setIsGuest={setIsGuest}
-                                    setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter}
-                                    setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
+                                    setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter} // <-- Prop is now defined
+                                    setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}     // <-- Prop is now defined
                                     openAccountModalOnGameLoad={openAccountModalOnGameLoad}
                                     setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
                                 />
