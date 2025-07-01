@@ -256,11 +256,13 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         <div>
                             <table style={{width: '100%'}}>
                                 <tbody>
-                                    <tr>
-                                        <td className="rank">currentDailyData.playerPosition.rank</td>
-                                        <td className="name">player.nickname</td>
-                                        <td className="score">player.score</td>
-                                    </tr>
+                                    {currentDailyData.playerPosition.map((player, index) => (
+                                        <tr>
+                                            <td className="rank">{currentDailyData.playerPosition.rank}</td>
+                                            <td className="name">{player.nickname}</td>
+                                            <td className="score">{player.score}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
