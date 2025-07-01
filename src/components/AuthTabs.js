@@ -48,7 +48,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const handleSocialLogin = (data) => {
         if (data.token && data.user) {
             localStorage.setItem("auth_token", data.token); // Consider if you need this with Sanctum token or session
-            localStorage.setItem("player", data.user);
             localStorage.setItem("playerId", data.user.id);
             localStorage.setItem("playerName", data.user.nickname);
             // Ensure these user properties exist in your Laravel response for Google login
@@ -181,7 +180,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                     if (data.success && data.token) {
                         localStorage.setItem("auth_token", data.token); // Uncomment if you need auth_token
-                        localStorage.setItem("player", data.user);
                         localStorage.setItem("playerId", data.user.id);
                         localStorage.setItem("playerName", data.user.nickname);
                         localStorage.setItem('playerPrefReceiveNewsletter', data.user.pref_receive_newsletter ? '1' : '0');
@@ -300,7 +298,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 if (response.ok) {
                     const data = await response.json();
                     if (data.success) {
-                        localStorage.setItem("player", data.user);
                         localStorage.setItem('playerId', data.user.id);
                         localStorage.setItem('playerName', data.user.nickname);
                         localStorage.setItem('playerPrefReceiveNewsletter', data.user.pref_receive_newsletter ? '1' : '0');
