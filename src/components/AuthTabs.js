@@ -48,6 +48,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const handleSocialLogin = (data) => {
         if (data.token && data.user) {
             localStorage.setItem("auth_token", data.token); // Consider if you need this with Sanctum token or session
+            localStorage.setItem("player", data.user);
             localStorage.setItem("playerId", data.user.id);
             localStorage.setItem("playerName", data.user.nickname);
             // Ensure these user properties exist in your Laravel response for Google login
