@@ -28,15 +28,12 @@ const letterWeights = {
     'V' : 1, 'W' : 2, 'X' : 1, 'Y' : 2, 'Z' : 1
 };
 
-// Panagram now accepts player-related props and setters, and new modal open prop
 const Panagram = ({
-                      playerId: propPlayerId, // Renamed prop
-                      playerName: propPlayerName, // Renamed prop
-                      player: propPlayer, // Renamed prop
-                      setPlayer,
-                      setPlayerId, setPlayerName, setIsGuest,
+                      // Prop from App.js that holds the main player object
+                      player: parentPlayer,
+                      setPlayer, setPlayerId, setPlayerName, setIsGuest,
                       setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
-                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad // New props
+                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
                   }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -73,23 +70,30 @@ const Panagram = ({
 
     const exchangedText = t('submitted_words.exchanged');
 
-    // State for modals - MOVED FROM APP.JS
+    // State for modals
     const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
     const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
 
-    // Local states for player data, initialized with props
-    const [localPlayerId, setLocalPlayerId] = useState(propPlayerId);
-    const [localPlayerName, setLocalPlayerName] = useState(propPlayerName);
-    const [localPlayer, setLocalPlayer] = useState(propPlayer);
+    // Local states for player data, initialized from localStorage first
+    const [localPlayerId, setLocalPlayerId] = useState(localStorage.getItem('playerId'));
+    const [localPlayerName, setLocalPlayerName] = useState(localStorage.getItem('playerName') ?? "Guest");
+    const [localPlayer, setLocalPlayer] = useState(parentPlayer); // Initialize with parentPlayer prop
 
-    // Effect to synchronize local player states with incoming props
+    // Effect to synchronize local player states with incoming parentPlayer prop
+    // This ensures localPlayer and its derived ID/Name update if App.js's state changes
     useEffect(() => {
-        setLocalPlayerId(propPlayerId);
-        setLocalPlayerName(propPlayerName);
-        setLocalPlayer(propPlayer);
-    }, [propPlayerId, propPlayerName, propPlayer]);
+        setLocalPlayer(parentPlayer);
+        if (parentPlayer) {
+            setLocalPlayerId(parentPlayer.id);
+            setLocalPlayerName(parentPlayer.nickname);
+        } else {
+            // If parentPlayer becomes null (e.g., logout from App.js), clear local states
+            setLocalPlayerId(null);
+            setLocalPlayerName("Guest");
+        }
+    }, [parentPlayer]);
 
 
     let clickedOccurrences = {};
@@ -146,19 +150,15 @@ const Panagram = ({
         setNextEmptyIndex(nextEmpty === -1 ? inputLetters.length : nextEmpty);
     }, [inputLetters]);
 
-    // Handlers for login/signup/player updates - MOVED FROM APP.JS
+    // Handlers for login/signup/player updates
     const handleSignupSuccess = (id) => {
-        // Update both local state and App.js's state (via prop setter)
-        setLocalPlayerId(id); // Update local state
-        setPlayerId(id); // Update App.js's state
+        // Update App.js's state (via prop setter) and localStorage
+        setPlayerId(id);
+        localStorage.setItem('playerId', id);
+        // localPlayerId will be updated via the parentPlayer prop change if App.js manages player object
     }
 
     const handleLoginSuccess = (playerData) => {
-        // Update local state in Panagram
-        setLocalPlayer(playerData);
-        setLocalPlayerName(playerData.nickname);
-        setLocalPlayerId(playerData.id);
-
         // Update App.js's state (via prop setters)
         setPlayer(playerData);
         setPlayerName(playerData.nickname);
@@ -172,15 +172,11 @@ const Panagram = ({
         localStorage.setItem('playerName', playerData.nickname);
         localStorage.setItem('playerPrefReceiveNewsletter', playerData.pref_receive_newsletter);
         localStorage.setItem('playerPrefReceivePrompts', playerData.pref_receive_prompts);
+
+        // The useEffect hook listening to parentPlayer will then update localPlayer, localPlayerId, localPlayerName
     };
 
     const handlePlayerUpdate = (updatedPlayerData) => {
-        // Update local state in Panagram
-        setLocalPlayer(updatedPlayerData);
-        setLocalPlayerName(updatedPlayerData.nickname);
-        setPlayerPrefReceiveNewsletter(updatedPlayerData.pref_receive_newsletter);
-        setPlayerPrefReceivePrompts(updatedPlayerData.pref_receive_prompts);
-
         // Update App.js's state (via prop setters)
         setPlayer(updatedPlayerData);
         setPlayerName(updatedPlayerData.nickname);
@@ -191,6 +187,8 @@ const Panagram = ({
         localStorage.setItem('playerName', updatedPlayerData.nickname);
         localStorage.setItem('playerPrefReceiveNewsletter', updatedPlayerData.pref_receive_newsletter);
         localStorage.setItem('playerPrefReceivePrompts', updatedPlayerData.pref_receive_prompts);
+
+        // The useEffect hook listening to parentPlayer will then update localPlayer, localPlayerId, localPlayerName
     };
 
     const initializeLetters = (vowelArray, consonantArray) => {

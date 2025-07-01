@@ -40,7 +40,9 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView }
                         <>
                             {/* Optional: Add a separator row if desired */}
                             <tr className="separator-row">
-                                <td colSpan="3">...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
                             </tr>
                             <tr
                                 key={`daily-${selectedDailyView}-player-position`}
