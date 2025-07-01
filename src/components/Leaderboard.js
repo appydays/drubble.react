@@ -256,18 +256,18 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                         <div>
                             <table style={{width: '100%'}}>
                                 <tbody>
-                                    {currentDailyData.playerPosition.map((player, index) => (
-                                        <tr>
-                                            <td className="rank">{currentDailyData.playerPosition.rank}</td>
-                                            <td className="name">{player.nickname}</td>
-                                            <td className="score">{player.score}</td>
-                                        </tr>
-                                    ))}
+                                {/* Access properties directly from currentDailyData.playerPosition */}
+                                <tr>
+                                    <td className="rank">{currentDailyData.playerPosition.rank}</td>
+                                    <td className="name">{currentDailyData.playerPosition.nickname}</td>
+                                    <td className="score">{currentDailyData.playerPosition.score}</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
-                    ) : (<div></div>)
-                    }
+                    ) : (
+                        <div>{/* Optional: You can put a message here if rank is not > 10 or no playerPosition */}</div>
+                    )}
                 </div>
             )}
 
