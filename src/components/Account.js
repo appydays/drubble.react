@@ -90,6 +90,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
         localStorage.removeItem("playerName");
         localStorage.removeItem("playerPrefReceiveNewsletter");
         localStorage.removeItem("playerPrefReceivePrompts");
+        localStorage.removeItem("player");
         // Add any other localStorage items related to player/authentication
     };
 

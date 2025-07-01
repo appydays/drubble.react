@@ -79,7 +79,7 @@ const Panagram = ({
     // Local states for player data, initialized from localStorage first
     const [localPlayerId, setLocalPlayerId] = useState(localStorage.getItem('playerId'));
     const [localPlayerName, setLocalPlayerName] = useState(localStorage.getItem('playerName') ?? "Guest");
-    const [localPlayer, setLocalPlayer] = useState(parentPlayer); // Initialize with parentPlayer prop
+    const [localPlayer, setLocalPlayer] = useState(localStorage.getItem('player')); // Initialize with parentPlayer prop
 
     // Effect to synchronize local player states with incoming parentPlayer prop
     // This ensures localPlayer and its derived ID/Name update if App.js's state changes
