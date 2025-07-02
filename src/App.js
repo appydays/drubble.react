@@ -50,61 +50,72 @@ function App() {
     useEffect(() => {
         const fetchInitialPlayerData = async () => {
             const storedPlayerId = localStorage.getItem('playerId');
-            const authToken = localStorage.getItem('auth_token'); // Assuming you use a token for auth
+            const authToken = localStorage.getItem('auth_token');
 
             if (storedPlayerId && authToken) {
                 try {
                     const baseUrl = process.env.REACT_APP_API_URL;
-                    // You need an endpoint that returns the full player object by ID.
-                    // Let's assume it is `/api/players/{id}` and it returns { success: true, player: {...} }
                     const response = await fetch(`${baseUrl}/api/players/${storedPlayerId}`, {
                         headers: {
                             'Accept': 'application/json',
                             'Authorization': `Bearer ${authToken}`,
+                            'Accept-Language': i18n.language // Ensure language is sent
                         },
                     });
 
                     if (response.ok) {
                         const data = await response.json();
                         if (data.success && data.player) {
-                            // This is the key part: set the player object in the state
                             setPlayer(data.player);
-                            // Also, update all related states to ensure consistency
                             setPlayerId(data.player.id);
                             setPlayerName(data.player.nickname);
-                            setIsGuest(false);
+                            setIsGuest(false); // Set to false when a player is successfully loaded
                             setPlayerPrefReceiveNewsletter(data.player.pref_receive_newsletter === '1' || data.player.pref_receive_newsletter === true);
                             setPlayerPrefReceivePrompts(data.player.pref_receive_prompts === '1' || data.player.pref_receive_prompts === true);
                         } else {
-                            // Handle cases where the API call is ok, but the request is not successful (e.g., player not found)
                             console.error("Failed to retrieve player data:", data.message);
-                            setPlayer(null); // Ensure player is null if data is invalid
+                            // If API says not successful, clear local storage and set to guest
+                            localStorage.removeItem('auth_token');
+                            localStorage.removeItem('playerId');
+                            localStorage.removeItem('playerName');
+                            setPlayer(null);
+                            setPlayerId(null);
+                            setPlayerName("Guest");
+                            setIsGuest(true);
                         }
                     } else {
-                        // Handle auth errors, like an expired token
-                        console.error("Authentication failed. Token might be invalid.");
-                        // It's good practice to clear stale login data
+                        console.error("Authentication failed or network error. Status:", response.status);
                         localStorage.removeItem('auth_token');
                         localStorage.removeItem('playerId');
                         localStorage.removeItem('playerName');
                         setPlayer(null);
+                        setPlayerId(null);
+                        setPlayerName("Guest");
+                        setIsGuest(true);
                     }
                 } catch (error) {
                     console.error("Error fetching initial player data:", error);
-                } finally {
-                    setIsLoading(false); // <-- Set loading to false when done
+                    // On error, revert to guest state
+                    localStorage.removeItem('auth_token');
+                    localStorage.removeItem('playerId');
+                    localStorage.removeItem('playerName');
+                    setPlayer(null);
+                    setPlayerId(null);
+                    setPlayerName("Guest");
+                    setIsGuest(true);
                 }
+            } else {
+                // No stored player ID or token, so it's definitively a guest session from the start
+                setPlayer(null);
+                setPlayerId(null);
+                setPlayerName("Guest");
+                setIsGuest(true);
             }
+            setIsLoading(false); // Always set loading to false after the check
         };
 
-        const authToken = localStorage.getItem('auth_token');
-        if (authToken) {
-            fetchInitialPlayerData();
-        } else {
-            // If there's no token, we're not loading anything.
-            setIsLoading(false);
-        }
-    }, []); // The empty array [] ensures this effect runs only once on component mount.
+        fetchInitialPlayerData();
+    }, []);
     // --- End of new code ---
 
     if (isLoading) {
