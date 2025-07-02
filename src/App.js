@@ -1,18 +1,15 @@
 // src/components/App.js
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
 import Panagram from "./components/Panagram";
 import { ThemeProvider } from './ThemeContext';
-// import SettingsModal from "./components/SettingsModal"; // Keep if SettingsModal is used elsewhere or managed differently
 import WelcomePage from "./components/WelcomePage";
 import { useTranslation } from 'react-i18next';
-
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 
-// Define MainAppContent OUTSIDE the App component
-// It needs to accept the props it will receive from App
+// MainAppContent component remains the same
 const MainAppContent = ({
                             playerId, playerName, player, setPlayer, setPlayerId, setPlayerName, setIsGuest,
                             setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
@@ -20,53 +17,100 @@ const MainAppContent = ({
                         }) => (
     <>
         <Panagram
-            playerId={playerId} playerName={playerName} player={player} setPlayer={setPlayer}
-            setPlayerId={setPlayerId} setPlayerName={setPlayerName} setIsGuest={setIsGuest}
+            playerId={playerId}
+            playerName={playerName}
+            player={player}
+            setPlayer={setPlayer}
+            setPlayerId={setPlayerId}
+            setPlayerName={setPlayerName}
+            setIsGuest={setIsGuest}
             setPlayerPrefReceiveNewsletter={setPlayerPrefReceiveNewsletter}
             setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
             openAccountModalOnGameLoad={openAccountModalOnGameLoad}
             setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
         />
-        {/* SettingsModal might still be here if it's a global setting not tied to game */}
-        {/* <SettingsModal
-            isOpen={isSettingsModalOpen}
-            onClose={() => setIsSettingsModalOpen(false)}
-        /> */}
     </>
 );
 
 function App() {
-    // Removed modal state, as Panagram will handle them
-    // const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
-    // const [isLeaderboardModalOpen, setIsLeaderboardModalAsOpen] = useState(false);
-    // const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-    // const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
-
+    // State declarations remain the same
     const [player, setPlayer] = useState(null);
     const [playerId, setPlayerId] = useState(localStorage.getItem('playerId'));
-    const [playerName, setPlayerName] = useState(localStorage.getItem('playerName')?? "Guest");
+    const [playerName, setPlayerName] = useState(localStorage.getItem('playerName') ?? "Guest");
     const [isGuest, setIsGuest] = useState(true);
     const [playerPrefReceiveNewsletter, setPlayerPrefReceiveNewsletter] = useState(localStorage.getItem('playerPrefReceiveNewsletter'));
     const [playerPrefReceivePrompts, setPlayerPrefReceivePrompts] = useState(localStorage.getItem('playerPrefReceivePrompts'));
-
     const [showWelcomePage, setShowWelcomePage] = useState(true);
-    // State to control if the account modal should open on game load
     const [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad] = useState(false);
 
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
+
+    // --- SOLUTION: Add this useEffect hook ---
+    useEffect(() => {
+        const fetchInitialPlayerData = async () => {
+            const storedPlayerId = localStorage.getItem('playerId');
+            const authToken = localStorage.getItem('auth_token'); // Assuming you use a token for auth
+
+            if (storedPlayerId && authToken) {
+                try {
+                    const baseUrl = process.env.REACT_APP_API_URL;
+                    // You need an endpoint that returns the full player object by ID.
+                    // Let's assume it is `/api/players/{id}` and it returns { success: true, player: {...} }
+                    const response = await fetch(`${baseUrl}/api/players/${storedPlayerId}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${authToken}`,
+                        },
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.player) {
+                            // This is the key part: set the player object in the state
+                            setPlayer(data.player);
+                            // Also, update all related states to ensure consistency
+                            setPlayerId(data.player.id);
+                            setPlayerName(data.player.nickname);
+                            setIsGuest(false);
+                            setPlayerPrefReceiveNewsletter(data.player.pref_receive_newsletter === '1' || data.player.pref_receive_newsletter === true);
+                            setPlayerPrefReceivePrompts(data.player.pref_receive_prompts === '1' || data.player.pref_receive_prompts === true);
+                        } else {
+                            // Handle cases where the API call is ok, but the request is not successful (e.g., player not found)
+                            console.error("Failed to retrieve player data:", data.message);
+                            setPlayer(null); // Ensure player is null if data is invalid
+                        }
+                    } else {
+                        // Handle auth errors, like an expired token
+                        console.error("Authentication failed. Token might be invalid.");
+                        // It's good practice to clear stale login data
+                        localStorage.removeItem('auth_token');
+                        localStorage.removeItem('playerId');
+                        localStorage.removeItem('playerName');
+                        setPlayer(null);
+                    }
+                } catch (error) {
+                    console.error("Error fetching initial player data:", error);
+                }
+            }
+        };
+
+        fetchInitialPlayerData();
+    }, []); // The empty array [] ensures this effect runs only once on component mount.
+    // --- End of new code ---
 
 
     const handlePlayAsGuest = () => {
         setIsGuest(true);
+        setPlayer(null); // Explicitly set player to null for guests
         setPlayerId(null);
         setPlayerName("Guest");
         setShowWelcomePage(false);
-        setOpenAccountModalOnGameLoad(false); // Ensure it's false for guest
+        setOpenAccountModalOnGameLoad(false);
     };
 
     const handleLoginOption = () => {
         setShowWelcomePage(false);
-        setOpenAccountModalOnGameLoad(true); // Set to open the modal when Panagram loads
+        setOpenAccountModalOnGameLoad(true);
     };
 
     return (
@@ -83,10 +127,9 @@ function App() {
                                 <WelcomePage
                                     playerId={playerId}
                                     onPlayAsGuest={handlePlayAsGuest}
-                                    onLoginClick={handleLoginOption} // This click will just hide welcome page, Panagram will then handle opening modal
+                                    onLoginClick={handleLoginOption}
                                 />
                             ) : (
-                                // Pass all necessary props to MainAppContent
                                 <MainAppContent
                                     playerId={playerId} playerName={playerName} player={player} setPlayer={setPlayer}
                                     setPlayerId={setPlayerId} setPlayerName={setPlayerName} setIsGuest={setIsGuest}
