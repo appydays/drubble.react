@@ -52,6 +52,10 @@ function App() {
             const storedPlayerId = localStorage.getItem('playerId');
             const authToken = localStorage.getItem('auth_token');
 
+            console.log("App.js useEffect: Starting fetchInitialPlayerData.");
+            console.log("App.js useEffect: storedPlayerId:", storedPlayerId);
+            console.log("App.js useEffect: authToken:", authToken ? "Exists" : "Does Not Exist");
+
             if (storedPlayerId && authToken) {
                 try {
                     const baseUrl = process.env.REACT_APP_API_URL;
@@ -65,6 +69,9 @@ function App() {
 
                     if (response.ok) {
                         const data = await response.json();
+
+                        console.log("App.js useEffect: API Response Data:", data);
+
                         if (data.success && data.player) {
                             setPlayer(data.player);
                             setPlayerId(data.player.id);
@@ -72,8 +79,9 @@ function App() {
                             setIsGuest(false); // Set to false when a player is successfully loaded
                             setPlayerPrefReceiveNewsletter(data.player.pref_receive_newsletter === '1' || data.player.pref_receive_newsletter === true);
                             setPlayerPrefReceivePrompts(data.player.pref_receive_prompts === '1' || data.player.pref_receive_prompts === true);
+                            console.log("App.js useEffect: Player data SET in App.js state:", data.player);
                         } else {
-                            console.error("Failed to retrieve player data:", data.message);
+                            console.error("App.js useEffect: Failed to retrieve player data from API (data.success or data.player issue):", data.message);
                             // If API says not successful, clear local storage and set to guest
                             localStorage.removeItem('auth_token');
                             localStorage.removeItem('playerId');
@@ -82,9 +90,9 @@ function App() {
                             setPlayerId(null);
                             setPlayerName("Guest");
                             setIsGuest(true);
+                            console.log("App.js useEffect: Player set to GUEST (API failure).");
                         }
                     } else {
-                        console.error("Authentication failed or network error. Status:", response.status);
                         localStorage.removeItem('auth_token');
                         localStorage.removeItem('playerId');
                         localStorage.removeItem('playerName');
@@ -92,9 +100,10 @@ function App() {
                         setPlayerId(null);
                         setPlayerName("Guest");
                         setIsGuest(true);
+                        console.log("App.js useEffect: Player set to GUEST (Catch block error).");
                     }
                 } catch (error) {
-                    console.error("Error fetching initial player data:", error);
+                    console.error("App.js useEffect: Error fetching initial player data:", error);
                     // On error, revert to guest state
                     localStorage.removeItem('auth_token');
                     localStorage.removeItem('playerId');
@@ -106,11 +115,13 @@ function App() {
                 }
             } else {
                 // No stored player ID or token, so it's definitively a guest session from the start
+                console.log("App.js useEffect: No stored Player ID or Auth Token found. Setting to Guest.");
                 setPlayer(null);
                 setPlayerId(null);
                 setPlayerName("Guest");
                 setIsGuest(true);
             }
+            console.log("App.js useEffect: Setting isLoading to FALSE.");
             setIsLoading(false); // Always set loading to false after the check
         };
 
