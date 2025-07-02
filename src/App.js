@@ -142,6 +142,12 @@ function App() {
         setOpenAccountModalOnGameLoad(false);
     };
 
+    const handlePlayAsPlayer = () => {
+        setIsGuest(false);
+        setShowWelcomePage(false);
+        setOpenAccountModalOnGameLoad(false);
+    };
+
     const handleLoginOption = () => {
         setShowWelcomePage(false);
         setOpenAccountModalOnGameLoad(true);
@@ -161,6 +167,7 @@ function App() {
                                 <WelcomePage
                                     playerId={playerId}
                                     onPlayAsGuest={handlePlayAsGuest}
+                                    onPlayAsPlayer={handlePlayAsPlayer}
                                     onLoginClick={handleLoginOption}
                                 />
                             ) : (

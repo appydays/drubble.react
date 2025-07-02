@@ -6,7 +6,7 @@ import SocialShare from "./SocialShare";
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher'; // Assuming this path is correct
 
-const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) => {
+const WelcomePage = ({ playerId, onPlayAsGuest, onPlayAsPlayer, onLoginClick, onLogoutClick }) => {
     const [playerName, setPlayerName] = useState(null);
     const [showWhyDrubble, setShowWhyDrubble] = useState(false); // State for expandable section
     const [showHowToPlay, setShowHowToPlay] = useState(false);
@@ -60,8 +60,12 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
         fetchPlayerData();
     }, [playerId, makeRequest]); // Add makeRequest to dependencies as it's from useApiRequest
 
-    const handlePlayClick = () => {
+    const handleGuestClick = () => {
         onPlayAsGuest();
+    };
+
+    const handlePlayerClick = () => {
+        onPlayAsPlayer();
     };
 
     const handleLoginClick = () => {
@@ -120,7 +124,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                     <div className="button-group welcome-cta-buttons">
                         {playerName ? (
                             <>
-                                <button onClick={handlePlayClick} className="welcome-button play-button">
+                                <button onClick={handlePlayerClick} className="welcome-button play-button">
                                     {t('buttons.play_as_player', { playerName: playerName })}
                                 </button>
                                 <button onClick={handleLogout} className="welcome-button secondary-button">
@@ -129,7 +133,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onLoginClick, onLogoutClick }) =
                             </>
                         ) : (
                             <>
-                                <button onClick={handlePlayClick} className="welcome-button play-button">
+                                <button onClick={handleGuestClick} className="welcome-button play-button">
                                     {t('buttons.play_as_guest')}
                                 </button>
                                 <button onClick={handleLoginClick} className="welcome-button primary-button">
