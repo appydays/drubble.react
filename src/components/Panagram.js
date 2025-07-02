@@ -36,10 +36,6 @@ const Panagram = ({
                       openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
                   }) => {
 
-    console.log('playerId', playerId);
-    console.log('playerName', playerName);
-    console.log('player', player);
-
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
     const { data, loading, error, makeRequest } = useApiRequest(apiUrl);
