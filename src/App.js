@@ -42,6 +42,7 @@ function App() {
     const [playerPrefReceivePrompts, setPlayerPrefReceivePrompts] = useState(localStorage.getItem('playerPrefReceivePrompts'));
     const [showWelcomePage, setShowWelcomePage] = useState(true);
     const [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const { i18n } = useTranslation();
 
@@ -90,14 +91,25 @@ function App() {
                     }
                 } catch (error) {
                     console.error("Error fetching initial player data:", error);
+                } finally {
+                    setIsLoading(false); // <-- Set loading to false when done
                 }
             }
         };
 
-        fetchInitialPlayerData();
+        const authToken = localStorage.getItem('auth_token');
+        if (authToken) {
+            fetchInitialPlayerData();
+        } else {
+            // If there's no token, we're not loading anything.
+            setIsLoading(false);
+        }
     }, []); // The empty array [] ensures this effect runs only once on component mount.
     // --- End of new code ---
 
+    if (isLoading) {
+        return <div className="loading-spinner">Loading...</div>; // Or a proper spinner component
+    }
 
     const handlePlayAsGuest = () => {
         setIsGuest(true);
