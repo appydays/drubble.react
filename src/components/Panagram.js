@@ -147,6 +147,16 @@ const Panagram = ({
         setPlayerPrefReceiveNewsletter(playerData.pref_receive_newsletter);
         setPlayerPrefReceivePrompts(playerData.pref_receive_prompts);
 
+        //Reset game variables
+        setIsGameOver(false);
+        setStartTime(Date.now());
+        setSubmittedWords([]);
+        setScore(0);
+        setInputLetters([]);
+        setClickedLetters([]);
+        setLastSubmittedWord("");
+        isGameOverHandled.current = false;
+
         localStorage.setItem('playerId', playerData.id);
         localStorage.setItem('playerName', playerData.nickname);
         localStorage.setItem('playerPrefReceiveNewsletter', playerData.pref_receive_newsletter);
@@ -446,7 +456,13 @@ const Panagram = ({
 
         <div className="game-container">
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
-                <ProgressBarTimer isSplashHelpModalOpen={isSplashHelpModalOpen} isGameOver={isGameOver} onTimeUp={handleTimeUp} />
+                <ProgressBarTimer
+                    key={startTime}
+                    totalTime={300}
+                    isSplashHelpModalOpen={isSplashHelpModalOpen}
+                    isGameOver={isGameOver}
+                    onTimeUp={handleTimeUp}
+                />
 
                 <div className="tile-container daily-letters">
                     {letters.map((letter, index) => (

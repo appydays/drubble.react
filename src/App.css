@@ -73,6 +73,11 @@ button:disabled {
   display:none;
 }
 
+.App #google-signin-button div:first-child {
+  display: flex;
+  justify-content: center;
+}
+
 button.submit {
   cursor: pointer;
 }

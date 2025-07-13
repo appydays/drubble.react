@@ -1,0 +1,17 @@
+/* src/components/PrivacyPolicy.css */
+
+.delete-request-help-container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+    text-align: left;
+}
+
+.delete-request-help-content {
+    font-family: Arial, sans-serif;
+    letter-spacing: unset;
+    color: #2c3e50;
+}

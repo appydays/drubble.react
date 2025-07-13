@@ -5,6 +5,7 @@ import GoogleLoginButton from './GoogleLoginButton';
 import LanguageLevelSelect from "./LanguageLevelSelect"; // Ensure this import path is correct
 import CookieSettingsButton from "./CookieSettingsButton";
 import { useTranslation } from 'react-i18next';
+import FacebookLoginButton from "./FacebookLoginButton";
 
 const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [activeTab, setActiveTab] = useState("signin"); // Default to Sign In
@@ -47,7 +48,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     // --- NEW: Social (Google, Facebook,Apple) Login Handler ---
     const handleSocialLogin = (data) => {
         if (data.token && data.user) {
-            localStorage.setItem("auth_token", data.token); // Consider if you need this with Sanctum token or session
+            localStorage.setItem("authToken", data.token); // Consider if you need this with Sanctum token or session
             localStorage.setItem("playerId", data.user.id);
             localStorage.setItem("playerName", data.user.nickname);
             // Ensure these user properties exist in your Laravel response for Google login
@@ -179,7 +180,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     }
 
                     if (data.success && data.token) {
-                        localStorage.setItem("auth_token", data.token); // Uncomment if you need auth_token
+                        localStorage.setItem("authToken", data.token);
                         localStorage.setItem("playerId", data.user.id);
                         localStorage.setItem("playerName", data.user.nickname);
                         localStorage.setItem('playerPrefReceiveNewsletter', data.user.pref_receive_newsletter ? '1' : '0');
@@ -358,6 +359,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
             {/* Auth Forms */}
             <form onSubmit={handleSubmit}>
+
+                <FacebookLoginButton onLogin={handleSocialLogin} />
 
                 <GoogleLoginButton onLogin={handleSocialLogin} />
                 <p>OR</p>

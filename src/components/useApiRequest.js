@@ -75,7 +75,7 @@ const useApiRequest = (baseUrl) => {
                     // Depending on your application's security requirements, you might
                     // choose to throw an error here or prevent the request.
                 }
-                headers['Authorization'] = `Bearer ${localStorage.getItem('auth_token')}`;
+                headers['Authorization'] = `Bearer ${localStorage.getItem('authToken')}`;
             }
 
             // If a request body is provided, set the Content-Type header

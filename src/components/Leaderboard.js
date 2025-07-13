@@ -37,7 +37,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const { makeRequest } = useApiRequest(apiUrl);
 
@@ -89,7 +89,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
 
         fetchLeaderboard();
 
-    }, [isOpen, playerId, apiUrl]);
+    }, [isOpen, playerId, apiUrl, t]);
 
     useEffect(() => {
         const fetchWordLengthHistogram = async () => {
@@ -129,7 +129,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
         };
 
         fetchWordLengthHistogram();
-    }, [activeTab, isOpen, playerId, apiUrl]); // Re-run when tab, modal state, player ID, or API URL changes
+    }, [activeTab, isOpen, playerId, apiUrl, t, makeRequest]); // Re-run when tab, modal state, player ID, or API URL changes
 
     useEffect(() => {
         const fetchRecordStatsData = async () => {
@@ -165,7 +165,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
         };
 
         fetchRecordStatsData();
-    }, [activeTab, isOpen, apiUrl]); // Re-run when tab, modal state, player ID, or API URL changes
+    }, [activeTab, isOpen, apiUrl, t, makeRequest]); // Re-run when tab, modal state, player ID, or API URL changes
 
     // Function to get the currently active daily data
     const getActiveDailyData = () => {

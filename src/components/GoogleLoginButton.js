@@ -51,7 +51,10 @@ const GoogleLoginButton = ({ onLogin }) => {
         }
     };
 
-    return <div id="google-signin-button"></div>;
+    return  <div>
+                {/*<div>{t('auth.social-login.google-label')}</div>*/}
+                <div id="google-signin-button"></div>
+            </div>;
 };
 
 export default GoogleLoginButton;

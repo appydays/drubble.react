@@ -1,7 +1,10 @@
 {
+  "loading": {
+    "app": "Loading app..."
+  },
   "welcome_page" : {
     "welcome_message": "Welcome to {{sitename}}!",
-    "welcome_content": "<p>Prepare to put your vocabulary to the ultimate test!</p><p>In this daily word challenge, you get <b>5 minutes</b> to find <b>5 words</b> across <b>5 rounds</b> of <b>9 letters</b> each.</p><p>Find the longest word possible to score big, and use less common letters for bonus points!</p>",
+    "welcome_content": "<p>Prepare to put your vocabulary to the ultimate test!</p><p>In this daily word challenge, you get <b>5 minutes</b> to find <b>5 words</b> across <b>5 rounds</b> of <b>9 letters</b> each.</p><p>Find the longest Welsh word possible to score big, and use less common letters for bonus points!</p>",
     "played_today": {
       "score_message": "✅ You have already played today. Your score was <strong>{{todayScore}}</strong>.",
       "not_complete": "You didn't complete the game.",
@@ -49,12 +52,6 @@
     "delete_letter": "Delete",
     "check_word": "Checking word...",
     "submit": "⏎ Enter"
-  },
-  "social_share": {
-    "title": "Share your score!",
-    "facebook": "Share on Facebook",
-    "e-mail": "Share by E-Mail",
-    "mobile": "Share on mobile"
   },
   "submitted_words": {
     "title" : "Your submitted words today",
@@ -177,12 +174,18 @@
     "privacy": {
       "title": "Your account",
       "data-request": {
+        "text": "You can get a copy of all data held against your account by making a data request. This request will be processed automatically and sent to your registered e-mail address.",
         "make": "Make data request",
         "processing": "Processing..."
       },
       "delete": {
+        "text": "You can delete your account on {{siteName}} by clicking the delete account button below. You will be prompted to confirm the deletion request. If you confirm the request, your data including all game history will be removed. This action is not reversible. ",
         "make": "Delete account",
-        "processing": "Deleting..."
+        "processing": "Deleting...",
+        "help": {
+          "title": "How to delete your account from {{siteName}}",
+          "content": "To request deletion of your {{siteName}} account, you will need to first sign in to the app on a browser. Once signed in, click on your account profile from the first footer tab - you will see a 'person' icon with your player nickname underneath. In the Privacy tab there is then a button which you can use to delete your account. Please be aware that once you have clicked to confirm the deletion request, all data - including your history of games played etc., will be deleted. This action is irreversible. If you have any issues with deleting your account and need help, please contact us by e-mail at {{supportEmail}}"
+        }
       },
       "leader-text": "By registering or logging in to {{sitename}}, you confirm that you have read and agree to our Privacy Policy and Terms of Service."
     },
@@ -221,7 +224,12 @@
       "forgot-password": "Forgotten Password?"
     },
     "social-login": {
-      "error-default": "Login failed. Please try again."
+      "google-label": "Login using Google Authentication",
+      "error-default": "Login failed. Please try again.",
+      "facebook": {
+        "label": "Login with Facebook",
+        "button": "Login with Facebook"
+      }
     },
     "form": {
       "name": {
@@ -547,11 +555,38 @@
     "section_10_para_1": "If you have any questions about these Terms, please contact us by email at:"
   },
   "social-share": {
+    "title": "Share your score!",
     "share-text": "{{playerName}} scored {{score}} points on {{siteName}}! Can you beat it?",
-    "email-url": "mailto:?subject=I scored {{score}} ar {{siteName}}!&body={{emailBody}}%0AChwarae yma: {{shareUrl}}",
-    "device": {
-      "not-supported": "Not Supported",
-      "not-supported-text": "Sharing is not supported on this device."
+    "share-error": "Error occurred during sharing from this device",
+    "e-mail": {
+      "button": "Share by E-Mail",
+      "url": "mailto:?subject=I scored {{score}} ar {{siteName}}!&body={{emailBody}}%0AChwarae yma: {{shareUrl}}"
+    },
+    "mobile": {
+      "button": "Share on mobile",
+      "device": {
+        "not-supported": "Not Supported",
+        "not-supported-text": "Sharing is not supported on this device."
+      }
+    },
+    "facebook": {
+      "button": "Share on Facebook",
+      "check": {
+        "title": "Facebook Share",
+        "text": "Thank you for sharing, Please check Facebook to ensure your share was successful"
+      },
+      "fail": {
+        "title": "Facebook share failed",
+        "text": "Sharing failed with error {{error}}"
+      },
+      "success": {
+        "title": "Shared on Facebook",
+        "text": "Your score has been shared on Facebook"
+      },
+      "cancelled": {
+        "title": "Cancelled Share",
+        "text": "Your Facebook sharing was cancelled"
+      }
     }
   },
   "language-selector": {

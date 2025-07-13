@@ -3,7 +3,7 @@ import './css/WordLengthHistogram.css';
 import { useTranslation } from 'react-i18next';
 
 const WordLengthHistogram = ({ data }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     if (!data || Object.keys(data).length === 0) {
         return <p>{t('leaderboard.stats.histogram.no-data')}</p>;

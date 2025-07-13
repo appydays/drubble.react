@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
+import DeleteRequestHelp from './components/DeleteRequestHelp';
+import {clear} from "@testing-library/user-event/dist/clear";
 
 // MainAppContent component remains the same
 const MainAppContent = ({
@@ -50,7 +52,7 @@ function App() {
     useEffect(() => {
         const fetchInitialPlayerData = async () => {
             const storedPlayerId = localStorage.getItem('playerId');
-            const authToken = localStorage.getItem('auth_token');
+            const authToken = localStorage.getItem('authToken');
 
             if (storedPlayerId && authToken) {
                 try {
@@ -76,39 +78,39 @@ function App() {
 
                         } else {
                             // If API says not successful, clear local storage and set to guest
-                            localStorage.removeItem('auth_token');
+                            localStorage.removeItem('authToken');
                             localStorage.removeItem('playerId');
                             localStorage.removeItem('playerName');
                             setPlayer(null);
                             setPlayerId(null);
-                            setPlayerName("Guest");
+                            setPlayerName(null);
                             setIsGuest(true);
                         }
                     } else {
-                        localStorage.removeItem('auth_token');
+                        localStorage.removeItem('authToken');
                         localStorage.removeItem('playerId');
                         localStorage.removeItem('playerName');
                         setPlayer(null);
                         setPlayerId(null);
-                        setPlayerName("Guest");
+                        setPlayerName(null);
                         setIsGuest(true);
                     }
                 } catch (error) {
                     console.error("App.js useEffect: Error fetching initial player data:", error);
                     // On error, revert to guest state
-                    localStorage.removeItem('auth_token');
+                    localStorage.removeItem('authToken');
                     localStorage.removeItem('playerId');
                     localStorage.removeItem('playerName');
                     setPlayer(null);
                     setPlayerId(null);
-                    setPlayerName("Guest");
+                    setPlayerName(null);
                     setIsGuest(true);
                 }
             } else {
                 // No stored player ID or token, so it's definitively a guest session from the start
                 setPlayer(null);
                 setPlayerId(null);
-                setPlayerName("Guest");
+                setPlayerName(null);
                 setIsGuest(true);
             }
             setIsLoading(false); // Always set loading to false after the check
@@ -126,7 +128,7 @@ function App() {
         setIsGuest(true);
         setPlayer(null); // Explicitly set player to null for guests
         setPlayerId(null);
-        setPlayerName("Guest");
+        setPlayerName(null);
         setShowWelcomePage(false);
         setOpenAccountModalOnGameLoad(false);
     };
@@ -142,6 +144,26 @@ function App() {
         setOpenAccountModalOnGameLoad(true);
     };
 
+    const handleLogoutOption = () => {
+        setShowWelcomePage(true);
+        setOpenAccountModalOnGameLoad(false);
+        clearClientSideData();
+    };
+
+    const clearClientSideData = () => {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("playerId");
+        localStorage.removeItem("playerName");
+        localStorage.removeItem("playerPrefReceiveNewsletter");
+        localStorage.removeItem("playerPrefReceivePrompts");
+        localStorage.removeItem("player");
+        setPlayerName(null);
+        setPlayerId(null);
+        setPlayer(null);
+        setIsGuest(true);
+        setShowWelcomePage(true);
+    };
+
     return (
         <ThemeProvider>
             <Router>
@@ -155,9 +177,11 @@ function App() {
                             showWelcomePage ? (
                                 <WelcomePage
                                     playerId={playerId}
+                                    playerName={playerName}
                                     onPlayAsGuest={handlePlayAsGuest}
                                     onPlayAsPlayer={handlePlayAsPlayer}
                                     onLoginClick={handleLoginOption}
+                                    onLogoutClick={handleLogoutOption}
                                 />
                             ) : (
                                 <MainAppContent
@@ -170,6 +194,7 @@ function App() {
                                 />
                             )
                         }/>
+                        <Route path="/data-delete-help" element={<DeleteRequestHelp/>}/>
                         <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
                         <Route path="/terms-of-service" element={<TermsOfService/>}/>
                     </Routes>

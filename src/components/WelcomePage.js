@@ -6,8 +6,8 @@ import SocialShare from "./SocialShare";
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher'; // Assuming this path is correct
 
-const WelcomePage = ({ playerId, onPlayAsGuest, onPlayAsPlayer, onLoginClick, onLogoutClick }) => {
-    const [playerName, setPlayerName] = useState(null);
+const WelcomePage = ({ playerId, playerName, onPlayAsGuest, onPlayAsPlayer, onLoginClick, onLogoutClick }) => {
+    // const [playerName, setPlayerName] = useState(null);
     const [showWhyDrubble, setShowWhyDrubble] = useState(false); // State for expandable section
     const [showHowToPlay, setShowHowToPlay] = useState(false);
     const [showWhyRegister, setShowWhyRegister] = useState(false);
@@ -29,10 +29,10 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onPlayAsPlayer, onLoginClick, on
 
     useEffect(() => {
         const fetchPlayerData = async () => {
-            const storedPlayerName = localStorage.getItem("playerName");
-            if (storedPlayerName) {
-                setPlayerName(storedPlayerName);
-            }
+            // const storedPlayerName = localStorage.getItem("playerName");
+            // if (storedPlayerName) {
+            //     setPlayerName(storedPlayerName);
+            // }
 
             if (playerId) {
                 try {
@@ -73,15 +73,7 @@ const WelcomePage = ({ playerId, onPlayAsGuest, onPlayAsPlayer, onLoginClick, on
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("playerId");
-        localStorage.removeItem("playerName");
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("playerPrefReceiveNewsletter");
-        localStorage.removeItem("playerPrefReceivePrompts");
-        setPlayerName(null);
-        if (onLogoutClick) {
-            onLogoutClick();
-        }
+        onLogoutClick();
     };
 
     return (

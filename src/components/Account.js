@@ -54,7 +54,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
     const [isLoading, setIsLoading] = useState(false); // To manage loading state for async operations like delete/data request
 
     const handleLogout = async () => {
-        const authToken = localStorage.getItem('auth_token');
+        const authToken = localStorage.getItem('authToken');
 
         if (!authToken) {
             clearClientSideData();
@@ -85,7 +85,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
     };
 
     const clearClientSideData = () => {
-        localStorage.removeItem("auth_token");
+        localStorage.removeItem("authToken");
         localStorage.removeItem("playerId");
         localStorage.removeItem("playerName");
         localStorage.removeItem("playerPrefReceiveNewsletter");
@@ -322,6 +322,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                     }}>{t('account.privacy.title')}</h3>
 
                                     <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+                                        <div>{t('account.privacy.data-request.text')}</div>
                                         <button
                                             onClick={handleDataRequest}
                                             disabled={isLoading}
@@ -339,6 +340,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                             {isLoading ? t('account.privacy.data-request.processing') : t('account.privacy.data-request.make')}
                                         </button>
 
+                                        <div>{t('account.privacy.delete.text', {siteName: siteName})}</div>
                                         <button
                                             onClick={handleDeleteAccount}
                                             disabled={isLoading}

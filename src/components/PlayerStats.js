@@ -3,7 +3,7 @@ import './css/PlayerStats.css';
 import { useTranslation } from 'react-i18next';
 
 const PlayerStats = ({ stats }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const {
         highest_scoring_word,
