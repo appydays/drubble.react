@@ -10,19 +10,6 @@ function SplashHelpModal({ isOpen, onClose }) {
     const { t } = useTranslation(); // Use the t function
     const siteName = process.env.REACT_APP_SITE_NAME;
 
-    // Define the button components here to be passed for interpolation
-    const shuffleButtonComponent = (
-        <button className="shuffle-button">
-            <ShuffleIcon/>&nbsp;{t('help_modal.shuffle_button_text')}
-        </button>
-    );
-
-    const exchangeButtonComponent = (
-        <button className="exchange-button">
-            <ReplaceIcon/>&nbsp;{t('help_modal.exchange_button_text')}
-        </button>
-    );
-
     return (
         <Modal className="help" isOpen={isOpen} onClose={onClose}>
             <h2>{t('help_modal.title', {siteName: siteName})}</h2>

@@ -4,7 +4,7 @@
   },
   "welcome_page" : {
     "welcome_message": "Welcome to {{sitename}}!",
-    "welcome_content": "<p>Prepare to put your vocabulary to the ultimate test!</p><p>In this daily word challenge, you get <b>5 minutes</b> to find <b>5 words</b> across <b>5 rounds</b> of <b>9 letters</b> each.</p><p>Find the longest Welsh word possible to score big, and use less common letters for bonus points!</p>",
+    "welcome_content": "<p>Prepare to put your vocabulary to the ultimate test!</p><p>In this daily word challenge, you get <b>5 minutes</b> to find <b>5 words</b> across <b>5 rounds</b> of <b>9 letters</b> each.</p><p>Find the longest word possible to score big, and use less common letters for bonus points!</p>",
     "played_today": {
       "score_message": "✅ You have already played today. Your score was <strong>{{todayScore}}</strong>.",
       "not_complete": "You didn't complete the game.",

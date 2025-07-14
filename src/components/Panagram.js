@@ -374,17 +374,22 @@ const Panagram = ({
 
     const calculateWordScore = (word, baseValue = 20) => {
         const upperCaseWord = word.toUpperCase();
-        let score = word.length * 2;
-        if(word.length === 9) { score += 25; }
+        let score = parseFloat(word.length * 2); // Ensure score starts as a float
+
+        if (word.length === 9) {
+            score += 25;
+        }
+
         for (let i = 0; i < upperCaseWord.length; i++) {
             const letter = upperCaseWord[i];
-            if (letterWeights[letter]) {
+            if (letterWeights[letter] !== undefined) {
+                // Subtract the float percentage directly from the baseValue
                 score += baseValue - letterWeights[letter];
             } else {
-                score += 0;
+                score += 0; // Handle letters not in your weight list if necessary
             }
         }
-        return score;
+        return Math.ceil(score); // Round up the final total score
     };
 
     const handleTimeUp = () => {

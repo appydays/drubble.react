@@ -169,7 +169,7 @@ const SocialShare = ({ score, playerName }) => {
         try {
             if (navigator.share) {
                 await navigator.share({
-                    title: `Sgôr ${process.env.REACT_APP_SITE_NAME}!`, // Title for the native share dialog
+                    title: `${process.env.REACT_APP_SITE_NAME} score!`, // Title for the native share dialog
                     text: shareQuote, // Text for the native share dialog
                     url: siteUrlForNativeShare, // URL for the native share dialog
                 });
