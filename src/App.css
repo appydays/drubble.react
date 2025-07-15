@@ -50,10 +50,6 @@ body {
   color: var(--text-color);
 }
 
-button:disabled {
-  color:lightgrey;
-}
-
 .App {
   text-align: center;
 }
@@ -76,6 +72,12 @@ button:disabled {
 .App #google-signin-button div:first-child {
   display: flex;
   justify-content: center;
+}
+
+.letter-action-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #909090!important;
 }
 
 button.submit {
@@ -471,7 +473,6 @@ button.submit {
 
 .letter-action-container button.exchange-button:disabled {
   /*order:2;*/
-  color:lightgrey;
 }
 
 .message {
@@ -551,11 +552,6 @@ button.submit {
 
 .word-history li {
   margin: 5px 0;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 
 .word-blocks {
@@ -1443,11 +1439,6 @@ button:disabled {
 
   .word-history li {
     margin: 5px 0;
-  }
-
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
   }
 
   .word-blocks {
