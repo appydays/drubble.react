@@ -445,7 +445,7 @@ button.submit {
 }
 
 .letter-action-container button.delete{
-  width: 20%;
+  width: 50%;
   /*order:3;*/
   font-size:1.6rem;
   background-color: #F95E5E;
