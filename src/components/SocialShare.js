@@ -82,7 +82,11 @@ const SocialShare = ({ score, playerName }) => {
             } else {
                 console.log('Facebook sharing cancelled or an error may have occurred via FB.ui.', response);
                 // The response might not have an error_message if simply cancelled
-                Swal.fire(t('social-share.facebook.check.title'), t('social-share.facebook.check.text', {error: response.error_message || t('social-share.facebook.cancelled.text')}), 'error');
+                if(!response.error_message) {
+                    Swal.fire(t('social-share.facebook.check.title'), t('social-share.facebook.check.text'), 'Success');
+                } else {
+                    Swal.fire(t('social-share.facebook.fail.title'), t('social-share.facebook.fail.text', {error: response.error_message || t('social-share.facebook.cancelled.text')}), 'Error');
+                }
             }
         });
     };
@@ -96,65 +100,6 @@ const SocialShare = ({ score, playerName }) => {
         // Directly call the FB.ui trigger
         triggerFBUiShare();
     };
-    // const handleFacebookShare = () => {
-    //     if (!fbSDKReady) {
-    //         console.warn('Facebook SDK not yet ready. Please wait.');
-    //         Swal.fire(t('social-share.facebook.loading-error-title'), t('social-share.facebook.loading-error-text'), 'error');
-    //         return;
-    //     }
-    //
-    //     const encodedShareUrl = encodeURIComponent(shareUrlWithParams);
-    //     const encodedQuote = encodeURIComponent(shareQuote);
-    //     const encodedHashtag = encodeURIComponent(shareHashtag);
-    //
-    //     const deepLink = `fb://share?link=${encodedShareUrl}&quote=${encodedQuote}&hashtag=${encodedHashtag}`;
-    //     let appLaunched = false;
-    //
-    //     const newWindow = window.open(deepLink, '_blank');
-    //
-    //     const handleVisibilityChange = () => {
-    //         if (document.hidden) {
-    //             appLaunched = true;
-    //             console.log('Browser tab went hidden, likely native Facebook app launched.');
-    //             Swal.fire(t('social-share.facebook.success.title'), t('social-share.facebook.success.text'), 'success');
-    //             // Remove the listener once the app is assumed to have launched
-    //             document.removeEventListener('visibilitychange', visibilityChangeListenerRef.current);
-    //             visibilityChangeListenerRef.current = null; // Clear the ref
-    //         }
-    //     };
-    //
-    //     // Store the listener reference
-    //     visibilityChangeListenerRef.current = handleVisibilityChange;
-    //     document.addEventListener('visibilitychange', visibilityChangeListenerRef.current);
-    //
-    //     // Fallback timeout
-    //     fallbackTimeoutRef.current = setTimeout(() => {
-    //         if (!appLaunched) {
-    //             console.log('Native Facebook app did not seem to launch, falling back to FB.ui...');
-    //             triggerFBUiShare();
-    //         }
-    //         // Ensure the visibilitychange listener is removed even if timeout occurs
-    //         if (visibilityChangeListenerRef.current) {
-    //             document.removeEventListener('visibilitychange', visibilityChangeListenerRef.current);
-    //             visibilityChangeListenerRef.current = null; // Clear the ref
-    //         }
-    //         fallbackTimeoutRef.current = null; // Clear the timeout ref
-    //     }, 750); // Give the native app a little time to launch (e.g., 750ms)
-    //
-    //     // If window.open was blocked immediately
-    //     if (!newWindow || newWindow.closed || typeof newWindow.focus !== 'function') {
-    //         console.warn('Window.open for deep link failed or was blocked, immediately falling back to FB.ui.');
-    //         if (fallbackTimeoutRef.current) {
-    //             clearTimeout(fallbackTimeoutRef.current); // Clear the timeout as we're falling back immediately
-    //             fallbackTimeoutRef.current = null;
-    //         }
-    //         if (visibilityChangeListenerRef.current) {
-    //             document.removeEventListener('visibilitychange', visibilityChangeListenerRef.current); // Remove listener
-    //             visibilityChangeListenerRef.current = null;
-    //         }
-    //         triggerFBUiShare();
-    //     }
-    // };
 
     // --- Email Share (existing) ---
     const emailUrl = t('social-share.email.url', {
