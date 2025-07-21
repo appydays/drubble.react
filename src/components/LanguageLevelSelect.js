@@ -1,4 +1,3 @@
-// LanguageLevelSelect.js
 import React from 'react';
 import './css/LanguageLevelSelect.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,14 +29,15 @@ const LanguageLevelSelect = ({ onLevelChange, initialLevel }) => {
                             className="hidden-radio"
                         />
                         <div className="radio-content">
-                            {/* Or a thematic icon for the level */}
                             <FontAwesomeIcon
                                 icon={data.icon}
                                 className="level-icon"
                             />
                             <span className="custom-radio-text">
                                 <strong>{data.label}</strong>
-                                <span className="description">{data.description}</span> {/* Optional description */}
+                                {parseInt(level) === initialLevel && ( // Conditionally render description
+                                    <span className="description">{data.description}</span>
+                                )}
                             </span>
                         </div>
                     </label>
