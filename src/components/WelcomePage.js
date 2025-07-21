@@ -201,6 +201,7 @@ const WelcomePage = ({ playerId, playerName, onPlayAsGuest, onPlayAsPlayer, onLo
                                 <li>{t('future_plans.list_item_2')}</li>
                                 <li>{t('future_plans.list_item_3')}</li>
                                 <li>{t('future_plans.list_item_4')}</li>
+                                <li>{t('future_plans.list_item_5')}</li>
                             </ol>
                             <p>{t('future_plans.contact_message', {supportEmail: process.env.REACT_APP_SUPPORT_EMAIL})}</p>
                             <p>{t('future_plans.newsletter_message', { sitename : process.env.REACT_APP_SITE_NAME})}</p>

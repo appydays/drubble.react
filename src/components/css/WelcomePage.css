@@ -131,7 +131,7 @@
     text-align: left;
      /*Optional: Add height transition for smooth accordion opening */
      max-height: 0;
-     overflow: hidden;
+     overflow: auto;
      transition: max-height 0.3s ease-out;
 }
 

@@ -28,7 +28,8 @@
     "list_item_1": "Adding access to more statistics, e.g. on results from previous days and months,",
     "list_item_2": "Implementing a \"learner\" mode - enabling players to hover over text for translations and word meanings.",
     "list_item_3": "Improving statistics to enable players to filter leaderboards by language level, so instead of just showing the top 10 global leaders, the top 10 learners, or Intermediate or Advanced levels can be shown.",
-    "list_item_4": "We plan to add links to learning resources",
+    "list_item_4": "Enable players to create mini-leagues and view global or mini league leaderboards",
+    "list_item_5": "We plan to add links to learning resources",
     "contact_message": "If you have any features you would like to see in the game, we would love to hear from you, either submit the feedback form or email us at {{supportEmail}}",
     "newsletter_message": "Or if you would like to hear about news and updates to {{sitename}}, please make sure you check your preferences and enable us to include you on the regular newsletters. You can opt in or opt out at any time."
   },
