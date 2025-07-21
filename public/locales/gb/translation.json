@@ -272,11 +272,13 @@
       },
       "password-confirm": {
         "not-match": "Passwords do not match",
+        "title": "Password Confirmation",
         "label": "Password Confirmation",
         "placeholder": "Password Confirmation"
       },
       "verify-code": {
         "title": "Verification Code",
+        "label": "Verification Code",
         "placeholder": "Enter the code from your email"
       },
       "new-password": {

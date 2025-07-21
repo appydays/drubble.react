@@ -280,11 +280,13 @@
       },
       "password-confirm": {
         "not-match": "Nid yw cyfrineiriau yn cyfateb",
+        "title": "Cadarnhad Cyfrinair",
         "label": "Cadarnhad Cyfrinair",
         "placeholder": "Cadarnhad Cyfrinair"
       },
       "verify-code": {
         "title": "Cod Dilysu",
+        "label": "Cod Dilysu",
         "placeholder": "Rhowch y cod o'ch e-bost"
       },
       "new-password": {

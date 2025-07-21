@@ -54,12 +54,6 @@
     "check_word": "Checking word...",
     "submit": "⏎ Enter"
   },
-  "social_share": {
-    "title": "Share your score!",
-    "facebook": "Share on Facebook",
-    "e-mail": "Share by E-Mail",
-    "mobile": "Share on mobile"
-  },
   "submitted_words": {
     "title" : "Your submitted words today",
     "exchanged": "Exchanged"
@@ -278,11 +272,13 @@
       },
       "password-confirm": {
         "not-match": "Passwords do not match",
+        "title": "Password Confirmation",
         "label": "Password Confirmation",
         "placeholder": "Password Confirmation"
       },
       "verify-code": {
         "title": "Verification Code",
+        "label": "Verification Code",
         "placeholder": "Enter the code from your email"
       },
       "new-password": {
