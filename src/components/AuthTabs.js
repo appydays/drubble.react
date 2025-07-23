@@ -483,10 +483,10 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 {/* Forgot Password Section - Only visible on signin tab normally */}
                 {(activeTab === "signin" &&
                     <div style={{marginTop: "1rem"}}>
-                        <div className="forgot-password__title">
+                        <div className="forgot-password__title" style={{marginTop: "1rem"}}>
                             {t('auth.forgot-password.title')}
                         </div>
-                        <div className="forgot-password__text">
+                        <div className="forgot-password__text" style={{marginTop: "1rem"}}>
                             {t('auth.forgot-password.text')}
                         </div>
                         <button
@@ -494,12 +494,13 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             className="link-button"
                             onClick={() => setActiveTab("reset")} // Switch to reset tab to enter email
                             style={{
-                                background: "none",
+                                background: "#808080",
                                 border: "none",
                                 color: "#007bff",
                                 cursor: "pointer",
-                                textDecoration: "underline",
-                                padding: 0
+                                textDecoration: "none",
+                                marginTop: "1rem",
+                                padding: "1rem"
                             }}
                         >{t('auth.buttons.forgot-password')}
                         </button>
