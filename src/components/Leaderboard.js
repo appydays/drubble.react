@@ -358,7 +358,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                             <div className="stats-grid">
 
                                 <TopStatTable
-                                    title="💥 5 sgôr gêm orau"
+                                    title={t('leaderboard.stats.record-stats.best-game-score')}
                                     columns={[
                                         { label: t('leaderboard.stats.table.score'), key: "highest_game_score" },
                                         { label: t('leaderboard.stats.table.nickname'), key: "player.nickname" }
@@ -366,7 +366,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                                     rows={recordStatsData.topGames}
                                 />
                                 <TopStatTable
-                                    title="📊 5 Sgôr Cyfartalog Uchaf"
+                                    title={t('leaderboard.stats.record-stats.average-score')}
                                     columns={[
                                         { label: t('leaderboard.stats.table.average'), key: "average_score" },
                                         { label: t('leaderboard.stats.table.games-played'), key: "games_played" },
@@ -375,7 +375,7 @@ function LeaderboardModal({ playerId, isOpen, onClose }) {
                                     rows={recordStatsData.topAverages}
                                 />
                                 <TopStatTable
-                                    title="🏆 5 Sgor Geiriau Gorau"
+                                    title={t('leaderboard.stats.record-stats.best-word-score')}
                                     columns={[
                                         { label: t('leaderboard.stats.table.score'), key: "highest_word_score" },
                                         { label: t('leaderboard.stats.table.word'), key: "highest_scoring_word" },

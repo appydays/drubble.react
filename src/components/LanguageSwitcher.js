@@ -13,7 +13,7 @@ function LanguageSwitcher() {
     // Ensure this resolves to 'CY' or 'GB' as expected by ReactFlagsSelect
     // i18n.language will eventually be the detected language ('cy', 'en', etc.)
     // If i18n is not yet initialized or language is not set, use fallbackLng.
-    const initialLocale = i18n.language || i18n.fallbackLng?.[0] || 'cy'; // Use optional chaining for safety
+    const initialLocale = i18n.language || i18n.fallbackLng?.[0] || 'en'; // Use optional chaining for safety
     const initialFlagCode = initialLocale === 'cy' ? 'CY' : initialLocale.toUpperCase();
 
     // State to manage the selected flag, which can be updated after i18n fully loads
