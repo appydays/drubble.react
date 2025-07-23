@@ -7,12 +7,13 @@ import ReplaceIcon from "./atoms/ReplaceIcon";
 import SocialShare from "./SocialShare";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from 'react-i18next';
+import * as Tone from 'tone'; // Import Tone.js here as well for direct use
 
 // Import all modal components and their related atoms/icons
-import AccountSettingsModal from "./Account"; // Adjust path if needed
-import LeaderboardModal from "./Leaderboard"; // Adjust path if needed
-import SettingsModal from "./SettingsModal"; // Adjust path if needed
-import SplashHelpModal from "./SplashHelpModal"; // Adjust path if needed
+import AccountSettingsModal from "./Account";
+import LeaderboardModal from "./Leaderboard";
+import SettingsModal from "./SettingsModal";
+import SplashHelpModal from "./SplashHelpModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import LeaderBoardButton from "./atoms/LeaderBoardButton";
@@ -40,16 +41,16 @@ const Panagram = ({
     const apiUrl = baseUrl + '/api';
     const { data, loading, error, makeRequest } = useApiRequest(apiUrl);
 
-    const [vowels, setVowels] = useState([]);
-    const [consonants, setConsonants] = useState([]);
-    const [letters, setLetters] = useState([]);
-    const [inputLetters, setInputLetters] = useState([]);
-    const [usedLetters, setUsedLetters] = useState({});
+    const [vowels, setVowels] = useState([]); // Full deck of vowels
+    const [consonants, setConsonants] = useState([]); // Full deck of consonants
+    const [letters, setLetters] = useState([]); // Current 9 letters displayed
+    const [inputLetters, setInputLetters] = useState([]); // Letters currently in the input bar
+    const [usedLetters, setUsedLetters] = useState({}); // Not directly used in new replacement logic, can be removed if no other purpose
     const [message, setMessage] = useState({ text: null, autoDismiss: 0, isError: false });
-    const [submittedWords, setSubmittedWords] = useState([]);
+    const [submittedWords, setSubmittedWords] = useState([]); // List of submitted words
     const [lastSubmittedWord, setLastSubmittedWord] = useState("");
     const [score, setScore] = useState(0);
-    const [clickedLetters, setClickedLetters] = useState([]);
+    const [clickedLetters, setClickedLetters] = useState([]); // Letters clicked from the current 9
 
     const [isGameOver, setIsGameOver] = useState(false);
     const [game, setGame] = useState(null);
@@ -61,10 +62,14 @@ const Panagram = ({
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
 
-    const [vowelIndexState, setVowelIndex] = useState(3);
-    const [consonantIndexState, setConsonantIndex] = useState(6);
+    // Indices to track position in the full vowel/consonant decks
+    const [vowelIndexState, setVowelIndex] = useState(0);
+    const [consonantIndexState, setConsonantIndex] = useState(0);
+    // New state for vowel frequencies array from API
+    const [vowelFrequencyArray, setVowelFrequencyArray] = useState([]);
 
     const isGameOverHandled = useRef(false);
+    const audioContextStartedRef = useRef(false); // New ref to track if audio context has started
 
     const { t, i18n } = useTranslation();
 
@@ -75,9 +80,6 @@ const Panagram = ({
     const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
-
-    // Removed localPlayerId, localPlayerName, localPlayer states
-    // Removed useEffect for local state synchronization
 
     let clickedOccurrences = {};
     clickedLetters.forEach((l) => {
@@ -123,20 +125,36 @@ const Panagram = ({
             .then((data) => {
                 setVowels(data.vowels);
                 setConsonants(data.consonants);
-                initializeLetters(data.vowels, data.consonants);
+                setVowelFrequencyArray(data.vowelFrequency); // Store the vowel frequency array
+                initializeLetters(data.vowels, data.consonants, data.vowelFrequency); // Pass it to initialize
             })
             .catch((error) => console.error("Error fetching letters:", error));
-    }, [apiUrl]);
+    }, [apiUrl]); // Added apiUrl to dependency array
 
     useEffect(() => {
         const nextEmpty = inputLetters.findIndex((letter) => !letter);
         setNextEmptyIndex(nextEmpty === -1 ? inputLetters.length : nextEmpty);
     }, [inputLetters]);
 
+    // Function to start Tone.js audio context
+    const startAudioContext = async () => {
+        if (Tone.context.state !== 'running' && !audioContextStartedRef.current) {
+            try {
+                await Tone.start();
+                console.log("Tone.js audio context started from Panagram.");
+                audioContextStartedRef.current = true;
+            } catch (e) {
+                console.error("Could not start Tone.js audio context from Panagram:", e);
+            }
+        }
+    };
+
+
     // Handlers for login/signup/player updates - These now only update App.js's state via props
     const handleSignupSuccess = (id) => {
         setPlayerId(id);
         localStorage.setItem('playerId', id);
+        startAudioContext(); // Attempt to start audio context on signup
     }
 
     const handleLoginSuccess = (playerData) => {
@@ -156,11 +174,26 @@ const Panagram = ({
         setClickedLetters([]);
         setLastSubmittedWord("");
         isGameOverHandled.current = false;
+        setVowelIndex(0); // Reset vowel index for new game
+        setConsonantIndex(0); // Reset consonant index for new game
+
+        // Re-initialize letters for a fresh game
+        fetch(`${apiUrl}/daily-letters`)
+            .then((response) => response.json())
+            .then((data) => {
+                setVowels(data.vowels);
+                setConsonants(data.consonants);
+                setVowelFrequencyArray(data.vowelFrequency);
+                initializeLetters(data.vowels, data.consonants, data.vowelFrequency);
+            })
+            .catch((error) => console.error("Error fetching letters on login:", error));
 
         localStorage.setItem('playerId', playerData.id);
         localStorage.setItem('playerName', playerData.nickname);
         localStorage.setItem('playerPrefReceiveNewsletter', playerData.pref_receive_newsletter);
         localStorage.setItem('playerPrefReceivePrompts', playerData.pref_receive_prompts);
+
+        startAudioContext(); // Attempt to start audio context on login
     };
 
     const handlePlayerUpdate = (updatedPlayerData) => {
@@ -174,56 +207,122 @@ const Panagram = ({
         localStorage.setItem('playerPrefReceivePrompts', updatedPlayerData.pref_receive_prompts);
     };
 
-    const initializeLetters = (vowelArray, consonantArray) => {
-        const selectedVowels = vowelArray.slice(0, 4);
-        const selectedConsonants = consonantArray.slice(0, 5);
-        setLetters([...selectedVowels, ...selectedConsonants]);
-        setUsedLetters({});
+    /**
+     * Helper to shuffle an array in place.
+     * @param {Array} array The array to shuffle.
+     * @returns {Array} The shuffled array.
+     */
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
+
+    /**
+     * Helper to count vowels in an array of characters.
+     * @param {Array<string>} charArray The array of characters.
+     * @returns {number} The count of vowels.
+     */
+    const countVowelsInArray = (charArray) => {
+        let count = 0;
+        const allVowels = ['A', 'E', 'I', 'O', 'U'];
+        charArray.forEach(char => {
+            if (allVowels.includes(char.toUpperCase())) {
+                count++;
+            }
+        });
+        return count;
+    };
+
+    /**
+     * Initializes the starting 9 letters for the game based on vowel frequency.
+     * @param {Array<string>} vowelArray The full deck of vowels.
+     * @param {Array<string>} consonantArray The full deck of consonants.
+     * @param {Array<number>} vowelFreqArray The array of target vowel counts per round.
+     */
+    const initializeLetters = (vowelArray, consonantArray, vowelFreqArray) => {
+        const targetVowels = vowelFreqArray[0] !== undefined ? vowelFreqArray[0] : 4; // Default to 4 for the first round
+        let selectedVowels = [];
+        let selectedConsonants = [];
+        let currentVowelIdx = 0;
+        let currentConsonantIdx = 0;
+
+        // Select initial vowels based on targetVowels
+        for (let i = 0; i < targetVowels; i++) {
+            if (currentVowelIdx < vowelArray.length) {
+                selectedVowels.push(vowelArray[currentVowelIdx]);
+                currentVowelIdx++;
+            } else {
+                console.warn("Ran out of vowels in the deck during initial setup!");
+                break;
+            }
+        }
+
+        // Select initial consonants to fill the rest (9 - selectedVowels.length)
+        const numConsonantsNeeded = 9 - selectedVowels.length;
+        for (let i = 0; i < numConsonantsNeeded; i++) {
+            if (currentConsonantIdx < consonantArray.length) {
+                selectedConsonants.push(consonantArray[currentConsonantIdx]);
+                currentConsonantIdx++;
+            } else {
+                console.warn("Ran out of consonants in the deck during initial setup!");
+                break;
+            }
+        }
+
+        setVowelIndex(currentVowelIdx);
+        setConsonantIndex(currentConsonantIdx);
+
+        let initialLetters = [...selectedVowels, ...selectedConsonants];
+        // Ensure exactly 9 letters, pad if necessary (shouldn't happen with large decks)
+        while (initialLetters.length < 9) {
+            initialLetters.push('?'); // Placeholder if decks run out
+        }
+        initialLetters = initialLetters.slice(0, 9); // Trim if somehow too many (shouldn't happen)
+
+        shuffleArray(initialLetters); // Shuffle the initial 9 letters
+        setLetters(initialLetters);
+        setUsedLetters({}); // Reset used letters for the new game
     };
 
     const shuffleLetters = () => {
-        const indexedLetters = letters.map((letter, index) => ({ letter, index }));
-        const shuffledIndexedLetters = indexedLetters.sort(() => Math.random() - 0.5);
-        const shuffledLetters = shuffledIndexedLetters.map(item => item.letter);
-        setLetters(shuffledLetters);
+        // Create a copy to shuffle
+        const currentLettersCopy = [...letters];
+        shuffleArray(currentLettersCopy);
+        setLetters(currentLettersCopy);
 
-        const updatedClickedLetters = clickedLetters.map(clickedItem => {
-            const newIndex = shuffledIndexedLetters.findIndex(item => item.letter === clickedItem.letter && item.index === clickedItem.index);
-            return newIndex !== -1 ? { index: newIndex, letter: clickedItem.letter } : null;
-        }).filter(Boolean);
-
-        setClickedLetters(updatedClickedLetters);
+        // Reset clicked letters as their original indices are now invalid
+        setClickedLetters([]);
+        setInputLetters([]);
         setUsedLetters({});
+        startAudioContext(); // Attempt to start audio context on shuffle
     };
 
     const handleLetterClick = (letter) => {
         if (inputLetters.length < 9 && !isGameOver) {
             setInputLetters([...inputLetters, letter]);
+            startAudioContext(); // Attempt to start audio context on letter click
         }
     };
 
     const handleClick = (index, letter) => {
         if(!isGameOver) {
-            if (!clickedLetters.some(item => item.index === index && item.letter === letter)) {
+            // Check if the letter at this index has already been clicked for the current word
+            if (!clickedLetters.some(item => item.index === index)) { // Only check index for uniqueness
                 setClickedLetters([...clickedLetters, {index, letter}]);
                 handleLetterClick(letter);
             }
         }
     };
 
-    const updateUsedLetters = (letter, count) => {
-        setUsedLetters((prevUsedLetters) => ({
-            ...prevUsedLetters,
-            [letter]: (prevUsedLetters[letter] || 0) + count,
-        }));
-    };
-
     const handleDelete = () => {
         if (clickedLetters.length > 0) {
             setInputLetters(inputLetters.slice(0, -1));
-            const updatedLetters = [...clickedLetters];
-            updatedLetters.pop();
-            setClickedLetters(updatedLetters);
+            const updatedClickedLetters = [...clickedLetters];
+            updatedClickedLetters.pop(); // Remove the last clicked letter
+            setClickedLetters(updatedClickedLetters);
         }
     };
 
@@ -231,6 +330,7 @@ const Panagram = ({
         if (isValidating || inputLetters.length === 0 || submittedWords.length >= 5) return;
 
         setIsValidating(true);
+        startAudioContext(); // Attempt to start audio context on enter
 
         if (inputLetters.length > 0 && submittedWords.length < 5) {
             const word = inputLetters.join("");
@@ -244,57 +344,133 @@ const Panagram = ({
                 setMessage({ text: t('word.invalid', {word: word}), autoDismiss: 3, isError: true });
             }
             setClickedLetters([]);
-            setUsedLetters({});
             setInputLetters([]);
+            setUsedLetters({}); // Reset used letters for the new input
             setIsValidating(false);
         }
     };
 
+    /**
+     * Replaces used letters with new ones, maintaining the target vowel frequency for the next round.
+     * @param {string} word The word that was just submitted/exchanged.
+     */
     const replaceUsedLetters = (word) => {
-        let newLetters = [...letters];
-        let consonantIndex = consonantIndexState;
-        let vowelIndex = vowelIndexState;
+        // 1. Identify letters to keep (those not used in the submitted word)
+        let tempCurrentLetters = [...letters]; // Copy of the current 9 letters
+        let submittedChars = word.split(''); // Characters from the submitted word
+        let lettersToKeep = [];
 
-        for (let i = 0; i < word.length; i++) {
-            let letterUsed = word[i];
-            const position = newLetters.indexOf(letterUsed);
+        tempCurrentLetters.forEach(char => {
+            const indexInSubmitted = submittedChars.indexOf(char);
+            if (indexInSubmitted > -1) {
+                // This char was used, remove one instance from submittedChars
+                submittedChars.splice(indexInSubmitted, 1);
+            } else {
+                // This char was not used, keep it
+                lettersToKeep.push(char);
+            }
+        });
 
-            if (vowels.includes(letterUsed)) {
-                if (vowelIndex < vowels.length) {
-                    newLetters[position] = vowels[vowelIndex];
-                    vowelIndex++;
-                }
-            } else if (consonants.includes(letterUsed)) {
-                if (consonantIndex < consonants.length) {
-                    newLetters[position] = consonants[consonantIndex];
-                    consonantIndex++;
-                }
+        // 2. Determine target vowel count for the *next* set of 9 letters
+        // submittedWords.length will be the count of words *after* the current one is added.
+        // So, it directly corresponds to the index for the *next* round's frequency.
+        const roundIndex = submittedWords.length;
+        const targetVowels = vowelFrequencyArray[roundIndex] !== undefined
+            ? vowelFrequencyArray[roundIndex]
+            : 4; // Fallback to 4 if index is out of bounds (e.g., more than 5 rounds)
+
+        // 3. Count vowels in lettersToKeep
+        const currentVowelsInKeep = countVowelsInArray(lettersToKeep);
+
+        // 4. Calculate number of new letters needed
+        const numNewLettersNeeded = 9 - lettersToKeep.length;
+
+        // 5. Calculate how many new vowels and consonants to draw
+        let newVowelsToDraw = Math.max(0, targetVowels - currentVowelsInKeep);
+        let newConsonantsToDraw = numNewLettersNeeded - newVowelsToDraw;
+
+        // Adjust if trying to draw more vowels than slots available for new letters
+        if (newConsonantsToDraw < 0) {
+            newVowelsToDraw = numNewLettersNeeded; // Cap new vowels to total needed letters
+            newConsonantsToDraw = 0;
+        }
+
+        // Ensure we don't try to draw more than available in the full decks
+        newVowelsToDraw = Math.min(newVowelsToDraw, vowels.length - vowelIndexState);
+        newConsonantsToDraw = Math.min(newConsonantsToDraw, consonants.length - consonantIndexState);
+
+        // If after capping, we still don't have enough letters to fill 9,
+        // prioritize filling with whatever is available from the remaining deck.
+        let totalDrawn = newVowelsToDraw + newConsonantsToDraw;
+        if (totalDrawn < numNewLettersNeeded) {
+            const remainingSlots = numNewLettersNeeded - totalDrawn;
+            const availableVowels = vowels.length - (vowelIndexState + newVowelsToDraw);
+            const availableConsonants = consonants.length - (consonantIndexState + newConsonantsToDraw);
+
+            let fillFromVowels = Math.min(remainingSlots, availableVowels);
+            newVowelsToDraw += fillFromVowels;
+            let fillFromConsonants = Math.min(remainingSlots - fillFromVowels, availableConsonants);
+            newConsonantsToDraw += fillFromConsonants;
+        }
+
+
+        // 6. Draw new letters and update indices
+        let drawnVowels = [];
+        let drawnConsonants = [];
+        let nextVowelIdx = vowelIndexState;
+        let nextConsonantIdx = consonantIndexState;
+
+        for (let i = 0; i < newVowelsToDraw; i++) {
+            if (nextVowelIdx < vowels.length) {
+                drawnVowels.push(vowels[nextVowelIdx]);
+                nextVowelIdx++;
             }
         }
-        setConsonantIndex(consonantIndex);
-        setVowelIndex(vowelIndex);
-        setLetters(newLetters);
+        for (let i = 0; i < newConsonantsToDraw; i++) {
+            if (nextConsonantIdx < consonants.length) {
+                drawnConsonants.push(consonants[nextConsonantIdx]);
+                nextConsonantIdx++;
+            }
+        }
+
+        setVowelIndex(nextVowelIdx);
+        setConsonantIndex(nextConsonantIdx);
+
+        // 7. Combine and Shuffle
+        let newSetOfLetters = [...lettersToKeep, ...drawnVowels, ...drawnConsonants];
+        // Ensure it's exactly 9 letters, pad if necessary (shouldn't happen with large decks)
+        while (newSetOfLetters.length < 9) {
+            // Fallback: If decks run out, fill with a random letter or a placeholder
+            // For robustness, could draw from a generic pool or loop back
+            newSetOfLetters.push('?');
+            console.warn("Not enough letters in decks to fill 9 slots!");
+        }
+        newSetOfLetters = newSetOfLetters.slice(0, 9); // Trim if somehow too many (shouldn't happen)
+
+        shuffleArray(newSetOfLetters);
+        setLetters(newSetOfLetters);
     };
 
     const handleExchange = () => {
         if (inputLetters.length > 0) {
             Swal.fire({
-                title: t('alerts.title.sure'),
-                text: t('alerts.exchange.text'),
+                title: t('alert.titles.sure'),
+                text: t('alert.exchange.text'),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: t('alerts.exchange.confirm'),
-                cancelButtonText: t('alerts.exchange.cancel'),
+                confirmButtonText: t('alert.exchange.confirm'),
+                cancelButtonText: t('alert.exchange.cancel'),
             }).then((result) => {
                 if (result.isConfirmed) {
                     const word = inputLetters.join("");
-                    replaceUsedLetters(word);
-                    setInputLetters([]);
-                    setClickedLetters([]);
+                    // replaceUsedLetters will be called via useEffect after submittedWords updates
                     setSubmittedWords([...submittedWords, 'WORD-SKIPPED']);
                     setLastSubmittedWord('WORD-SKIPPED');
+                    setInputLetters([]);
+                    setClickedLetters([]);
+                    startAudioContext(); // Attempt to start audio context on exchange
 
-                    Swal.fire(t('alerts.exchange.success.title'), t('alerts.exchange.success.text'), 'success');
+                    Swal.fire(t('alert.exchange.success.title'), t('alert.exchange.success.text'), 'success');
                 }
             });
         }
@@ -310,14 +486,19 @@ const Panagram = ({
 
                     const updatedData = await updateGameStatus(true);
                     setGameOverStats(updatedData.stats);
-                } else if (lastSubmittedWord !== 'WORD-SKIPPED') {
-                    replaceUsedLetters(lastSubmittedWord);
-                    updateGameStatus(false);
+                } else {
+                    // This block runs after a valid word is submitted or exchanged
+                    // and it's NOT the final round.
+                    replaceUsedLetters(lastSubmittedWord); // Call the new replacement logic
+                    if (lastSubmittedWord !== 'WORD-SKIPPED') {
+                        updateGameStatus(false);
+                    }
                 }
             }
         };
         processGameUpdate();
-    }, [submittedWords, lastSubmittedWord]);
+    }, [submittedWords, lastSubmittedWord]); // Dependency array includes submittedWords and lastSubmittedWord
+
 
     const updateGameStatus = async (isGameComplete = false) => {
         try {
@@ -460,9 +641,10 @@ const Panagram = ({
     return (
 
         <div className="game-container">
+            <LanguageSwitcher />
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer
-                    key={startTime}
+                    // key={startTime}
                     totalTime={300}
                     isSplashHelpModalOpen={isSplashHelpModalOpen}
                     isGameOver={isGameOver}

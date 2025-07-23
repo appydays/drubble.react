@@ -850,14 +850,15 @@ button.submit {
 }
 .progressbar-timer__bar {
   width: 100%;
-  height: 10px;
+  height: 15px;
   background-color: #ddd;
   border-radius: 5px;
   overflow: hidden;
-  margin: auto
+  margin: auto;
+  border: solid 0.5px lightgrey;
 }
 .progressbar-timer__overlay {
-  height: 10px;
+  height: 15px;
   background-color: #3498db;
   transition: width 1s linear;
 }
@@ -1566,14 +1567,15 @@ button.submit {
   }
   .progressbar-timer__bar {
     width: 100%;
-    height: 10px;
+    height: 15px;
     background-color: #ddd;
     border-radius: 5px;
     overflow: hidden;
-    margin: auto
+    margin: auto;
+    border: solid 0.5px lightgrey;
   }
   .progressbar-timer__overlay {
-    height: 10px;
+    height: 15px;
     background-color: #3498db;
     transition: width 1s linear;
   }
