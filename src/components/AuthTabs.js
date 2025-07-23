@@ -494,9 +494,10 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             className="link-button"
                             onClick={() => setActiveTab("reset")} // Switch to reset tab to enter email
                             style={{
-                                background: "#808080",
+                                background: "#a0a0a0",
                                 border: "none",
-                                color: "#007bff",
+                                borderRadius: "50px",
+                                color: "#000000",
                                 cursor: "pointer",
                                 textDecoration: "none",
                                 marginTop: "1rem",
