@@ -248,6 +248,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             verification_code: verificationCode,
                             password: password,
                             password_confirmation: passwordConfirm,
+                            token: token
                         });
 
                         if (responseData && responseData.success) {
