@@ -26,6 +26,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
+    const { data, loading, error, makeRequest } = useApiRequest(apiUrl);
 
     const { t, i18n } = useTranslation();
     const siteName = process.env.REACT_APP_SITE_NAME;
@@ -67,6 +68,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        let responseData;
 
         try {
             setErrors({}); // Clear previous errors
@@ -240,27 +243,14 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                     // STEP 2: Submit code + new password
                     try {
-                        const response = await fetch(apiUrl+"/update-password", {
-                            method: "POST",
-                            headers: {"Content-Type": "application/json", 'Accept-Language': i18n.language},
-                            body: JSON.stringify({
-                                email,
-                                verification_code: verificationCode,
-                                password,
-                                password_confirmation: passwordConfirm,
-                            }),
+                        responseData = await makeRequest('/update-password', 'POST', {
+                            email: email,
+                            verification_code: verificationCode,
+                            password: password,
+                            password_confirmation: passwordConfirm,
                         });
 
-                        if (!response.ok) {
-                            const errorData = await response.json().catch(() => ({}));
-                            setErrors({credentials: errorData.message || t('auth.update-password.failed.text')});
-                            console.error("Password reset error:", response.status, errorData);
-                            return;
-                        }
-
-                        data = await response.json();
-
-                        if (data.success) {
+                        if (responseData && responseData.success) {
                             Swal.fire(t('auth.update-password.success.title'), t('auth.update-password.success.text'), 'success');
                             setActiveTab("signin");
                             setResetStep("request");
@@ -269,9 +259,10 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                             setPasswordConfirm("");
                             setVerificationCode("");
                         } else {
-                            setErrors({credentials: data.message || t('auth.update-password.failed.default-error')});
-                            console.error("Password reset error:", data);
+                            setErrors({credentials: responseData.message || t('auth.update-password.failed.default-error')});
+                            console.error("Password reset error:", responseData.message);
                         }
+
                     } catch (err) {
                         console.error("Request failed:", err);
                         setErrors({credentials: t('auth.update-password.failed.credentials-error')});
