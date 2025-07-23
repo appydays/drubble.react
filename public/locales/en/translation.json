@@ -228,7 +228,7 @@
     "buttons": {
       "login": "Login",
       "register": "Register",
-      "forgot-password": "Send password reset link"
+      "forgot-password": "Request password reset form"
     },
     "social-login": {
       "google-label": "Login using Google Authentication",

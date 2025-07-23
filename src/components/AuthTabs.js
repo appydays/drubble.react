@@ -313,10 +313,14 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             {/* Auth Forms */}
             <form onSubmit={handleSubmit}>
 
-                <FacebookLoginButton onLogin={handleSocialLogin} />
+                {activeTab === "signin" &&
+                    <>
+                        <FacebookLoginButton onLogin={handleSocialLogin}/>
 
-                <GoogleLoginButton onLogin={handleSocialLogin} />
-                <p>OR</p>
+                        <GoogleLoginButton onLogin={handleSocialLogin}/>
+                        <p>OR</p>
+                    </>
+                }
 
                 {/* Conditional message for successful forgot password request */}
                 {activeTab === "signin" && showForgotPasswordSuccessMessage && (
