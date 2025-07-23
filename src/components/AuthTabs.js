@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react"; // Import useEffect
-import useApiRequest from './useApiRequest'; // Assuming this hook is still used elsewhere
+import { useState, useEffect } from "react";
+import useApiRequest from './useApiRequest';
 import Swal from 'sweetalert2';
 import GoogleLoginButton from './GoogleLoginButton';
-import LanguageLevelSelect from "./LanguageLevelSelect"; // Ensure this import path is correct
+import LanguageLevelSelect from "./LanguageLevelSelect";
 import CookieSettingsButton from "./CookieSettingsButton";
 import { useTranslation } from 'react-i18next';
 import FacebookLoginButton from "./FacebookLoginButton";
@@ -14,45 +14,49 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // Default languageLevel to 1 (Learner) for new registrations
-    const [languageLevel, setLanguageLevel] = useState(1); // Set default to 1 (Learner)
-    const [pref_receive_newsletter, setPrefReceiveNewsletter] = useState(false); // Default to false (unchecked)
-    const [pref_receive_prompts, setPrefReceivePrompts] = useState(false); // Default to false (unchecked)
+    const [languageLevel, setLanguageLevel] = useState(1);
+    const [pref_receive_newsletter, setPrefReceiveNewsletter] = useState(false);
+    const [pref_receive_prompts, setPrefReceivePrompts] = useState(false);
 
     const [errors, setErrors] = useState({});
-    const [resetStep, setResetStep] = useState("request");
-    const [verificationCode, setVerificationCode] = useState("");
-    const [passwordConfirm, setPasswordConfirm] = useState("");
+    // Removed resetStep, verificationCode, passwordConfirm as they are no longer needed for frontend reset flow
+    // const [resetStep, setResetStep] = useState("request"); // No longer needed
+    // const [verificationCode, setVerificationCode] = useState(""); // No longer needed
+    // const [passwordConfirm, setPasswordConfirm] = useState(""); // No longer needed
+
+    // NEW STATE: To show the "check email" message
+    const [showForgotPasswordSuccessMessage, setShowForgotPasswordSuccessMessage] = useState(false);
 
     const baseUrl = process.env.REACT_APP_API_URL;
     const apiUrl = baseUrl + '/api';
-    const { data, loading, error, makeRequest } = useApiRequest(apiUrl);
+    const { data, loading, error, makeRequest } = useApiRequest(apiUrl); // makeRequest is now unused in this snippet
 
     const { t, i18n } = useTranslation();
     const siteName = process.env.REACT_APP_SITE_NAME;
-    // Reset form fields when switching tabs
+
+    // Reset form fields and messages when switching tabs
     useEffect(() => {
-        setErrors({}); // Clear errors
+        setErrors({});
         setName("");
         setNickname("");
         setEmail("");
         setPassword("");
-        setLanguageLevel(1); // Reset to default Learner
-        setPrefReceiveNewsletter(false); // Reset checkboxes
+        setLanguageLevel(1);
+        setPrefReceiveNewsletter(false);
         setPrefReceivePrompts(false);
-        setResetStep("request");
-        setVerificationCode("");
-        setPasswordConfirm("");
+        // setResetStep("request"); // No longer needed
+        // setVerificationCode(""); // No longer needed
+        // setPasswordConfirm(""); // No longer needed
+        setShowForgotPasswordSuccessMessage(false); // Clear message on tab switch
     }, [activeTab]);
 
 
-    // --- NEW: Social (Google, Facebook,Apple) Login Handler ---
+    // --- Social (Google, Facebook,Apple) Login Handler ---
     const handleSocialLogin = (data) => {
         if (data.token && data.user) {
-            localStorage.setItem("authToken", data.token); // Consider if you need this with Sanctum token or session
+            localStorage.setItem("authToken", data.token);
             localStorage.setItem("playerId", data.user.id);
             localStorage.setItem("playerName", data.user.nickname);
-            // Ensure these user properties exist in your Laravel response for Google login
             localStorage.setItem('playerPrefReceiveNewsletter', data.user.pref_receive_newsletter ? '1' : '0');
             localStorage.setItem('playerPrefReceivePrompts', data.user.pref_receive_prompts ? '1' : '0');
 
@@ -64,21 +68,19 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
             setErrors({ credentials: errorMessage });
         }
     };
-    // --- END NEW: Google Login Handler ---
+    // --- END Social Login Handler ---
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let responseData;
-
         try {
             setErrors({}); // Clear previous errors
+            setShowForgotPasswordSuccessMessage(false); // Hide any previous success message
 
             // --- Frontend Validation START ---
             const newErrors = {};
 
             if (activeTab === "signup") {
-
                 if (!name.trim()) {
                     newErrors.name = t('auth.form.name.error-required');
                 } else if (!/^[a-zA-Z\s]+$/.test(name)) {
@@ -108,23 +110,16 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     }
                 }
 
-                // Language Level validation (ensure it's a number and within expected range)
                 if (typeof languageLevel !== 'number' || !Number.isInteger(languageLevel) || languageLevel < 1 || languageLevel > 3) {
-                    newErrors.language_level = t('auth.form.lang-level.error-format'); // Language level is required and must be a valid number.
+                    newErrors.language_level = t('auth.form.lang-level.error-format');
                 }
-
-                // Newsletter checkbox validation (required)
-                // if (!pref_receive_newsletter) {
-                //     newErrors.pref_receive_newsletter = "Rhaid i chi gytuno i dderbyn y cylchlythyr."; // You must agree to receive the newsletter.
-                // }
-
 
                 if (Object.keys(newErrors).length > 0) {
                     setErrors(newErrors);
-                    return; // Stop the submission if there are frontend errors
+                    return;
                 }
             }
-            else if (activeTab === "reset") {
+            else if (activeTab === "reset") { // Only validate email for reset request
                 const newErrors = {};
                 if (!email.trim()) {
                     newErrors.email = t('auth.form.e-mail.error-required');
@@ -151,10 +146,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 return;
             }
 
-            let response, data;
+            let response, responseData; // Renamed 'data' to 'responseData' to avoid conflict with hook's 'data'
 
             if (activeTab === "signin") {
-
                 try {
                     await fetch(`${baseUrl}/sanctum/csrf-cookie`, {
                         method: 'GET',
@@ -173,25 +167,25 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     });
 
                     const text = await response.text();
-                    data = text ? JSON.parse(text) : null;
+                    responseData = text ? JSON.parse(text) : null;
 
-                    if (!response.ok || !data) {
-                        const errorMessage = data?.message || t('auth.login.server-error-default');
-                        console.error("Login failed:", response.status, data);
+                    if (!response.ok || !responseData) {
+                        const errorMessage = responseData?.message || t('auth.login.server-error-default');
+                        console.error("Login failed:", response.status, responseData);
                         setErrors({ credentials: errorMessage });
                         return;
                     }
 
-                    if (data.success && data.token) {
-                        localStorage.setItem("authToken", data.token);
-                        localStorage.setItem("playerId", data.user.id);
-                        localStorage.setItem("playerName", data.user.nickname);
-                        localStorage.setItem('playerPrefReceiveNewsletter', data.user.pref_receive_newsletter ? '1' : '0');
-                        localStorage.setItem('playerPrefReceivePrompts', data.user.pref_receive_prompts ? '1' : '0');
-                        onSignupSuccess(data.user.id);
-                        onLoginSuccess(data.user);
+                    if (responseData.success && responseData.token) {
+                        localStorage.setItem("authToken", responseData.token);
+                        localStorage.setItem("playerId", responseData.user.id);
+                        localStorage.setItem("playerName", responseData.user.nickname);
+                        localStorage.setItem('playerPrefReceiveNewsletter', responseData.user.pref_receive_newsletter ? '1' : '0');
+                        localStorage.setItem('playerPrefReceivePrompts', responseData.user.pref_receive_prompts ? '1' : '0');
+                        onSignupSuccess(responseData.user.id);
+                        onLoginSuccess(responseData.user);
                     } else {
-                        const errorMessage = data.message || t('auth.login.error-default');
+                        const errorMessage = responseData.message || t('auth.login.error-default');
                         console.warn("Server rejected login:", errorMessage);
                         setErrors({ credentials: errorMessage });
                     }
@@ -201,77 +195,48 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 }
 
             } else if (activeTab === "reset") {
-                // ... (Your existing reset password logic) ...
-                if (resetStep === "request") {
-                    try {
-                        const response = await fetch(apiUrl+"/forgot-password", {
-                            method: "POST",
-                            headers: {"Content-Type": "application/json", 'Accept-Language': i18n.language},
-                            body: JSON.stringify({
-                                email,
-                                recaptcha_token: token
-                            })
-                        });
+                // This is the "request password reset email" part
+                try {
+                    response = await fetch(apiUrl+"/forgot-password", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json", 'Accept-Language': i18n.language},
+                        body: JSON.stringify({
+                            email,
+                            recaptcha_token: token
+                        })
+                    });
 
-                        if (!response.ok) {
-                            // Check if data is available for specific messages
-                            const errorData = await response.json().catch(() => ({}));
-                            setErrors({email: errorData.message || t('auth.login.server-error-default')});
-                            console.error("Failed to send password reset link:", response.status, errorData);
-                            return;
-                        }
-
-                        data = await response.json();
-
-                        if (data.success) {
-                            Swal.fire(t('auth.forgot-password.success.title'), t('auth.forgot-password.success.text'), 'success');
-                            setResetStep("verify");
-                        } else {
-                            setErrors({email: data.message || t('auth.login.server-error-default')});
-                            console.error("Error response:", data);
-                        }
-                    } catch (err) {
-                        console.error("Request failed:", err);
-                        setErrors({email: t('auth.forgot-password.failed.text')});
-                        return;
-                    }
-                } else {
-                    if (password !== passwordConfirm) {
-                        setErrors({passwordConfirm: t('auth.form.password-confirm.not-match')});
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        setErrors({email: errorData.message || t('auth.login.server-error-default')});
+                        console.error("Failed to send password reset link:", response.status, errorData);
                         return;
                     }
 
-                    // STEP 2: Submit code + new password
-                    try {
-                        responseData = await makeRequest('/update-password', 'POST', {
-                            email: email,
-                            verification_code: verificationCode,
-                            password: password,
-                            password_confirmation: passwordConfirm,
-                            token: token
-                        });
+                    responseData = await response.json();
 
-                        if (responseData && responseData.success) {
-                            Swal.fire(t('auth.update-password.success.title'), t('auth.update-password.success.text'), 'success');
-                            setActiveTab("signin");
-                            setResetStep("request");
-                            setEmail("");
-                            setPassword("");
-                            setPasswordConfirm("");
-                            setVerificationCode("");
-                        } else {
-                            setErrors({credentials: responseData.message || t('auth.update-password.failed.default-error')});
-                            console.error("Password reset error:", responseData.message);
-                        }
-
-                    } catch (err) {
-                        console.error("Request failed:", err);
-                        setErrors({credentials: t('auth.update-password.failed.credentials-error')});
+                    if (responseData.success) {
+                        // Instead of Swal.fire and changing resetStep:
+                        // 1. Show the custom success message
+                        setShowForgotPasswordSuccessMessage(true);
+                        // 2. Switch back to the signin tab
+                        setActiveTab("signin");
+                        // 3. Clear the email field
+                        setEmail("");
+                        // 4. Set a timeout to hide the message after a few seconds
+                        setTimeout(() => {
+                            setShowForgotPasswordSuccessMessage(false);
+                        }, 8000); // Message disappears after 8 seconds
+                    } else {
+                        setErrors({email: responseData.message || t('auth.login.server-error-default')});
+                        console.error("Error response:", responseData);
                     }
+                } catch (err) {
+                    console.error("Request failed:", err);
+                    setErrors({email: t('auth.forgot-password.failed.text')});
                 }
                 return; // Ensure return after reset logic
             } else { // activeTab === "signup"
-
                 response = await fetch(apiUrl + "/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", 'Accept-Language': i18n.language },
@@ -281,9 +246,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         email: email,
                         password: password,
                         password_confirmation: passwordConfirm,
-                        language_level: languageLevel, // Ensure this is the correct value (integer)
-                        pref_receive_newsletter: pref_receive_newsletter, // Send as boolean
-                        pref_receive_prompts: pref_receive_prompts,       // Send as boolean
+                        language_level: languageLevel,
+                        pref_receive_newsletter: pref_receive_newsletter,
+                        pref_receive_prompts: pref_receive_prompts,
                         recaptcha_token: token
                     }),
                 });
@@ -298,9 +263,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                         onSignupSuccess(data.user.id);
                         onLoginSuccess(data.user);
-
-                        // No need to setPassword here, handled by useEffect on tab switch
-                        // setActiveTab("signin"); // This will happen via onLoginSuccess leading to route change
                     } else {
                         setErrors(data.errors || { credentials: data.message || t('auth.register.server-error-default') });
                         console.error("Registration error (backend):", response.status, data);
@@ -325,14 +287,12 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
         }
     };
 
-    // Handler for LanguageLevelSelect component
     const handleLanguageLevelChange = (level) => {
         setLanguageLevel(level);
     };
 
-    // Handler for standard checkboxes
     const handleCheckboxChange = (setter) => (e) => {
-        setter(e.target.checked); // Checkbox value is a boolean
+        setter(e.target.checked);
     };
 
     return (
@@ -357,8 +317,22 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 <GoogleLoginButton onLogin={handleSocialLogin} />
                 <p>OR</p>
 
+                {/* Conditional message for successful forgot password request */}
+                {activeTab === "signin" && showForgotPasswordSuccessMessage && (
+                    <div className="success-message" style={{
+                        backgroundColor: '#d4edda',
+                        color: '#155724',
+                        border: '1px solid #c3e6cb',
+                        borderRadius: '4px',
+                        padding: '10px 15px',
+                        marginBottom: '15px',
+                        textAlign: 'center'
+                    }}>
+                        {t('auth.forgot-password.check-email-message')}
+                    </div>
+                )}
+
                 {activeTab === "signup" && (
-                    // Group name and nickname for responsive layout
                     <div className="form-field-group signup">
                         <label>
                             <span>{t('auth.form.name.label')}</span>
@@ -387,7 +361,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 )}
 
                 {(activeTab === "signin") && (
-                    // Group email and password for responsive layout
                     <div className="form-field-group signin">
                         <label>
                             <span>{t('auth.form.e-mail.label')}</span>
@@ -416,7 +389,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 )}
 
                 {(activeTab === "signup") && (
-                    // Group email and password for responsive layout
                     <>
                         <div className="form-field-group signup">
                             <label>
@@ -460,24 +432,21 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     </>
                 )}
 
-                {/* Place credentials error outside the group if it applies to both email/password */}
                 {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
 
                 {activeTab === "signup" && (
                     <>
-                        {/* Language Level Selector - Assuming LanguageLevelSelect handles its own internal layout */}
                         <LanguageLevelSelect
                             onLevelChange={handleLanguageLevelChange}
-                            initialLevel={languageLevel} // Pass current languageLevel state
+                            initialLevel={languageLevel}
                         />
                         {errors.language_level && <span className="error-message">{errors.language_level}</span>}
 
-                        {/* Communication Preferences */}
                         <div>
                             <h3>{t('account.preferences.title')}</h3>
                         </div>
-                        <label class="choices">
+                        <label className="choices">
                             <input
                                 type="checkbox"
                                 checked={pref_receive_newsletter}
@@ -488,7 +457,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         {errors.pref_receive_newsletter &&
                             <span className="error-message">{errors.pref_receive_newsletter}</span>}
 
-                        <label class="choices">
+                        <label className="choices">
                             <input
                                 type="checkbox"
                                 checked={pref_receive_prompts}
@@ -504,18 +473,25 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     <button
                         type="submit"
                         className="submit"
-                        disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))} // Added required newsletter consent
+                        disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))}
                     >
                         {activeTab === "signin" ? t('auth.buttons.login') : t('auth.buttons.register')}
                     </button>
                 )}
 
+                {/* Forgot Password Section - Only visible on signin tab normally */}
                 {(activeTab === "signin" &&
-                    <div style={{ marginTop: "1rem" }}>
+                    <div style={{marginTop: "1rem"}}>
+                        <div className="forgot-password__title">
+                            {t('auth.forgot-password.title')}
+                        </div>
+                        <div className="forgot-password__text">
+                            {t('auth.forgot-password.text')}
+                        </div>
                         <button
                             type="button"
                             className="link-button"
-                            onClick={() => setActiveTab("reset")}
+                            onClick={() => setActiveTab("reset")} // Switch to reset tab to enter email
                             style={{
                                 background: "none",
                                 border: "none",
@@ -529,7 +505,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     </div>
                 )}
 
-                {activeTab === "reset" && resetStep === "request" && (
+                {/* Reset Password Request Form (Email Input Only) */}
+                {activeTab === "reset" && (
                     <>
                         <div>
                             <h3>{t('auth.reset-password.title')}</h3>
@@ -552,69 +529,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     </>
                 )}
 
-                {activeTab === "reset" && resetStep === "verify" && (
-                    // Group for reset password fields (email is first, then verification/new password)
-                    <div className="form-field-group">
-                        <label>
-                            <span>{t('auth.form.e-mail.label')}</span>
-                            <input
-                                type="email"
-                                className={`${errors.email ? "error" : ""}`}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            {errors.email && <span className="error-message">{errors.email}</span>}
-                        </label>
+                {/* Removed the 'activeTab === "reset" && resetStep === "verify"' block entirely */}
+                {/* As the verification and password update will now be handled by the Laravel Blade view */}
 
-                        <label>
-                            <span>{t('auth.form.verify-code.label')}</span>
-                            <input
-                                type="text"
-                                className={`${errors.verification_code ? "error" : ""}`}
-                                value={verificationCode}
-                                placeholder={t('auth.form.verify-code.placeholder')}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                            />
-                            {errors.verification_code && <span className="error-message">{errors.verification_code}</span>}
-                        </label>
-
-                        <label>
-                            <span>{t('auth.form.new-password.title')}</span>
-                            <input
-                                type="password"
-                                className={`${errors.password ? "error" : ""}`}
-                                value={password}
-                                placeholder={t('auth.form.new-password.placeholder')}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {errors.password && <span className="error-message">{errors.password}</span>}
-                        </label>
-
-                        <label>
-                            <span>{t('auth.form.password-confirm.title')}</span>
-                            <input
-                                type="password"
-                                className={`${errors.passwordConfirm ? "error" : ""}`}
-                                value={passwordConfirm}
-                                placeholder={t('auth.form.password-confirm.placeholder')}
-                                onChange={(e) => setPasswordConfirm(e.target.value)}
-                            />
-                            {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
-                        </label>
-                    </div>
-                )}
-                {/* Errors that apply outside a specific field group */}
-                {activeTab === "reset" && resetStep === "verify" && errors.credentials &&
-                    <span className="error-message">{errors.credentials}</span>}
-
-
-                {activeTab === "reset" && resetStep === "verify" && (
-                    <button
-                        type="submit"
-                        className="submit"
-                        disabled={!email || !password || !verificationCode || password !== passwordConfirm}
-                    >{t('auth.reset-password.title')}</button>
-                )}
             </form>
             <CookieSettingsButton />
 

@@ -228,7 +228,7 @@
     "buttons": {
       "login": "Login",
       "register": "Register",
-      "forgot-password": "Forgotten Password?"
+      "forgot-password": "Send password reset link"
     },
     "social-login": {
       "google-label": "Login using Google Authentication",
@@ -298,6 +298,8 @@
       "error-network": "Unable to connect. Try again later."
     },
     "forgot-password": {
+      "title": "Forgotten Password?",
+      "text": "If you have forgotten your password, please click on the button below. \nYou will receive an email with a link to reset you r password and a verification code.",
       "success": {
         "title": "Reset Request received",
         "text": "Check your email for the reset code."
