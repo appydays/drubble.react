@@ -14,6 +14,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
     const [languageLevel, setLanguageLevel] = useState(1);
     const [pref_receive_newsletter, setPrefReceiveNewsletter] = useState(false);
     const [pref_receive_prompts, setPrefReceivePrompts] = useState(false);
