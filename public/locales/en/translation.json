@@ -608,6 +608,7 @@
   "leagues": {
     "title": "League Tables",
     "no-leagues": "You have no leagues, why not create a new league and invite friends and family.",
+    "not-logged-in": "To take part in game leagues, please log in. If you do not have a game account, please register and log in.",
     "footer": {
       "button": "Return to main app"
     },

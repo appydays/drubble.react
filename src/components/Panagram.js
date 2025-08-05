@@ -767,10 +767,6 @@ const Panagram = ({
                         player={player}
                         onPlayerUpdate={handlePlayerUpdate}
                     />
-                    <SettingsModal
-                        isOpen={isSettingsModalOpen}
-                        onClose={() => setIsSettingsModalOpen(false)}
-                    />
                     <LeaderboardModal
                         playerId={playerId} // Use the playerId prop
                         isOpen={isLeaderboardModalOpen}
@@ -781,7 +777,10 @@ const Panagram = ({
                         isOpen={isLeaguesModalOpen}
                         onClose={() => setIsLeaguesModalOpen(false)}
                     />
-
+                    <SettingsModal
+                        isOpen={isSettingsModalOpen}
+                        onClose={() => setIsSettingsModalOpen(false)}
+                    />
                     <SplashHelpModal
                         isOpen={isSplashHelpModalOpen}
                         onClose={() => setIsSplashHelpModalOpen(false)}
