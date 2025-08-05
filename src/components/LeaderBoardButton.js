@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 // import './LeaderBoardButton.css';
 
 function LeaderboardButton({setIsLeaderboardModalOpen}) {
@@ -8,7 +8,7 @@ function LeaderboardButton({setIsLeaderboardModalOpen}) {
         <button className="leaderboard"
                 title="Leaderboard"
                 onClick={() => setIsLeaderboardModalOpen(true)}>
-            <FontAwesomeIcon icon={faTrophy} />
+            <FontAwesomeIcon icon={faGlobe} />
         </button>
     );
 }

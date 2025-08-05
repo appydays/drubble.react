@@ -1,0 +1,360 @@
+/* League Page Styling */
+.modal .modal-container {
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.modal .modal-container.league button.close {
+    display:none;
+}
+
+.modal .modal-container.league-settings button.close {
+    display:block;
+}
+
+.modal .modal-container.league .leagues-container .content button.league-modal-close {
+    display:block;
+    background-color: #f95e5e;
+    border: 5px;
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px 7px;
+}
+
+/* League Modal */
+.modal .modal-container.league {
+    width: 100%;
+    height:100%;
+}
+
+
+/* Other League elements */
+
+.modal .modal-container.league .leagues-container {
+    display:flex;
+    flex-direction: column;
+}
+
+.modal .modal-container.league .leagues-container form {
+    border:0;
+}
+
+.modal .modal-container.league .leagues-container .ad-block {
+    display:none;
+}
+
+.modal .modal-container.league .leagues-container .content ,
+.modal .modal-container.league .leagues-container .ad-block {
+    width:100%;
+    position:relative;
+}
+
+@media (min-width:968px) {
+    .modal .modal-container.league .leagues-container {
+        flex-direction:row;
+    }
+    .modal .modal-container.league .leagues-container .ad-block.right {
+        display:block
+    }
+    .modal .modal-container.league .leagues-container .content ,
+    .modal .modal-container.league .leagues-container .ad-block {
+        width:50%;
+    }
+}
+
+@media (min-width:1200px) {
+    .modal .modal-container.league .leagues-container .ad-block {
+        display:block
+    }
+    .modal .modal-container.league .leagues-container .content {
+        width:50%
+    }
+    .modal .modal-container.league .leagues-container .ad-block {
+        width:25%;
+    }
+}
+
+.modal .modal-container.league .leagues-container .league-details {
+    margin-bottom: 2rem;
+}
+
+.modal .modal-container.league .leagues-container .league-details .league-details-title-container{
+    position:relative;
+}
+
+.modal .modal-container.league .leagues-container .league-details .league-details-title-container .close-button button {
+    border: 0;
+    background: transparent;
+    cursor:pointer;
+}
+
+.modal .modal-container.league .leagues-container .league-details .league-details-title-container .close-button{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.modal .modal-container.league .leagues-container .league-details .date-selection {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.modal .modal-container.league .leagues-container .league-details .date-selection button {
+    width:40%;
+}
+
+@media (min-width:968px) {
+    .modal .modal-container.league .leagues-container .league-details .date-selection {
+        justify-content:center;
+    }
+
+    .modal .modal-container.league .leagues-container .league-details .date-selection button {
+        width:100px;
+    }
+}
+
+.modal .modal-container.league .leagues-container .league-details .date-selection .date-input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #333;
+    height: 50px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.modal .modal-container.league .leagues-container .league-details .date-selection .special.key.active {
+    background-color: #3498db;
+    color:white;
+}
+
+.modal .modal-container.league .leagues-container .league-details .tab-content tr.current-player {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .tabs {
+    display:inline-flex;
+}
+.modal .modal-container.league .leagues-container .leagues-management .tabs button {
+    border: 1px solid #3498db;
+    height: 40px;
+    width:30%;
+    padding: 0 1rem;
+    margin: 0 5px;
+    background: white;
+    color: grey;
+    cursor:pointer;
+}
+
+@media (min-width: 968px){
+    .modal .modal-container.league .leagues-container .leagues-management .tabs button {
+        border: 1px solid #3498db;
+        height: 40px;
+        width:200px;
+        padding: 0 1rem;
+        margin: 0 15px;
+        background: white;
+        color: grey;
+        cursor:pointer;
+    }
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .tabs button:hover {
+    background: #1884cd;
+    color: white;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .tabs button.active {
+    background: #3498db;
+    color: white;
+    font-weight:700;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management form input {
+    height: 46px;
+    border: 1px solid #3498db;
+    border-radius: 25px 0 0 25px;
+    width: 250px;
+    padding-left: 1.5rem;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management form button {
+    height: 50px;
+    border-radius: 0 25px 25px 0;
+    background-color: #3498db;
+    border: 1px solid #3498db;
+    color:white;
+    font-weight:700;
+    width:100px;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management form button:hover {
+    background-color: #3094d7;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management form {
+    flex-direction:row;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+}
+
+@media (min-width: 968px){
+    .modal .modal-container.league .leagues-container .leagues-management .input-container{
+        width:50%;
+    }
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .create-league-form .league-name-input,
+.modal .modal-container.league .leagues-container .leagues-management .join-league-form .invite-code-input {
+    width: 100%;
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.5rem; /* rounded-lg */
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .create-league-form .league-name-input:focus,
+.modal .modal-container.league .leagues-container .leagues-management .join-league-form .invite-code-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .create-league-form .create-league-button,
+.modal .modal-container.league .leagues-container .leagues-management .join-league-form .join-league-button{
+    position: absolute; /* Position the button relative to its parent container */
+    right: 0.25rem; /* Move it slightly from the right edge */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the button */
+    padding: 0.5rem;
+    background-color: #3498db;
+    color: #ffffff; /* text-white */
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .create-league-form .create-league-button:hover,
+.modal .modal-container.league .leagues-container .leagues-management .join-league-form .join-league-button:hover{
+    background-color: #2563eb; /* hover:bg-blue-600 */
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .create-league-form .create-league-button:disabled,
+.modal .modal-container.league .leagues-container .leagues-management .join-league-form .join-league-button:disabled{
+    background-color: #9ca3af; /* disabled:bg-gray-400 */
+    cursor: not-allowed;
+}
+
+.modal .modal-container.league .leagues-container .leagues-management .create-league-form .invite-code-display code {
+    border: 2px solid #3498db;
+    padding: 0.5rem 1.5rem;
+}
+
+/*.leagues-container .user-leagues-list ul li.league-item.selected {*/
+/*    background-color: #3498db;*/
+/*    color:white;*/
+/*    font-weight:700;*/
+/*}*/
+
+/*.leagues-container .user-leagues-list ul li.league-item:hover {*/
+/*    background-color: #1478bb;*/
+/*    color:white;*/
+/*    font-weight:700;*/
+/*}*/
+
+/*.leagues-container .user-leagues-list .league-list-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: 50px 1fr auto;*/
+/*    gap: 1rem;*/
+/*    align-items: center;*/
+/*    border-bottom: 1px solid #e5e7eb;*/
+/*}*/
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-select-container {
+    display: inline-flex;
+    width: 100%;
+    flex-direction: column;
+    margin-top:1.5rem;
+}
+.modal .modal-container.league .leagues-container .user-leagues-list .league-select-container label {
+    width:100%;
+}
+.modal .modal-container.league .leagues-container .user-leagues-list .league-select-container span.select2 {
+    width:100%!important;
+}
+
+@media (min-width:968px){
+    .modal .modal-container.league .leagues-container .user-leagues-list .league-select-container {
+        display: inline-flex;
+        width: 100%;
+        flex-direction: row;
+    }
+    .modal .modal-container.league .leagues-container .user-leagues-list .league-select-container label {
+        width:50%;
+    }
+    .modal .modal-container.league .leagues-container .user-leagues-list .league-select-container span.select2 {
+        width:50%!important;
+    }
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-list-grid.header {
+    font-weight: bold;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid #6b7280;
+    display: grid;
+    grid-template-columns: 50px 1fr 75px;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-list-grid .league-column {
+    padding: 0.5rem;
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-item {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: grid;
+    grid-template-columns: 50px 1fr 75px;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-item:hover {
+    background-color: #f3f4f6;
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-item.selected {
+    background-color: #d1fae5;
+    border-left: 4px solid #10b981;
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-settings-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.modal .modal-container.league .leagues-container .user-leagues-list .league-settings-button:hover {
+    color: #3498db;
+}
+

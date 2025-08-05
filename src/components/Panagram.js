@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
+// import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useApiRequest from './useApiRequest';
 import ProgressBarTimer from "./ProgressBarTimer";
@@ -12,14 +13,18 @@ import * as Tone from 'tone'; // Import Tone.js here as well for direct use
 // Import all modal components and their related atoms/icons
 import AccountSettingsModal from "./Account";
 import LeaderboardModal from "./Leaderboard";
+import LeaguesPage from "./LeaguesPage";
 import SettingsModal from "./SettingsModal";
 import SplashHelpModal from "./SplashHelpModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import LeaderBoardButton from "./atoms/LeaderBoardButton";
+import LeaguesButton from "./atoms/LeaguesButton.js";
 import SettingsButton from "./atoms/SettingsButton";
 import AccountIcon from "./atoms/AccountIcon";
 import HelpButton from "./atoms/HelpButton";
+
 
 
 const letterWeights = {
@@ -28,13 +33,13 @@ const letterWeights = {
     'L' : 4, 'M' : 2, 'N' : 6, 'P' : 2, 'Q' : 1, 'R' : 5, 'S' : 6, 'T' : 6,
     'V' : 1, 'W' : 2, 'X' : 1, 'Y' : 2, 'Z' : 1
 };
-
 const Panagram = ({
                       // Directly use props from App.js as the source of truth
                       playerId, playerName, player, setPlayer,
                       setPlayerId, setPlayerName, setIsGuest,
                       setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
-                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
+                      openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad,
+                      handleOpenLeaguesModal
                   }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -78,6 +83,7 @@ const Panagram = ({
     // State for modals
     const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
     const [isLeaderboardModalOpen, setIsLeaderboardModalOpen] = useState(false);
+    const [isLeaguesModalOpen, setIsLeaguesModalOpen] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isSplashHelpModalOpen, setIsSplashHelpModalOpen] = useState(false);
 
@@ -715,63 +721,75 @@ const Panagram = ({
             </div>
 
             <footer className="mobile-footer">
-                {/* Use player prop for conditional rendering */}
-                {player ? (
-                    <div className="mobile-footer__account">
-                        <button className="user account"
-                                onClick={() => setIsAccountModalOpen(true)}>
-                            <FontAwesomeIcon icon={faUser} size="2x" color="#333" />
-                        </button>
-                        {/* Use playerName and playerId for display */}
-                        <p>{playerName ? playerName : t('footer.player-label', {playerName: playerId})}</p>
+                <div className="footer-items-container">
+                    {/* Use player prop for conditional rendering */}
+                    {player ? (
+                        <div className="footer-item mobile-footer__account">
+                            <button className="user account"
+                                    onClick={() => setIsAccountModalOpen(true)}>
+                                <FontAwesomeIcon icon={faUser} size="2x" color="#333"/>
+                            </button>
+                            {/* Use playerName and playerId for display */}
+                            <p className="footer-item-text">{playerName ? playerName : t('footer.player-label', {playerName: playerId})}</p>
+                        </div>
+                    ) : (
+                        <div className="footer-item mobile-footer__account">
+                            <button className="user signup"
+                                    onClick={() => setIsAccountModalOpen(true)}>
+                                {/* Pass player prop to AccountIcon */}
+                                <AccountIcon isLoggedIn={!!player}/>
+                            </button>
+                            <p className="footer-item-text">{t('footer.tabs.account')}</p>
+                        </div>
+                    )}
+                    <div className="footer-item mobile-footer__settings">
+                        <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen}/>
+                        <p className="footer-item-text">{t('footer.tabs.settings')}</p>
                     </div>
-                ) : (
-                    <div className="mobile-footer__account">
-                        <button className="user signup"
-                                onClick={() => setIsAccountModalOpen(true)}>
-                            {/* Pass player prop to AccountIcon */}
-                            <AccountIcon isLoggedIn={!!player} />
-                        </button>
-                        <p>{t('footer.tabs.account')}</p>
+                    <div className="footer-item mobile-footer__leaderboard">
+                        <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen}/>
+                        <p className="footer-item-text">{t('footer.tabs.leaderboard')}</p>
                     </div>
-                )}
-                <div className="mobile-footer__settings">
-                    <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen} />
-                    <p>{t('footer.tabs.settings')}</p>
-                </div>
-                <div className="mobile-footer__leaderboard">
-                    <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen} />
-                    <p>{t('footer.tabs.leaderboard')}</p>
-                </div>
-                <div className="mobile-footer__help">
-                    <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen} />
-                    <p>{t('footer.tabs.help')}</p>
-                </div>
+                    <div className="footer-item mobile-footer__leagues">
+                        <LeaguesButton setIsLeaguesModalOpen={setIsLeaguesModalOpen}/>
+                        <p className="footer-item-text">{t('footer.tabs.leagues')}</p>
+                    </div>
+                    <div className="footer-item mobile-footer__help">
+                        <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen}/>
+                        <p className="footer-item-text">{t('footer.tabs.help')}</p>
+                    </div>
 
-                <AccountSettingsModal
-                    isOpen={isAccountModalOpen || openAccountModalOnGameLoad}
-                    onClose={handleAccountModalClose}
-                    onSignupSuccess={handleSignupSuccess}
-                    onLoginSuccess={handleLoginSuccess}
-                    player={player}
-                    onPlayerUpdate={handlePlayerUpdate}
-                />
-                <SettingsModal
-                    isOpen={isSettingsModalOpen}
-                    onClose={() => setIsSettingsModalOpen(false)}
-                />
-                <LeaderboardModal
-                    playerId={playerId} // Use the playerId prop
-                    isOpen={isLeaderboardModalOpen}
-                    onClose={() => setIsLeaderboardModalOpen(false)}
-                />
-                <SplashHelpModal
-                    isOpen={isSplashHelpModalOpen}
-                    onClose={() => setIsSplashHelpModalOpen(false)}
-                />
+                    <AccountSettingsModal
+                        isOpen={isAccountModalOpen || openAccountModalOnGameLoad}
+                        onClose={handleAccountModalClose}
+                        onSignupSuccess={handleSignupSuccess}
+                        onLoginSuccess={handleLoginSuccess}
+                        player={player}
+                        onPlayerUpdate={handlePlayerUpdate}
+                    />
+                    <SettingsModal
+                        isOpen={isSettingsModalOpen}
+                        onClose={() => setIsSettingsModalOpen(false)}
+                    />
+                    <LeaderboardModal
+                        playerId={playerId} // Use the playerId prop
+                        isOpen={isLeaderboardModalOpen}
+                        onClose={() => setIsLeaderboardModalOpen(false)}
+                    />
+                    <LeaguesPage
+                        playerId={playerId} // Use the playerId prop
+                        isOpen={isLeaguesModalOpen}
+                        onClose={() => setIsLeaguesModalOpen(false)}
+                    />
+
+                    <SplashHelpModal
+                        isOpen={isSplashHelpModalOpen}
+                        onClose={() => setIsSplashHelpModalOpen(false)}
+                    />
+                </div>
             </footer>
         </div>
-    );
+);
 };
 
 export default Panagram;

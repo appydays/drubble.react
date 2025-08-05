@@ -9,13 +9,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import DeleteRequestHelp from './components/DeleteRequestHelp';
+import LeaguesPage from "./components/LeaguesPage";
 import {clear} from "@testing-library/user-event/dist/clear";
 
 // MainAppContent component remains the same
 const MainAppContent = ({
                             playerId, playerName, player, setPlayer, setPlayerId, setPlayerName, setIsGuest,
                             setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
-                            openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad
+                            openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad, handleOpenLeaguesModal
                         }) => (
     <>
         <Panagram
@@ -30,6 +31,7 @@ const MainAppContent = ({
             setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
             openAccountModalOnGameLoad={openAccountModalOnGameLoad}
             setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
+            handleOpenLeaguesModal={handleOpenLeaguesModal}
         />
     </>
 );
@@ -45,6 +47,7 @@ function App() {
     const [showWelcomePage, setShowWelcomePage] = useState(true);
     const [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [showLeaguesModal, setShowLeaguesModal] = useState(false);
 
     const { t, i18n } = useTranslation();
 
@@ -164,6 +167,16 @@ function App() {
         setShowWelcomePage(true);
     };
 
+    //handler to open the leagues modal
+    const handleOpenLeaguesModal = () => {
+        setShowLeaguesModal(true);
+    };
+
+    // Handler to close the leagues modal
+    const handleCloseLeaguesModal = () => {
+        setShowLeaguesModal(false);
+    };
+
     return (
         <ThemeProvider>
             <Router>
@@ -200,6 +213,13 @@ function App() {
                     </Routes>
                 </div>
             </Router>
+
+            {/* Conditionally render the LeaguesPage as a full-screen modal */}
+            <LeaguesPage
+                playerId={playerId}
+                onReturnToMain={handleCloseLeaguesModal}
+            />
+
         </ThemeProvider>
     );
 }

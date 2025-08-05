@@ -1,0 +1,185 @@
+/* General container for the switch */
+.toggle-switch-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Equivalent to Tailwind's space-x-2 */
+    margin-top:1rem;
+}
+
+/* Styles for the text labels */
+.toggle-switch-text {
+    font-weight: 600; /* Equivalent to font-semibold */
+    color: #6b7280; /* A default gray color */
+}
+
+.toggle-switch-text.active-on {
+    color: #16a34a; /* A green color for the "on" state */
+}
+
+.toggle-switch-text.active-off {
+    color: #dc2626; /* A red color for the "off" state */
+}
+
+/* Base style for the switch label */
+.toggle-switch-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Hide the default checkbox input */
+.toggle-switch-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Style for the visual toggle track */
+.toggle-switch-track {
+    width: 2.75rem; /* Equivalent to w-11 */
+    height: 1.5rem; /* Equivalent to h-6 */
+    background-color: #d1d5db; /* A default gray color */
+    border-radius: 9999px; /* Equivalent to rounded-full */
+    transition: background-color 0.15s ease-in-out;
+    position: relative;
+}
+
+/* Style for the switch knob */
+.toggle-switch-track::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 1.25rem; /* Equivalent to w-5 */
+    height: 1.25rem; /* Equivalent to h-5 */
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px; /* Equivalent to rounded-full */
+    transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out;
+    transform: translateX(1.25rem);
+}
+
+/* Styles for when the checkbox is checked */
+.toggle-switch-input:checked + .toggle-switch-track {
+    background-color: #16a34a; /* A green color for the "on" state */
+}
+
+/* Move the knob to the right when checked */
+.toggle-switch-input:checked + .toggle-switch-track::after {
+    transform: translateX(0); /* Move the knob by its width */
+    border-color: white;
+}
+
+/* Focus style for accessibility */
+.toggle-switch-input:focus + .toggle-switch-track {
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5); /* A green focus ring */
+}
+
+.league-settings .league-details .invite-code-text {
+    margin-bottom: 1rem;
+}
+
+.league-settings .league-details .invite-code {
+    border: 2px solid #3498db;
+    padding: 0.5rem 1.5rem;
+}
+
+.league-settings .league-details .player-list {
+    display:inline-flex;
+    padding: 0;
+    width: 100%;
+    flex-direction:column;
+}
+
+@media (min-width: 968px){
+    .league-settings .league-details .player-list {
+        width: 20%;
+    }
+}
+
+.league-settings .league-details .player-list li {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 3px 0;
+}
+
+.league-settings .league-details .delete button,
+.league-settings .league-details .player-list li button {
+    border: 2px red solid;
+    background-color: red;
+    color: white;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor:pointer;
+    padding: 5px;
+}
+
+.modal-container .league-settings .accordion-item {
+    margin-top:1.5rem;
+    cursor:pointer;
+}
+
+
+.modal-container .league-settings .accordion-item .accordion-header {
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.modal-container .league-settings .accordion-item .accordion-header:hover {
+    background-color:lightskyblue;
+}
+
+.modal-container .league-settings .accordion-item .accordion-header h3{
+    margin-right: 5px;
+}
+
+.modal-container .league-settings .accordion-item .accordion-header svg{
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.modal-container .league-settings .accordion-item .accordion-header svg.fa-chevron-up{
+    background-color: red;
+    color: white;
+}
+
+.modal-container .league-settings .accordion-item .accordion-header svg.fa-chevron-down{
+    background-color: green;
+    color: white;
+}
+
+.modal-container .league-settings .accordion-item .accordion-content {
+   padding: 1.5rem 0;
+}
+
+.modal-container .league-settings .accordion-item.delete-league .accordion-header {
+    background: red;
+    width: 100%;
+    margin: auto;
+    justify-content: space-between;
+    color: white;
+}
+
+.modal-container .league-settings .accordion-item button.delete {
+    border: 2px red solid;
+    background-color: red;
+    color: white;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor:pointer;
+    padding: 5px;
+}

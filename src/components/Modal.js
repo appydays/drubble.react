@@ -17,7 +17,7 @@ function Modal({ className, isOpen, onClose, children }) {
             zIndex: 1000,
         }}>
             <div className={`modal-container ${className}`} >
-                <button className="close" onClick={onClose} style={{float: 'right'}}>X</button>
+                <button id="model-close" className="close" onClick={onClose} style={{float: 'right'}}>X</button>
                 {children}
             </div>
         </div>
