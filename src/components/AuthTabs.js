@@ -315,7 +315,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                 {activeTab === "signin" &&
                     <>
-                        <FacebookLoginButton onLogin={handleSocialLogin}/>
+                        {/*<FacebookLoginButton onLogin={handleSocialLogin}/>*/}
 
                         <GoogleLoginButton onLogin={handleSocialLogin}/>
                         <p>OR</p>
