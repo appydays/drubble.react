@@ -742,10 +742,6 @@ const Panagram = ({
                             <p className="footer-item-text">{t('footer.tabs.account')}</p>
                         </div>
                     )}
-                    <div className="footer-item mobile-footer__settings">
-                        <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen}/>
-                        <p className="footer-item-text">{t('footer.tabs.settings')}</p>
-                    </div>
                     <div className="footer-item mobile-footer__leaderboard">
                         <LeaderBoardButton setIsLeaderboardModalOpen={setIsLeaderboardModalOpen}/>
                         <p className="footer-item-text">{t('footer.tabs.leaderboard')}</p>
@@ -753,6 +749,10 @@ const Panagram = ({
                     <div className="footer-item mobile-footer__leagues">
                         <LeaguesButton setIsLeaguesModalOpen={setIsLeaguesModalOpen}/>
                         <p className="footer-item-text">{t('footer.tabs.leagues')}</p>
+                    </div>
+                    <div className="footer-item mobile-footer__settings">
+                        <SettingsButton setIsSettingsModalOpen={setIsSettingsModalOpen}/>
+                        <p className="footer-item-text">{t('footer.tabs.settings')}</p>
                     </div>
                     <div className="footer-item mobile-footer__help">
                         <HelpButton setIsSplashHelpModalOpen={setIsSplashHelpModalOpen}/>
