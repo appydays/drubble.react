@@ -15,7 +15,7 @@
   "how_to_play": {
     "title": "How to Play",
     "content_p1": "Every day, each player works from the <b>exact same random set of 9 letters</b>. Your mission? To find the <b>longest possible word</b> you can create from those letters. The longer the word, the higher your score will climb! But that's not all – strategic play is key. Keep an eye out for those less common letters; using them will earn you even more points and boost your overall score.",
-    "content_p2": "Can you defeat the daily competition and claim the title of <b>top scorer</b>? Or perhaps you'll set a new personal, or global, record by crafting the <b>highest-scoring word</b> ever? Every game is an opportunity to prove your linguistic prowess! Remember, you can play for fun and retry, but only your day’s <b>first score</b> will count towards the daily leaderboards and your personal bests."
+    "content_p2": "<div><div><ul><li>Click the letters to spell a word; selected letters will be disabled and appear in the word row.</li><li>Submit the word when you're ready, or use the Delete button ⌫ to undo your selected letters.</li><li>Valid words will be added to your submitted words list.</li><li>Invalid words will be rejected.</li><li>Score points for a valid word, but get better scores by using less common letters if available, e.g., J.</div><p>Can you defeat the daily competition and claim the title of <b>top scorer</b>? Or perhaps you'll set a new personal, or global, record by crafting the <b>highest-scoring word</b> ever? Every game is an opportunity to prove your linguistic prowess! Remember, you can play for fun and retry, but only your day’s <b>first score</b> will count towards the daily leaderboards and your personal bests.</p></div>"
   },
   "why_register": {
     "title": "Why Register?",
@@ -417,7 +417,7 @@
     "title": "How to play {{siteName}}",
     "intro_paragraph": "Create the longest possible word from the 9 available letters. Letters are chosen randomly and change daily, e.g.",
     "list_item_1": "Click the letters to spell a word; selected letters will be disabled and appear in the word row.",
-    "list_item_2": "Type the word when you're ready, or use the Delete button ⌫ to undo your selected letters.",
+    "list_item_2": "Submit the word when you're ready, or use the Delete button ⌫ to undo your selected letters.",
     "list_item_3": "Valid words will be added to your submitted words list.",
     "list_item_4": "Invalid words will be rejected.",
     "list_item_5": "Score points for a valid word, but get better scores by using less common letters if available, e.g., J.",
