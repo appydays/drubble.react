@@ -4,7 +4,8 @@ import './css/WelcomePage.css';
 import useApiRequest from './useApiRequest';
 import SocialShare from "./SocialShare";
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from './LanguageSwitcher'; // Assuming this path is correct
+import LanguageSwitcher from './LanguageSwitcher';
+import Accordion from "./Accordion"; // Assuming this path is correct
 
 const WelcomePage = ({ playerId, playerName, onPlayAsGuest, onPlayAsPlayer, onLoginClick, onLogoutClick }) => {
     // const [playerName, setPlayerName] = useState(null);
@@ -136,78 +137,8 @@ const WelcomePage = ({ playerId, playerName, onPlayAsGuest, onPlayAsPlayer, onLo
                     </div>
                 </div>
 
-                <div className="welcome-section welcome-details">
-                    <h2 className="section-title" onClick={() => setShowWhyDrubble(!showWhyDrubble)}>
-                        Why Drubble? <span className="toggle-icon">{showWhyDrubble ? '▲' : '▼'}</span>
-                    </h2>
-                    {showWhyDrubble && (
-                        <div className="section-content expanded">
-                            <div>
-                                <p>This game was originally developed as Wordscram, but unfortunately it was found that another game was already
-                                    out there with that name! So we thought hard and long on various names related to words and puzzles, but they've pretty
-                                    much all been thought of before.</p>
-                                <p>So why <b>Drubble?</b></p>
-                                <p>
-                                    Etymology of "Drub":
-
-                                    The ultimate origin of "drub" is uncertain, but the most commonly cited theory is that it comes from the Arabic word "ḍaraba" (ضرب), meaning "to beat" or "to strike."
-
-                                    It's believed to have entered the English language in the 17th century, possibly brought back by travelers who observed a form of punishment in Asia involving beating the soles of a person's feet with a stick or cudgel. This original sense of a severe physical beating is central to its early usage.
-
-                                    Use of "Drub" and "Drubbing":
-
-                                    Over the centuries, the meaning of "drub" has broadened and become more figurative, though it still retains its core sense of forceful impact or overwhelming defeat.
-                                </p>
-                                <p>
-                                    "Drubbing" is the verbal noun form of "drub," and it refers to:
-
-                                    A severe beating (literal or figurative) or a sound defeat.
-                                </p>
-                                <p>so hence we came up with drubble, so why not give your family and friends a right drubbing - Let's Drubble! </p>
-                            </div>
-                        </div>
-                    )}
-
-                    <h2 className="section-title" onClick={() => setShowHowToPlay(!showHowToPlay)}>
-                        {t('how_to_play.title')} <span className="toggle-icon">{showHowToPlay ? '▲' : '▼'}</span>
-                    </h2>
-                    {showHowToPlay && (
-                        <div className="section-content expanded">
-                            <div dangerouslySetInnerHTML={{ __html: t('how_to_play.content_p1') }}></div>
-                            <br/>
-                            <div dangerouslySetInnerHTML={{ __html: t('how_to_play.content_p2',{ sitename : process.env.REACT_APP_SITE_NAME}) }}></div>
-                        </div>
-                    )}
-
-                    <h2 className="section-title" onClick={() => setShowWhyRegister(!showWhyRegister)}>
-                        {t('why_register.title')} <span className="toggle-icon">{showWhyRegister ? '▲' : '▼'}</span>
-                    </h2>
-                    {showWhyRegister && (
-                        <div className="section-content expanded">
-                            <div dangerouslySetInnerHTML={{ __html: t('why_register.content_p1') }}></div>
-                            <br/>
-                            <div dangerouslySetInnerHTML={{ __html: t('why_register.content_p2',{ sitename : process.env.REACT_APP_SITE_NAME}) }}></div>
-                        </div>
-                    )}
-
-                    <h2 className="section-title" onClick={() => setShowFuturePlans(!showFuturePlans)}>
-                        {t('future_plans.title')} <span className="toggle-icon">{showFuturePlans ? '▲' : '▼'}</span>
-                    </h2>
-                    {showFuturePlans && (
-                        <div className="section-content expanded">
-                            <p>{t('future_plans.content_p1')}</p>
-                            <ol>
-                                <li>{t('future_plans.list_item_1')}</li>
-                                <li>{t('future_plans.list_item_2')}</li>
-                                <li>{t('future_plans.list_item_3')}</li>
-                                <li>{t('future_plans.list_item_4')}</li>
-                                <li>{t('future_plans.list_item_5')}</li>
-                            </ol>
-                            <p>{t('future_plans.contact_message', {supportEmail: process.env.REACT_APP_SUPPORT_EMAIL})}</p>
-                            <p>{t('future_plans.newsletter_message', { sitename : process.env.REACT_APP_SITE_NAME})}</p>
-                        </div>
-                    )}
-                </div>
+                {/* Show FAQs */}
+                <Accordion />
 
                 <div className="welcome-footer">
                     <p>{t('footer.copyright',{ sitename : process.env.REACT_APP_SITE_NAME})}</p>
