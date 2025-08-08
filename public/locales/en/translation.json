@@ -12,26 +12,33 @@
       "warning_message": "You can still play again for fun — but new scores won't be submitted or count on the leaderboard."
     }
   },
-  "how_to_play": {
-    "title": "How to Play",
-    "content_p1": "Every day, each player works from the <b>exact same random set of 9 letters</b>. Your mission? To find the <b>longest possible word</b> you can create from those letters. The longer the word, the higher your score will climb! But that's not all – strategic play is key. Keep an eye out for those less common letters; using them will earn you even more points and boost your overall score.",
-    "content_p2": "<div><div><ul><li>Click the letters to spell a word; selected letters will be disabled and appear in the word row.</li><li>To rearrange the letters, use the Shuffle button.</li><li>Submit the word when you're ready, or use the Delete button ⌫ to undo your selected letters.</li><li>Valid words will be added to your submitted words list.</li><li>Invalid words will be rejected.</li><li>Score points for a valid word, but get better scores by using less common letters if available, e.g., J.</li><li>If you are completely stuck for a word, use the Exchange button to swap out letters for new letters - select the letters in the word boxes and click exchange. <br/><br/><b>*Warning:</b> Exchanging letters will cost you a word slot, reducing your ability to score points!</li></ul></div><p>Can you defeat the daily competition and claim the title of <b>top scorer</b>? Or perhaps you'll set a new personal, or global, record by crafting the <b>highest-scoring word</b> ever? Every game is an opportunity to prove your linguistic prowess! Remember, you can play for fun and retry, but only your day’s <b>first score</b> will count towards the daily leaderboards and your personal bests.</p></div>"
-  },
-  "why_register": {
-    "title": "Why Register?",
-    "content_p1": "<b>Play as a guest to jump straight into the fun</b>, or <b>register for free to unlock more!</b> Registered players can participate in the daily leaderboards, track their game history, and view their detailed personal statistics.",
-    "content_p2": "After you complete your daily challenge, make sure to share your score with friends and see who reigns supreme! Whether you’re looking for a quick brain teaser, a fun way to pass the time, or friendly competition with your friends, {{sitename}} offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate word master!"
-  },
-  "future_plans": {
-    "title": "What are the plans for future development?",
-    "content_p1": "We have a couple of ideas in the pipeline for future development and to improve the experience:",
-    "list_item_1": "Adding access to more statistics, e.g. on results from previous days and months,",
-    "list_item_2": "Implementing a \"learner\" mode - enabling players to hover over text for translations and word meanings.",
-    "list_item_3": "Improving statistics to enable players to filter leaderboards by language level, so instead of just showing the top 10 global leaders, the top 10 learners, or Intermediate or Advanced levels can be shown.",
-    "list_item_4": "Enable players to create mini-leagues and view global or mini league leaderboards",
-    "list_item_5": "We plan to add links to learning resources",
-    "contact_message": "If you have any features you would like to see in the game, we would love to hear from you, either submit the feedback form or email us at {{supportEmail}}",
-    "newsletter_message": "Or if you would like to hear about news and updates to {{sitename}}, please make sure you check your preferences and enable us to include you on the regular newsletters. You can opt in or opt out at any time."
+  "faqs": {
+    "how_to_play": {
+      "title": "How to Play",
+      "content_p1": "Every day, each player works from the <b>exact same random set of 9 letters</b>. Your mission? To find the <b>longest possible word</b> you can create from those letters. The longer the word, the higher your score will climb! But that's not all – strategic play is key. Keep an eye out for those less common letters; using them will earn you even more points and boost your overall score.",
+      "content_p2": "<div><div><ul><li>Click the letters to spell a word; selected letters will be disabled and appear in the word row.</li><li>To rearrange the letters, use the Shuffle button.</li><li>Submit the word when you're ready, or use the Delete button ⌫ to undo your selected letters.</li><li>Valid words will be added to your submitted words list.</li><li>Invalid words will be rejected.</li><li>Score points for a valid word, but get better scores by using less common letters if available, e.g., J.</li><li>If you are completely stuck for a word, use the Exchange button to swap out letters for new letters - select the letters in the word boxes and click exchange. <br/><br/><b>*Warning:</b> Exchanging letters will cost you a word slot, reducing your ability to score points!</li></ul></div><p>Can you defeat the daily competition and claim the title of <b>top scorer</b>? Or perhaps you'll set a new personal, or global, record by crafting the <b>highest-scoring word</b> ever? Every game is an opportunity to prove your linguistic prowess! Remember, you can play for fun and retry, but only your day’s <b>first score</b> will count towards the daily leaderboards and your personal bests.</p></div>"
+    },
+    "mini-leagues": {
+      "title": "Leaderboard, Your stats and How to use Mini-Leagues",
+      "content_p1": "There are 2 icons at the bottom of the page named Leaderboard and Leagues. Clicking on these will show you the Global Leaderboard and give your current position on the board and you can also see your ow Personal Best scores, for Best Game Score, Best Word Score and what was you best scoring word. You will need to be registered and signed in to see and take part in the Global Leaderboard, to have your stats collected and to take part in mini leagues.",
+      "content_p2": "<div><p>The Leagues icon will show you the 'mini-leagues' you are associated with and will show your leaderboard position within that league.</p><p>You can Create a Mini League or Join a League</p><p>When creating a mini league, give your league a name (this must be unique) and you will be given an 'invite code' - give this code to your family and friends for them to join your league.</p><p>To join a league, click on 'Join a league' and enter the 'invite code' and you will be added to the league."
+    },
+    "why_register": {
+      "title": "Why Register?",
+      "content_p1": "<b>Play as a guest to jump straight into the fun</b>, or <b>register for free to unlock more!</b> Registered players can participate in the daily leaderboards, track their game history, and view their detailed personal statistics.",
+      "content_p2": "After you complete your daily challenge, make sure to share your score with friends and see who reigns supreme! Whether you’re looking for a quick brain teaser, a fun way to pass the time, or friendly competition with your friends, {{sitename}} offers endless hours of engaging gameplay. Sharpen your mind, expand your vocabulary, and challenge yourself to become the ultimate word master!"
+    },
+    "future_plans": {
+      "title": "What are the plans for future development?",
+      "content_p1": "We have a couple of ideas in the pipeline for future development and to improve the experience:",
+      "list_item_1": "Adding access to more statistics, e.g. on results from previous days and months,",
+      "list_item_2": "Implementing a \"learner\" mode - enabling players to hover over text for translations and word meanings.",
+      "list_item_3": "Improving statistics to enable players to filter leaderboards by language level, so instead of just showing the top 10 global leaders, the top 10 learners, or Intermediate or Advanced levels can be shown.",
+      "list_item_4": "Enable players to create mini-leagues and view global or mini league leaderboards",
+      "list_item_5": "We plan to add links to learning resources",
+      "contact_message": "If you have any features you would like to see in the game, we would love to hear from you, either submit the feedback form or email us at {{supportEmail}}",
+      "newsletter_message": "Or if you would like to hear about news and updates to {{sitename}}, please make sure you check your preferences and enable us to include you on the regular newsletters. You can opt in or opt out at any time."
+    }
   },
   "footer": {
     "copyright": "© 2025 {{sitename}}. All rights reserved.",
