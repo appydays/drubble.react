@@ -2,6 +2,8 @@ import React from 'react';
 import './css/PlayerStats.css';
 import { useTranslation } from 'react-i18next';
 import PersonWithHeartsIcon from './atoms/PersonWithHeartsIcon';
+import GamesPlayedIcon from "./atoms/GamesPlayedIcon";
+import AverageScoreIcon from "./atoms/AverageScoreIcon";
 
 const PlayerStats = ({ stats }) => {
     const { t } = useTranslation();
@@ -15,11 +17,11 @@ const PlayerStats = ({ stats }) => {
     } = stats;
 
     const statItems = [
-        { icon: "",label: t('leaderboard.stats.record-stats.best-word'), value: highest_scoring_word },
-        { icon: "", label: t('leaderboard.stats.record-stats.best-word-score'), value: highest_word_score },
+        { icon: <PersonWithHeartsIcon numberOfHearts={1} />,label: t('leaderboard.stats.record-stats.best-word'), value: highest_scoring_word },
+        { icon: <PersonWithHeartsIcon numberOfHearts={2} />, label: t('leaderboard.stats.record-stats.best-word-score'), value: highest_word_score },
         { icon: <PersonWithHeartsIcon numberOfHearts={3} />,label: t('leaderboard.stats.record-stats.best-game-score'), value: highest_game_score },
-        { icon: "", label: t('leaderboard.stats.record-stats.games-played'), value: games_played },
-        { icon: "", label: t('leaderboard.stats.record-stats.average-score'), value: average_score },
+        { icon: <GamesPlayedIcon />, label: t('leaderboard.stats.record-stats.games-played'), value: games_played },
+        { icon: <AverageScoreIcon />, label: t('leaderboard.stats.record-stats.average-score'), value: average_score },
     ];
 
     return (
