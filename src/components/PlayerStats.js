@@ -26,7 +26,7 @@ const PlayerStats = ({ stats }) => {
         <div className="stats-grid">
             {statItems.map(({ icon, label, value }) => (
                 <div key={label} className="stat-card">
-                    <div dangerouslySetInnerHTML={icon}>
+                    <div dangerouslySetInnerHTML={icon} />
                     <div className="stat-label">{label}</div>
                     <div className="stat-value">{value ?? '—'}</div>
                 </div>
