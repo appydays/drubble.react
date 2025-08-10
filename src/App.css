@@ -1722,6 +1722,28 @@ button.submit {
   .letter-action-container button.shuffle-button {
     order:1;
   }
+  .letter-action-container button.shuffle-butto {
+    order:1;
+    background-color: #fff;
+    border:1px solid #444;
+    background-image: linear-gradient(#aaa, #fff);
+
+    /* This box-shadow creates the 3D depth */
+    box-shadow:
+            0 6px 0 #909090,  /* The dark shadow below the button */
+            0 8px 10px rgba(0, 0, 0, 0.4);
+
+  }
+  .letter-action-container button.delete:active {
+    /* Move the button down by a few pixels */
+    transform: translateY(3px);
+
+    /* Shrink the bottom shadow to give the impression it's been pressed into the surface */
+    box-shadow:
+            0 3px 0 #101010,
+            0 4px 6px rgba(0, 0, 0, 0.4);
+  }
+
   .letter-action-container button.exchange-button {
     order:3;
   }
