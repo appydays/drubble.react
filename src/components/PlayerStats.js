@@ -15,18 +15,18 @@ const PlayerStats = ({ stats }) => {
     } = stats;
 
     const statItems = [
-        { icon:  "🏆", label: t('leaderboard.stats.record-stats.best-word'), value: highest_scoring_word },
-        { icon: "💥", label: t('leaderboard.stats.record-stats.best-word-score'), value: highest_word_score },
+        { icon: "",label: t('leaderboard.stats.record-stats.best-word'), value: highest_scoring_word },
+        { icon: "", label: t('leaderboard.stats.record-stats.best-word-score'), value: highest_word_score },
         { icon: PersonWithHeartsIcon(3),label: t('leaderboard.stats.record-stats.best-game-score'), value: highest_game_score },
-        { icon: "🧮", label: t('leaderboard.stats.record-stats.games-played'), value: games_played },
-        { icon: "📊",  label: t('leaderboard.stats.record-stats.average-score'), value: average_score }
+        { icon: "", label: t('leaderboard.stats.record-stats.games-played'), value: games_played },
+        { icon: "", label: t('leaderboard.stats.record-stats.average-score'), value: average_score },
     ];
 
     return (
         <div className="stats-grid">
             {statItems.map(({ icon, label, value }) => (
                 <div key={label} className="stat-card">
-                    <div dangerouslySetInnerHTML={icon} />
+                    <div dangerouslySetInnerHTML={icon}>
                     <div className="stat-label">{label}</div>
                     <div className="stat-value">{value ?? '—'}</div>
                 </div>
