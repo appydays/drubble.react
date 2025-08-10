@@ -411,11 +411,11 @@
         "row-title": "{{count}} words of {{length}} letters"
       },
       "record-stats": {
-        "best-word": "Best Word",
-        "best-word-score": "Best Word Score",
-        "best-game-score": "Best Game Score",
-        "games-played": "Games Played",
-        "average-score": "Average Score",
+        "best-word": "\uD83C\uDFC6 Best Word",
+        "best-word-score": "\uD83D\uDCA5 Best Word Score",
+        "best-game-score": "\uD83C\uDFAE Best Game Score",
+        "games-played": "\uD83E\uDDEE Games Played",
+        "average-score": "\uD83D\uDCCA Average Score",
         "not-logged-in": "Please sign up and log in to see {{siteName}} records."
       }
     }
