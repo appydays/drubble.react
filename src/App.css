@@ -1697,6 +1697,8 @@ button.submit {
   /*  */
   /*}*/
   .letter-action-container button.delete {
+    order:2;
+    width:160px;
     background-color: #F95E5E;
     border:1px solid #F95E5E;
     background-image: linear-gradient(#A90E0E, #F95E5E);
