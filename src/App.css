@@ -459,13 +459,18 @@ button.submit {
 }
 
 .letter-action-container button.shuffle-button {
-  /*order:1;*/
   color:black;
+  background-color: #fff;
+  border:1px solid #444;
+  background-image: linear-gradient(#aaa, #fff);
+
+  /* This box-shadow creates the 3D depth */
+  box-shadow:
+          0 6px 0 #909090,  /* The dark shadow below the button */
+          0 8px 10px rgba(0, 0, 0, 0.4);
+
 }
-.letter-action-container button.exchange-button {
-  /*order:2;*/
-  color:black;
-}
+
 .letter-action-container button.shuffle-button,
 .letter-action-container button.exchange-button {
   /*flex: 1 1 48%;*/
@@ -1722,7 +1727,7 @@ button.submit {
   .letter-action-container button.shuffle-button {
     order:1;
   }
-  .letter-action-container button.shuffle-butto {
+  .letter-action-container button.shuffle-button {
     order:1;
     background-color: #fff;
     border:1px solid #444;
