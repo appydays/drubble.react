@@ -444,15 +444,31 @@ button.submit {
   color: #909090!important;
 }
 
-.letter-action-container button.delete{
+.letter-action-container button.delete {
   width: 50%;
-  /*order:3;*/
+  font-weight:bold;
   font-size:1.6rem;
+  color:black;
   background-color: #F95E5E;
   border:1px solid #F95E5E;
-  font-weight:bold;
-  color:black;
+  background-image: linear-gradient(#A90E0E, #F95E5E);
+
+  /* This box-shadow creates the 3D depth */
+  box-shadow:
+          0 6px 0 #990000,  /* The dark shadow below the button */
+          0 8px 10px rgba(0, 0, 0, 0.4);
+
 }
+.letter-action-container button.delete:active {
+  /* Move the button down by a few pixels */
+  transform: translateY(3px);
+
+  /* Shrink the bottom shadow to give the impression it's been pressed into the surface */
+  box-shadow:
+          0 3px 0 #990000,
+          0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
 .letter-action-container button.delete span {
   font-weight: 500;
   font-size: 1rem;
@@ -1789,7 +1805,8 @@ button.submit {
   }
 
   .letter-action-container button.exchange-button {
-    order:3;color:black;
+    order:3;
+    color:black;
     background-color: #fff;
     border:1px solid #fff;
     background-image: linear-gradient(#aaa, #fff);
