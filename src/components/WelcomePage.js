@@ -7,7 +7,14 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 import Accordion from "./Accordion"; // Assuming this path is correct
 
-const WelcomePage = ({ playerId, playerName, onPlayAsGuest, onPlayAsPlayer, onLoginClick, onLogoutClick }) => {
+const WelcomePage = ({ playerId,
+                         playerName,
+                         onPlayAsGuest,
+                         onPlayAsPlayer,
+                         onLoginClick,
+                         onLogoutClick,
+                         hasPlayedToday,
+                         gameComplete }) => {
     // const [playerName, setPlayerName] = useState(null);
     const [showWhyDrubble, setShowWhyDrubble] = useState(false); // State for expandable section
     const [showHowToPlay, setShowHowToPlay] = useState(false);
@@ -18,48 +25,48 @@ const WelcomePage = ({ playerId, playerName, onPlayAsGuest, onPlayAsPlayer, onLo
     const apiUrl = baseUrl + '/api';
     const { makeRequest } = useApiRequest(apiUrl);
 
-    const [hasPlayedToday, setHasPlayedToday] = useState(false);
+    // const [hasPlayedToday, setHasPlayedToday] = useState(false);
     const [todayScore, setTodayScore] = useState(null);
     const [todayWords, setTodayWords] = useState([]);
-    const [gameComplete, setGameComplete] = useState(false); // Initialize as boolean
+    // const [gameComplete, setGameComplete] = useState(false); // Initialize as boolean
 
     const { t } = useTranslation();
 
     // Use t() for welcome content
     const welcomeContentHtml = t('welcome_page.welcome_content');
 
-    useEffect(() => {
-        const fetchPlayerData = async () => {
-            // const storedPlayerName = localStorage.getItem("playerName");
-            // if (storedPlayerName) {
-            //     setPlayerName(storedPlayerName);
-            // }
-
-            if (playerId) {
-                try {
-                    let responseData = await makeRequest(`/players/${playerId}/today`, 'GET');
-
-                    if (responseData && responseData.success) {
-                        setHasPlayedToday(responseData.hasPlayedToday);
-                        setGameComplete(responseData.complete); // Ensure gameComplete is set
-                        if (responseData.hasPlayedToday) {
-                            setTodayScore(responseData.score);
-                            setTodayWords(responseData.wordsUsed || []);
-                        } else {
-                            setTodayScore(null);
-                            setTodayWords([]);
-                        }
-                    } else {
-                        console.error("Error checking today's game status:", responseData.message);
-                    }
-                } catch (error) {
-                    console.error("Request failed:", error);
-                }
-            }
-        };
-
-        fetchPlayerData();
-    }, [playerId, makeRequest]); // Add makeRequest to dependencies as it's from useApiRequest
+    // useEffect(() => {
+    //     const fetchPlayerData = async () => {
+    //         // const storedPlayerName = localStorage.getItem("playerName");
+    //         // if (storedPlayerName) {
+    //         //     setPlayerName(storedPlayerName);
+    //         // }
+    //
+    //         if (playerId) {
+    //             try {
+    //                 let responseData = await makeRequest(`/players/${playerId}/today`, 'GET');
+    //
+    //                 if (responseData && responseData.success) {
+    //                     setHasPlayedToday(responseData.hasPlayedToday);
+    //                     setGameComplete(responseData.complete); // Ensure gameComplete is set
+    //                     if (responseData.hasPlayedToday) {
+    //                         setTodayScore(responseData.score);
+    //                         setTodayWords(responseData.wordsUsed || []);
+    //                     } else {
+    //                         setTodayScore(null);
+    //                         setTodayWords([]);
+    //                     }
+    //                 } else {
+    //                     console.error("Error checking today's game status:", responseData.message);
+    //                 }
+    //             } catch (error) {
+    //                 console.error("Request failed:", error);
+    //             }
+    //         }
+    //     };
+    //
+    //     fetchPlayerData();
+    // }, [playerId, makeRequest]); // Add makeRequest to dependencies as it's from useApiRequest
 
     const handleGuestClick = () => {
         onPlayAsGuest();

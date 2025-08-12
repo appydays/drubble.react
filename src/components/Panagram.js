@@ -39,7 +39,8 @@ const Panagram = ({
                       setPlayerId, setPlayerName, setIsGuest,
                       setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
                       openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad,
-                      handleOpenLeaguesModal
+                      handleOpenLeaguesModal,
+                      hasPlayedToday,
                   }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -596,6 +597,14 @@ const Panagram = ({
                         <p>{t('game_over.not-logged-in.login_prompt_message')}</p>
                         {/* You could add a button here to navigate to the login page */}
                         {/* <button onClick={() => navigate('/login')}>Login Now</button> */}
+                    </div>
+                );
+            } else if (hasPlayedToday) { // CHECK for players who have already played
+                messageContent = (
+                    <div>
+                        <p>{t('game_over.already_played.title')}</p>
+                        <p>{t('game_over.already_played.message', { score: score })}</p>
+                        <SocialShare score={score} playerName={playerName} />
                     </div>
                 );
             } else if (endTime && submittedWords.length < 5) {

@@ -78,15 +78,19 @@
   },
   "game_over": {
     "title": "Game over!",
-    "complete": "\uD83C\uDF89 Congratulations! You have submitted all 5 words. Your score is {{score}}",
+    "complete": "<b>Congratulations!</b> You have submitted all 5 words. Your score is {{score}}",
     "out_of_time": "We're sorry you ran out of time, you've submitted {{words}} words. Your score is {{score}}",
-    "new_game_high_score": "\uD83C\uDFC6 Good news: You just set a new personal game record with a score of {{game_score}}!",
+    "new_game_high_score": "<b>Great news:</b> You just set a new personal game record with a score of {{game_score}}!",
     "high_game_score": "Your highest game score is {{game_score}}.",
-    "new_word_high_score": "\uD83D\uDE80 Good News: You just set a new personal record for the highest word score with the word '{{word}}' and a score of {{word_score}}!",
+    "new_word_high_score": "<b>Great News:</b> You just set a new personal record for the highest word score with the word '{{word}}' and a score of {{word_score}}!",
     "high_word_score": "Your highest ever word is '{{word}}' with a score of {{word_score}}.",
     "not-logged-in": {
       "login_prompt_title": "Unlock Your Game Potential!",
       "login_prompt_message": "You finished the game! To see your score on the leaderboard and track your personal stats, sign up or log in now. Don't let your best games go unrecorded!"
+    },
+    "already-played": {
+      "title": "You have already played today.",
+      "message": "Your score for this game was {{score}}. This score is not updated on the leaderboard but you can play again to practice and try to be top of the leaderboard tomorrow."
     }
   },
   "alert": {

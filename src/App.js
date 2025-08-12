@@ -16,7 +16,8 @@ import {clear} from "@testing-library/user-event/dist/clear";
 const MainAppContent = ({
                             playerId, playerName, player, setPlayer, setPlayerId, setPlayerName, setIsGuest,
                             setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
-                            openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad, handleOpenLeaguesModal
+                            openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad, handleOpenLeaguesModal,
+                            hasPlayedToday
                         }) => (
     <>
         <Panagram
@@ -32,6 +33,7 @@ const MainAppContent = ({
             openAccountModalOnGameLoad={openAccountModalOnGameLoad}
             setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
             handleOpenLeaguesModal={handleOpenLeaguesModal}
+            hasPlayedToday={hasPlayedToday}
         />
     </>
 );
@@ -48,6 +50,9 @@ function App() {
     const [openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [showLeaguesModal, setShowLeaguesModal] = useState(false);
+
+    const [hasPlayedToday, setHasPlayedToday] = useState(false);
+    const [gameComplete, setGameComplete] = useState(false);
 
     const { t, i18n } = useTranslation();
 
@@ -78,6 +83,20 @@ function App() {
                             setIsGuest(false); // Set to false when a player is successfully loaded
                             setPlayerPrefReceiveNewsletter(data.player.pref_receive_newsletter === '1' || data.player.pref_receive_newsletter === true);
                             setPlayerPrefReceivePrompts(data.player.pref_receive_prompts === '1' || data.player.pref_receive_prompts === true);
+
+                            //Now get player game status
+                            const gameResponse = await fetch(`${baseUrl}/api/players/${data.player.id}/today`, {
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Authorization': `Bearer ${authToken}`,
+                                    'Accept-Language': i18n.language
+                                },
+                            });
+                            const gameData = await gameResponse.json();
+                            if (gameData.success) {
+                                setHasPlayedToday(gameData.hasPlayedToday);
+                                setGameComplete(gameData.complete);
+                            }
 
                         } else {
                             // If API says not successful, clear local storage and set to guest
@@ -195,6 +214,8 @@ function App() {
                                     onPlayAsPlayer={handlePlayAsPlayer}
                                     onLoginClick={handleLoginOption}
                                     onLogoutClick={handleLogoutOption}
+                                    hasPlayedToday={hasPlayedToday}
+                                    gameComplete={gameComplete}
                                 />
                             ) : (
                                 <MainAppContent
@@ -204,6 +225,7 @@ function App() {
                                     setPlayerPrefReceivePrompts={setPlayerPrefReceivePrompts}
                                     openAccountModalOnGameLoad={openAccountModalOnGameLoad}
                                     setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
+                                    hasPlayedToday={hasPlayedToday}
                                 />
                             )
                         }/>
