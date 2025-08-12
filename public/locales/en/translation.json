@@ -88,7 +88,7 @@
       "login_prompt_title": "Unlock Your Game Potential!",
       "login_prompt_message": "You finished the game! To see your score on the leaderboard and track your personal stats, sign up or log in now. Don't let your best games go unrecorded!"
     },
-    "already-played": {
+    "already_played": {
       "title": "You have already played today.",
       "message": "Your score for this game was {{score}}. This score is not updated on the leaderboard but you can play again to practice and try to be top of the leaderboard tomorrow."
     }
