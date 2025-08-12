@@ -65,6 +65,8 @@ const Panagram = ({
     const [nextEmptyIndex, setNextEmptyIndex] = useState(0);
     const [isValidating, setIsValidating] = useState(false);
 
+    const [timerKey, setTimerKey] = useState(Date.now());
+
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
 
@@ -200,7 +202,11 @@ const Panagram = ({
         localStorage.setItem('playerPrefReceiveNewsletter', playerData.pref_receive_newsletter);
         localStorage.setItem('playerPrefReceivePrompts', playerData.pref_receive_prompts);
 
-        startAudioContext(); // Attempt to start audio context on login
+        //Reset the game timer
+        setTimerKey(Date.now());
+
+        // Attempt to start audio context on login
+        startAudioContext();
     };
 
     const handlePlayerUpdate = (updatedPlayerData) => {
@@ -659,7 +665,7 @@ const Panagram = ({
             {/*<LanguageSwitcher />*/}
             <div className={`game-block ${isGameOver ? "game-over" :''}`}>
                 <ProgressBarTimer
-                    // key={startTime}
+                    key={timerKey}
                     totalTime={300}
                     isSplashHelpModalOpen={isSplashHelpModalOpen}
                     isGameOver={isGameOver}

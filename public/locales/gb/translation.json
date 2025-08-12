@@ -435,7 +435,7 @@
     "shuffle_button_text": "Shuffle",
     "shuffle_list_item": "To rearrange the letters, use the Shuffle button <0></0>.",
     "exchange_button_text": "Exchange",
-    "exchange_list_item": "To exchange letters, use the Exchange button <0></0> - select the letters in the word boxes and click exchange. <br/><br/><b>*Warning:</b> Exchanging letters will cost you a word slot, reducing your ability to score points!",
+    "exchange_list_item": "To exchange letters, use the Exchange button <0></0> - select the letters in the word boxes and click exchange. <br/><br/>*Warning: Exchanging letters will cost you a word slot, reducing your ability to score points!",
     "rounds_paragraph_1": "There are 5 rounds and you will have 5 minutes to submit 5 words.",
     "rounds_paragraph_2": "After each word is entered, the letters used will be replaced by the corresponding type, vowel or consonant.",
     "account_paragraph_1": "You don't have to create an account to play; however, if you're not logged in, your score won't be added to the leaderboard!",
@@ -583,7 +583,7 @@
     "share-error": "Error occurred during sharing from this device",
     "e-mail": {
       "button": "Share by E-Mail",
-      "url": "mailto:?subject=I scored {{score}} ar {{siteName}}!&body={{emailBody}}%0AChwarae yma: {{shareUrl}}"
+      "url": "mailto:?subject=I scored {{score}} on {{siteName}}!&body={{emailBody}}%0APlay here: {{shareUrl}}"
     },
     "mobile": {
       "button": "Share on mobile",

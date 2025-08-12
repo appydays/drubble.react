@@ -143,7 +143,7 @@ function App() {
     // --- End of new code ---
 
     if (isLoading) {
-        return <div className="loading-spinner">{t('loading.app')}</div>; // Or a proper spinner component
+        return <div className="loading-spinner">{t('loading.app')}</div>;
     }
 
     const handlePlayAsGuest = () => {
