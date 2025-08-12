@@ -1776,7 +1776,7 @@ button.submit {
     width:160px;
     background-color: #F95E5E;
     border:1px solid #F95E5E;
-    background-image: linear-gradient(#A90E0E, #F95E5E);
+    background-image: linear-gradient(#c92e2e, #F95E5E);
 
     /* This box-shadow creates the 3D depth */
     box-shadow:
