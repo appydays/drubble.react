@@ -102,7 +102,7 @@ const SocialShare = ({ score, playerName }) => {
     };
 
     // --- Email Share (existing) ---
-    const emailUrl = t('social-share.email.url', {
+    const emailUrl = t('social-share.e-mail.url', {
         score: score,
         siteName: siteName,
         emailBody: encodeURIComponent(shareQuote), // Using shareQuote for email body now
