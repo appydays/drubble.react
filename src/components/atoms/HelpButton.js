@@ -7,7 +7,7 @@ function HelpButton({setIsSplashHelpModalOpen}) {
     const { t } = useTranslation();
     return (
         <button className="help"
-                title={t('footer.tab.help')}
+                title={t('footer.tabs.help')}
                 onClick={() => setIsSplashHelpModalOpen(true)}>
             <FontAwesomeIcon icon={faQuestionCircle} />
         </button>
