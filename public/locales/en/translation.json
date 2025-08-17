@@ -662,7 +662,7 @@
         "off": "Inactive",
         "success": {
           "title": "Status Updated",
-          "text": "League invite status has been changed to {newStatus}."
+          "text": "League invite status has been changed to {{newStatus}}."
         },
         "error": {
           "title": "Status Update failed",
