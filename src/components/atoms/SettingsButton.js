@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from "react-i18next";
 // import './LeaderBoardButton.css';
-import { useTranslation } from 'react-i18next';
 
 function SettingsButton({setIsSettingsModalOpen}) {
     const { t } = useTranslation();
