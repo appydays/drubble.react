@@ -741,6 +741,7 @@ const Panagram = ({
                     {player ? (
                         <div className="footer-item mobile-footer__account">
                             <button className="user account"
+                                    title={ t('footer.tabs.account')}
                                     onClick={() => setIsAccountModalOpen(true)}>
                                 <FontAwesomeIcon icon={faUser} size="2x" color="#333"/>
                             </button>
@@ -750,6 +751,7 @@ const Panagram = ({
                     ) : (
                         <div className="footer-item mobile-footer__account">
                             <button className="user signup"
+                                    title={ t('footer.tabs.account')}
                                     onClick={() => setIsAccountModalOpen(true)}>
                                 {/* Pass player prop to AccountIcon */}
                                 <AccountIcon isLoggedIn={!!player}/>
