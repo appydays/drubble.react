@@ -625,14 +625,14 @@
     },
     "create": {
       "loading": "Creating...",
-      "title": "Create a mini league",
+      "title": "Create a League",
       "placeholder": "Enter your unique League name",
       "button": "Create",
       "success": "Your mini league has been created, please share the code below with other players you want to invite to join this league.\nPlayers will need to be registered and logged in to {{siteName}} be able to join the league."
     },
     "join": {
       "loading": "Joining...",
-      "title": "Join a mini league",
+      "title": "Join a League",
       "placeholder": "Enter the share code",
       "button": "Join"
     },
