@@ -51,14 +51,14 @@ const LeagueSettingsModal = ({ isOpen, onClose, league, player, onLeagueDeleted 
                 setStatus(newStatus);
                 Swal.fire({
                     icon: 'success',
-                    title: t('leagues.settings.success.title'),
-                    text: t('leagues.settings.success.text', {newStatus: newStatus})
+                    title: t('leagues.settings.status.success.title'),
+                    text: t('leagues.settings.status.success.text', {newStatus: newStatus})
                 });
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: t('leagues.settings.error.title'),
-                    text: t('leagues.settings.error.text'),
+                    title: t('leagues.settings.status.error.title'),
+                    text: t('leagues.settings.status.error.text'),
                 });
             }
         } catch (err) {
