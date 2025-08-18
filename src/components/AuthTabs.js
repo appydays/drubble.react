@@ -257,6 +257,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                 if (response.ok) {
                     const data = await response.json();
                     if (data.success) {
+                        localStorage.setItem('authToken', data.token);
                         localStorage.setItem('playerId', data.user.id);
                         localStorage.setItem('playerName', data.user.nickname);
                         localStorage.setItem('playerPrefReceiveNewsletter', data.user.pref_receive_newsletter ? '1' : '0');
