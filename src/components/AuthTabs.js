@@ -298,104 +298,76 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
     return (
         <div>
-            {/* Toggle Tabs */}
-            <div className="tabs auth-tabs">
-                <button className={activeTab === "signin" ? "active key special" : "key special"}
-                        onClick={() => setActiveTab("signin")}>
-                    {t('auth.buttons.login')}
-                </button>
-                <button className={activeTab === "signup" ? "active key special" : "key special"}
-                        onClick={() => setActiveTab("signup")}>
-                    {t('auth.buttons.register')}
-                </button>
-            </div>
+            <div className="login-register">
+                {/* Toggle Tabs */}
+                <div className="tabs auth-tabs">
+                    <button className={activeTab === "signin" ? "active key special" : "key special"}
+                            onClick={() => setActiveTab("signin")}>
+                        {t('auth.buttons.login')}
+                    </button>
+                    <button className={activeTab === "signup" ? "active key special" : "key special"}
+                            onClick={() => setActiveTab("signup")}>
+                        {t('auth.buttons.register')}
+                    </button>
+                </div>
 
-            {/* Auth Forms */}
-            <form onSubmit={handleSubmit}>
+                {/* Auth Forms */}
+                <form onSubmit={handleSubmit}>
 
-                {activeTab === "signin" &&
-                    <>
-                        {/*<FacebookLoginButton onLogin={handleSocialLogin}/>*/}
+                    {activeTab === "signin" &&
+                        <>
+                            {/*<FacebookLoginButton onLogin={handleSocialLogin}/>*/}
 
-                        <GoogleLoginButton onLogin={handleSocialLogin}/>
-                        <p>OR</p>
-                    </>
-                }
+                            <GoogleLoginButton onLogin={handleSocialLogin}/>
+                            <p>OR</p>
+                        </>
+                    }
 
-                {/* Conditional message for successful forgot password request */}
-                {activeTab === "signin" && showForgotPasswordSuccessMessage && (
-                    <div className="success-message" style={{
-                        backgroundColor: '#d4edda',
-                        color: '#155724',
-                        border: '1px solid #c3e6cb',
-                        borderRadius: '4px',
-                        padding: '10px 15px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        {t('auth.forgot-password.check-email-message')}
-                    </div>
-                )}
+                    {/* Conditional message for successful forgot password request */}
+                    {activeTab === "signin" && showForgotPasswordSuccessMessage && (
+                        <div className="success-message" style={{
+                            backgroundColor: '#d4edda',
+                            color: '#155724',
+                            border: '1px solid #c3e6cb',
+                            borderRadius: '4px',
+                            padding: '10px 15px',
+                            marginBottom: '15px',
+                            textAlign: 'center'
+                        }}>
+                            {t('auth.forgot-password.check-email-message')}
+                        </div>
+                    )}
 
-                {activeTab === "signup" && (
-                    <div className="form-field-group signup">
-                        <label>
-                            <span>{t('auth.form.name.label')}</span>
-                            <input
-                                type="text"
-                                className={`${errors.name ? "error" : ""}`}
-                                value={name}
-                                placeholder={t('auth.form.name.placeholder')}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                            {errors.name && <span className="error-message">{errors.name}</span>}
-                        </label>
-
-                        <label>
-                            <span>{t('auth.form.nickname.label')}</span>
-                            <input
-                                type="text"
-                                className={`${errors.nickname ? "error" : ""}`}
-                                value={nickname}
-                                placeholder={t('auth.form.nickname.placeholder')}
-                                onChange={(e) => setNickname(e.target.value)}
-                            />
-                            {errors.nickname && <span className="error-message">{errors.nickname}</span>}
-                        </label>
-                    </div>
-                )}
-
-                {(activeTab === "signin") && (
-                    <div className="form-field-group signin">
-                        <label>
-                            <span>{t('auth.form.e-mail.label')}</span>
-                            <input
-                                type="email"
-                                className={`${errors.email ? "error" : ""}`}
-                                value={email}
-                                placeholder={t('auth.form.e-mail.placeholder')}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            {errors.email && <span className="error-message">{errors.email}</span>}
-                        </label>
-
-                        <label>
-                            <span>{t('auth.form.password.label')}</span>
-                            <input
-                                type="password"
-                                className={`${errors.password ? "error" : ""}`}
-                                value={password}
-                                placeholder={t('auth.form.password.placeholder')}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {errors.password && <span className="error-message">{errors.password}</span>}
-                        </label>
-                    </div>
-                )}
-
-                {(activeTab === "signup") && (
-                    <>
+                    {activeTab === "signup" && (
                         <div className="form-field-group signup">
+                            <label>
+                                <span>{t('auth.form.name.label')}</span>
+                                <input
+                                    type="text"
+                                    className={`${errors.name ? "error" : ""}`}
+                                    value={name}
+                                    placeholder={t('auth.form.name.placeholder')}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                                {errors.name && <span className="error-message">{errors.name}</span>}
+                            </label>
+
+                            <label>
+                                <span>{t('auth.form.nickname.label')}</span>
+                                <input
+                                    type="text"
+                                    className={`${errors.nickname ? "error" : ""}`}
+                                    value={nickname}
+                                    placeholder={t('auth.form.nickname.placeholder')}
+                                    onChange={(e) => setNickname(e.target.value)}
+                                />
+                                {errors.nickname && <span className="error-message">{errors.nickname}</span>}
+                            </label>
+                        </div>
+                    )}
+
+                    {(activeTab === "signin") && (
+                        <div className="form-field-group signin">
                             <label>
                                 <span>{t('auth.form.e-mail.label')}</span>
                                 <input
@@ -407,8 +379,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 />
                                 {errors.email && <span className="error-message">{errors.email}</span>}
                             </label>
-                        </div>
-                        <div className="form-field-group signup">
+
                             <label>
                                 <span>{t('auth.form.password.label')}</span>
                                 <input
@@ -420,126 +391,157 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 />
                                 {errors.password && <span className="error-message">{errors.password}</span>}
                             </label>
-
-                            <label>
-                                <span>{t('auth.form.password-confirm.label')}</span>
-                                <input
-                                    type="password"
-                                    className={`${errors.passwordConfirm ? "error" : ""}`}
-                                    value={passwordConfirm}
-                                    placeholder={t('auth.form.password-confirm.placeholder')}
-                                    onChange={(e) => setPasswordConfirm(e.target.value)}
-                                />
-                                {errors.passwordConfirm &&
-                                    <span className="error-message">{errors.passwordConfirm}</span>}
-                            </label>
                         </div>
-                    </>
-                )}
+                    )}
 
-                {errors.credentials && <span className="error-message">{errors.credentials}</span>}
+                    {(activeTab === "signup") && (
+                        <>
+                            <div className="form-field-group signup">
+                                <label>
+                                    <span>{t('auth.form.e-mail.label')}</span>
+                                    <input
+                                        type="email"
+                                        className={`${errors.email ? "error" : ""}`}
+                                        value={email}
+                                        placeholder={t('auth.form.e-mail.placeholder')}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                    {errors.email && <span className="error-message">{errors.email}</span>}
+                                </label>
+                            </div>
+                            <div className="form-field-group signup">
+                                <label>
+                                    <span>{t('auth.form.password.label')}</span>
+                                    <input
+                                        type="password"
+                                        className={`${errors.password ? "error" : ""}`}
+                                        value={password}
+                                        placeholder={t('auth.form.password.placeholder')}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                    {errors.password && <span className="error-message">{errors.password}</span>}
+                                </label>
+
+                                <label>
+                                    <span>{t('auth.form.password-confirm.label')}</span>
+                                    <input
+                                        type="password"
+                                        className={`${errors.passwordConfirm ? "error" : ""}`}
+                                        value={passwordConfirm}
+                                        placeholder={t('auth.form.password-confirm.placeholder')}
+                                        onChange={(e) => setPasswordConfirm(e.target.value)}
+                                    />
+                                    {errors.passwordConfirm &&
+                                        <span className="error-message">{errors.passwordConfirm}</span>}
+                                </label>
+                            </div>
+                        </>
+                    )}
+
+                    {errors.credentials && <span className="error-message">{errors.credentials}</span>}
 
 
-                {activeTab === "signup" && (
-                    <>
-                        <LanguageLevelSelect
-                            onLevelChange={handleLanguageLevelChange}
-                            initialLevel={languageLevel}
-                        />
-                        {errors.language_level && <span className="error-message">{errors.language_level}</span>}
-
-                        <div>
-                            <h3>{t('account.preferences.title')}</h3>
-                        </div>
-                        <label className="choices">
-                            <input
-                                type="checkbox"
-                                checked={pref_receive_newsletter}
-                                onChange={handleCheckboxChange(setPrefReceiveNewsletter)}
-                                required
-                            />{t('account.preferences.newsletter-text', {siteName: siteName})}
-                        </label>
-                        {errors.pref_receive_newsletter &&
-                            <span className="error-message">{errors.pref_receive_newsletter}</span>}
-
-                        <label className="choices">
-                            <input
-                                type="checkbox"
-                                checked={pref_receive_prompts}
-                                onChange={handleCheckboxChange(setPrefReceivePrompts)}
-                            />{t('account.preferences.prompt-text', {siteName: siteName})}
-                        </label>
-                        {errors.pref_receive_prompts &&
-                            <span className="error-message">{errors.pref_receive_prompts}</span>}
-                    </>
-                )}
-
-                {(activeTab === "signin" || activeTab === "signup") && (
-                    <button
-                        type="submit"
-                        className="submit"
-                        disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))}
-                    >
-                        {activeTab === "signin" ? t('auth.buttons.login') : t('auth.buttons.register')}
-                    </button>
-                )}
-
-                {/* Forgot Password Section - Only visible on signin tab normally */}
-                {(activeTab === "signin" &&
-                    <div style={{marginTop: "1rem"}}>
-                        <div className="forgot-password__title" style={{marginTop: "1rem"}}>
-                            {t('auth.forgot-password.title')}
-                        </div>
-                        <div className="forgot-password__text" style={{marginTop: "1rem"}}>
-                            {t('auth.forgot-password.text')}
-                        </div>
-                        <button
-                            type="button"
-                            className="link-button"
-                            onClick={() => setActiveTab("reset")} // Switch to reset tab to enter email
-                            style={{
-                                background: "#a0a0a0",
-                                border: "none",
-                                borderRadius: "50px",
-                                color: "#000000",
-                                cursor: "pointer",
-                                textDecoration: "none",
-                                marginTop: "1rem",
-                                padding: "1rem"
-                            }}
-                        >{t('auth.buttons.forgot-password')}
-                        </button>
-                    </div>
-                )}
-
-                {/* Reset Password Request Form (Email Input Only) */}
-                {activeTab === "reset" && (
-                    <>
-                        <div>
-                            <h3>{t('auth.reset-password.title')}</h3>
-                            <p>{t('auth.reset-password.text')}</p>
-                        </div>
-                        <label>
-                            <span>{t('auth.form.e-mail.label')}</span>
-                            <input
-                                type="email"
-                                className={`${errors.email ? "error" : ""}`}
-                                value={email}
-                                placeholder={t('auth.form.e-mail.placeholder-reset')}
-                                onChange={(e) => setEmail(e.target.value)}
+                    {activeTab === "signup" && (
+                        <>
+                            <LanguageLevelSelect
+                                onLevelChange={handleLanguageLevelChange}
+                                initialLevel={languageLevel}
                             />
-                            {errors.email && <span className="error-message">{errors.email}</span>}
-                        </label>
-                        {errors.credentials && <span className="error-message">{errors.credentials}</span>}
+                            {errors.language_level && <span className="error-message">{errors.language_level}</span>}
 
-                        <button type="submit" className="submit" disabled={!email}>{t('auth.reset-password.button')}</button>
-                    </>
-                )}
+                            <div>
+                                <h3>{t('account.preferences.title')}</h3>
+                            </div>
+                            <label className="choices">
+                                <input
+                                    type="checkbox"
+                                    checked={pref_receive_newsletter}
+                                    onChange={handleCheckboxChange(setPrefReceiveNewsletter)}
+                                    required
+                                />{t('account.preferences.newsletter-text', {siteName: siteName})}
+                            </label>
+                            {errors.pref_receive_newsletter &&
+                                <span className="error-message">{errors.pref_receive_newsletter}</span>}
 
-                {/* Removed the 'activeTab === "reset" && resetStep === "verify"' block entirely */}
-                {/* As the verification and password update will now be handled by the Laravel Blade view */}
+                            <label className="choices">
+                                <input
+                                    type="checkbox"
+                                    checked={pref_receive_prompts}
+                                    onChange={handleCheckboxChange(setPrefReceivePrompts)}
+                                />{t('account.preferences.prompt-text', {siteName: siteName})}
+                            </label>
+                            {errors.pref_receive_prompts &&
+                                <span className="error-message">{errors.pref_receive_prompts}</span>}
+                        </>
+                    )}
 
-            </form>
+                    {(activeTab === "signin" || activeTab === "signup") && (
+                        <button
+                            type="submit"
+                            className="submit"
+                            disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))}
+                        >
+                            {activeTab === "signin" ? t('auth.buttons.login') : t('auth.buttons.register')}
+                        </button>
+                    )}
+
+                    {/* Forgot Password Section - Only visible on signin tab normally */}
+                    {(activeTab === "signin" &&
+                        <div style={{marginTop: "1rem"}}>
+                            <div className="forgot-password__title" style={{marginTop: "1rem"}}>
+                                {t('auth.forgot-password.title')}
+                            </div>
+                            <div className="forgot-password__text" style={{marginTop: "1rem"}}>
+                                {t('auth.forgot-password.text')}
+                            </div>
+                            <button
+                                type="button"
+                                className="link-button"
+                                onClick={() => setActiveTab("reset")} // Switch to reset tab to enter email
+                                style={{
+                                    background: "#a0a0a0",
+                                    border: "none",
+                                    borderRadius: "50px",
+                                    color: "#000000",
+                                    cursor: "pointer",
+                                    textDecoration: "none",
+                                    marginTop: "1rem",
+                                    padding: "1rem"
+                                }}
+                            >{t('auth.buttons.forgot-password')}
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Reset Password Request Form (Email Input Only) */}
+                    {activeTab === "reset" && (
+                        <>
+                            <div>
+                                <h3>{t('auth.reset-password.title')}</h3>
+                                <p>{t('auth.reset-password.text')}</p>
+                            </div>
+                            <label>
+                                <span>{t('auth.form.e-mail.label')}</span>
+                                <input
+                                    type="email"
+                                    className={`${errors.email ? "error" : ""}`}
+                                    value={email}
+                                    placeholder={t('auth.form.e-mail.placeholder-reset')}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                {errors.email && <span className="error-message">{errors.email}</span>}
+                            </label>
+                            {errors.credentials && <span className="error-message">{errors.credentials}</span>}
+
+                            <button type="submit" className="submit" disabled={!email}>{t('auth.reset-password.button')}</button>
+                        </>
+                    )}
+
+                    {/* Removed the 'activeTab === "reset" && resetStep === "verify"' block entirely */}
+                    {/* As the verification and password update will now be handled by the Laravel Blade view */}
+
+                </form>
+            </div>
             <CookieSettingsButton />
 
             {errors.recaptcha && <span className="error">{errors.recaptcha}</span>}

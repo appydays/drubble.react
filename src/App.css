@@ -1130,6 +1130,19 @@ button.submit {
   color:#000!important;
 }
 
+.modal-container.account .login-register {
+    border:2px solid #404040;
+}
+
+.modal-container.account .login-register .tabs.auth-tabs button{
+    border:1px solid #3498db;
+    color:#3498db;
+}
+.modal-container.account .login-register .tabs.auth-tabs button.active{
+    border:1px solid #3498db;
+    background-color: #3498db;
+    color:#fff;
+}
 .leaderboard-tabs {
   display: flex;
   border-bottom: 1px solid #ccc;

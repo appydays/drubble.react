@@ -239,7 +239,7 @@
     "unexpected-error": "An unknown error occurred.",
     "buttons": {
       "login": "Login",
-      "register": "Register",
+      "register": "Click to Register",
       "forgot-password": "Request password reset form"
     },
     "social-login": {
