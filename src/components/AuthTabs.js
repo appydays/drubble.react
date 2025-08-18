@@ -461,7 +461,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                     type="checkbox"
                                     checked={pref_receive_newsletter}
                                     onChange={handleCheckboxChange(setPrefReceiveNewsletter)}
-                                    required
                                 />{t('account.preferences.newsletter-text', {siteName: siteName})}
                             </label>
                             {errors.pref_receive_newsletter &&
