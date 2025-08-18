@@ -467,7 +467,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                                 type="checkbox"
                                 checked={pref_receive_prompts}
                                 onChange={handleCheckboxChange(setPrefReceivePrompts)}
-                            />{t('account.preferences.prompt-text')}
+                            />{t('account.preferences.prompt-text', {siteName: siteName})}
                         </label>
                         {errors.pref_receive_prompts &&
                             <span className="error-message">{errors.pref_receive_prompts}</span>}
