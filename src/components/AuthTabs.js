@@ -316,6 +316,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                     {activeTab === "signin" &&
                         <>
+                            <div className="form-heading">{t('account.login.form-heading')}</div>
                             {/*<FacebookLoginButton onLogin={handleSocialLogin}/>*/}
 
                             <GoogleLoginButton onLogin={handleSocialLogin}/>
@@ -339,31 +340,34 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     )}
 
                     {activeTab === "signup" && (
-                        <div className="form-field-group signup">
-                            <label>
-                                <span>{t('auth.form.name.label')}</span>
-                                <input
-                                    type="text"
-                                    className={`${errors.name ? "error" : ""}`}
-                                    value={name}
-                                    placeholder={t('auth.form.name.placeholder')}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                                {errors.name && <span className="error-message">{errors.name}</span>}
-                            </label>
+                        <>
+                        <div className="form-heading">{t('account.register.form-heading')}</div>
+                            <div className="form-field-group signup">
+                                <label>
+                                    <span>{t('auth.form.name.label')}</span>
+                                    <input
+                                        type="text"
+                                        className={`${errors.name ? "error" : ""}`}
+                                        value={name}
+                                        placeholder={t('auth.form.name.placeholder')}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                    {errors.name && <span className="error-message">{errors.name}</span>}
+                                </label>
 
-                            <label>
-                                <span>{t('auth.form.nickname.label')}</span>
-                                <input
-                                    type="text"
-                                    className={`${errors.nickname ? "error" : ""}`}
-                                    value={nickname}
-                                    placeholder={t('auth.form.nickname.placeholder')}
-                                    onChange={(e) => setNickname(e.target.value)}
-                                />
-                                {errors.nickname && <span className="error-message">{errors.nickname}</span>}
-                            </label>
-                        </div>
+                                <label>
+                                    <span>{t('auth.form.nickname.label')}</span>
+                                    <input
+                                        type="text"
+                                        className={`${errors.nickname ? "error" : ""}`}
+                                        value={nickname}
+                                        placeholder={t('auth.form.nickname.placeholder')}
+                                        onChange={(e) => setNickname(e.target.value)}
+                                    />
+                                    {errors.nickname && <span className="error-message">{errors.nickname}</span>}
+                                </label>
+                            </div>
+                        </>
                     )}
 
                     {(activeTab === "signin") && (

@@ -1143,6 +1143,9 @@ button.submit {
     background-color: #3498db;
     color:#fff;
 }
+.modal-container.account .login-register .form-heading {
+    margin:1rem 0;
+}
 .leaderboard-tabs {
   display: flex;
   border-bottom: 1px solid #ccc;

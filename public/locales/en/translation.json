@@ -208,11 +208,15 @@
       },
       "leader-text": "By registering or logging in to {{sitename}}, you confirm that you have read and agree to our Privacy Policy and Terms of Service."
     },
+    "login": {
+      "title": "Login here using Google Login or Email/Password"
+    },
     "logout": {
       "title": "Would you like to logout?"
     },
     "register": {
       "title": "Login or Register",
+      "form-heading": "Registration - please enter details below to register.",
       "text": "By registering and signing in to play, you will be able to see your game statistics and your score is added to our daily leaderboard. See if you can get to the top of the leaderboard!"
     },
     "privacy-policy": "Privacy Policy",
