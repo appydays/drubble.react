@@ -483,7 +483,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         <button
                             type="submit"
                             className="submit"
-                            disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel || !pref_receive_newsletter))}
+                            disabled={!email || !password || (activeTab === "signup" && (!name || !nickname || !languageLevel ))}
                         >
                             {activeTab === "signin" ? t('auth.buttons.login') : t('auth.buttons.register')}
                         </button>

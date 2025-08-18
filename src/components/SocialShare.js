@@ -83,7 +83,7 @@ const SocialShare = ({ score, playerName }) => {
                 console.log('Facebook sharing cancelled or an error may have occurred via FB.ui.', response);
                 // The response might not have an error_message if simply cancelled
                 if(!response.error_message) {
-                    Swal.fire(t('social-share.facebook.check.title'), t('social-share.facebook.check.text'), 'Success');
+                    Swal.fire(t('social-share.facebook.check.title'), t('social-share.facebook.check.text'), 'success');
                 } else {
                     Swal.fire(t('social-share.facebook.fail.title'), t('social-share.facebook.fail.text', {error: response.error_message || t('social-share.facebook.cancelled.text')}), 'Error');
                 }
