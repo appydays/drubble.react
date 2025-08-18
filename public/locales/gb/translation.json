@@ -180,7 +180,7 @@
           "nickname": "Nickname (your user name)"
         },
         "placeholders": {
-          "nickname": "Unique nickname"
+          "nickname": "Unique nickname (letters, numbers and hyphens only)"
         },
         "update-button": "Update Profile"
       }
