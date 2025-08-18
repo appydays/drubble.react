@@ -147,7 +147,7 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                         throw new Error("Cannot delete account: Player ID not found.");
                     }
                     const responseData = await makeRequest(`/players/${player.id}/delete-account`, 'DELETE', {});
-                    Swal.fire(t('account.alerts.delete-request.title.complete'), responseData.message || t('alert.delete-request.complete'), 'success');
+                    Swal.fire(t('account.alerts.delete-request.title.complete'), responseData.message || t('account.alerts.delete-request.complete'), 'success');
                     onClose();
                     // Clear local storage for user data
                     clearClientSideData(); // Re-use the existing clear function

@@ -265,7 +265,7 @@
         "error-required": "nickname is required.",
         "error-format": "Only letters, numbers and underscores are allowed.",
         "label": "Nickname (your user name)",
-        "placeholder": "Unique nickname"
+        "placeholder": "Unique nickname (letters, numbers and hyphens only)"
       },
       "e-mail": {
         "error-required": "E-mail is required",
