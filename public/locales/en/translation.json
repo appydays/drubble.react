@@ -209,7 +209,7 @@
       "leader-text": "By registering or logging in to {{sitename}}, you confirm that you have read and agree to our Privacy Policy and Terms of Service."
     },
     "login": {
-      "form-heading": "Login here using Google Login or Email/Password"
+      "form-heading": "Login below or to Register, please click the register button above."
     },
     "logout": {
       "title": "Would you like to logout?"

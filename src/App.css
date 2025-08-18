@@ -1145,6 +1145,8 @@ button.submit {
 }
 .modal-container.account .login-register .form-heading {
     margin:1rem 0;
+    font-weight:500;
+    font-size:1.1rem;
 }
 .leaderboard-tabs {
   display: flex;
