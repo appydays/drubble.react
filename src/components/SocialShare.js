@@ -116,7 +116,7 @@ const SocialShare = ({ score, playerName }) => {
                 await navigator.share({
                     title: `${process.env.REACT_APP_SITE_NAME} score!`, // Title for the native share dialog
                     text: shareQuote, // Text for the native share dialog
-                    url: shareUrlWithParams, // URL for the native share dialog
+                    url: siteUrlForNativeShare, // URL for the native share dialog
                 });
             } else {
                 Swal.fire(t('social-share.mobil.device.not-supported'), t('social-share.mobile.device.not-supported-text'), 'warning');
