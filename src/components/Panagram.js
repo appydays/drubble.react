@@ -643,7 +643,7 @@ const Panagram = ({
                 messageContent = (
                     <div>
                         <p>{t('game_over.title')}</p>
-                        <p>{t('game_over.complete', { score: score })}</p>
+                        <p dangerouslySetInnerHTML={{ __html: t('game_over.complete', { score: score }) }} />
                         {highestWordBeatMessage && <p dangerouslySetInnerHTML={{ __html: highestWordBeatMessage }} />}
                         {gameScoreBeatMessage && <p dangerouslySetInnerHTML={{ __html: gameScoreBeatMessage }} />}
                         <SocialShare score={score} playerName={playerName} />
