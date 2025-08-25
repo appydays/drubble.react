@@ -11,7 +11,7 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, 
     const showPlayerPositionRow =
         currentDailyData?.playerPosition && currentDailyData.playerPosition.rank > 10;
 
-    console.log("Has Played Today -> "+(hasPlayedToday?"Yes":"No"));
+    console.log("DailyLeaderboardModal : Has Played Today -> "+(hasPlayedToday?"Yes":"No"));
 
     return (
         <div>
@@ -36,7 +36,16 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, 
                             }
                         >
                             <td className="rank">{index + 1}</td>
-                            <td className="name">{player.nickname}</td>
+                            <td
+                                className={`name ${hasPlayedToday ? "clickable" : ""}`}
+                                onClick={() => {
+                                    if (hasPlayedToday) {
+                                        setSelectedPlayer(player);
+                                    }
+                                }}
+                            >
+                                {player.nickname}
+                            </td>
                             <td className="score">{player.score}</td>
                         </tr>
                     ))}
@@ -55,13 +64,7 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, 
                                 className="current-player" // Highlight the player's row
                             >
                                 <td className="rank">{currentDailyData.playerPosition.rank}</td>
-                                <td className={`name ${hasPlayedToday ? "clickable" : ""}`}
-                                    onClick={() => {
-                                        if (hasPlayedToday) {
-                                            setSelectedPlayer(currentDailyData.playerPosition);
-                                        }
-                                    }}
-                                >{currentDailyData.playerPosition.nickname}</td>
+                                <td className="name">{currentDailyData.playerPosition.nickname}</td>
                                 <td className="score">{currentDailyData.playerPosition.score}</td>
                             </tr>
                         </>
