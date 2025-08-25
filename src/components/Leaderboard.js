@@ -41,6 +41,8 @@ function LeaderboardModal({ playerId, isOpen, onClose, hasPlayedToday }) {
 
     const { makeRequest } = useApiRequest(apiUrl);
 
+    console.log('Leaderboard: Has Played today? '+(hasPlayedToday?"Yes":"No"));
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };

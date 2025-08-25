@@ -94,6 +94,7 @@ function App() {
                             });
                             const gameData = await gameResponse.json();
                             if (gameData.success) {
+                                console.log('App: Setting Has Played today to true');
                                 setHasPlayedToday(gameData.hasPlayedToday);
                                 setGameComplete(gameData.complete);
                             }

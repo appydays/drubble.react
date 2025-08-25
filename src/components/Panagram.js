@@ -95,6 +95,8 @@ const Panagram = ({
         clickedOccurrences[l] = (clickedOccurrences[l] || 0) + 1;
     });
 
+    console.log('Panagram: Has Played today? '+(hasPlayedToday?"Yes":"No"));
+
     useEffect(() => {
         setStartTime(Date.now());
     }, []);
