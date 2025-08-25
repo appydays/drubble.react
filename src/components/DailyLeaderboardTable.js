@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useTranslation } from 'react-i18next'; // Assuming you're using react-i18next for 't'
 import Modal from './Modal';
 
