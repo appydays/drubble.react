@@ -73,15 +73,19 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, 
                     {selectedPlayer && (
                         <Modal isOpen={true} onClose={() => setSelectedPlayer(null)}>
                             <h3>{selectedPlayer.nickname}'s {t('leaderboard.words_used')}</h3>
-                            {selectedPlayer.words_used && selectedPlayer.words_used.length > 0 ? (
-                                <ul className="words-list">
-                                    {selectedPlayer.words_used.map((word, idx) => (
-                                        <li key={idx}>{word}</li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>{t('leaderboard.no_words')}</p>
-                            )}
+                            <ul className="words-list">
+                                {(() => {
+                                    try {
+                                        const words = JSON.parse(selectedPlayer.words_used);
+                                        return words.map((word, idx) => (
+                                            <li key={idx}>{word}</li>
+                                        ));
+                                    } catch (e) {
+                                        // fallback in case parsing fails
+                                        return <li>{t('leaderboard.no_words')}</li>;
+                                    }
+                                })()}
+                            </ul>
                         </Modal>
                     )}
                 </>
