@@ -27,8 +27,6 @@
 
 .name.clickable {
     cursor: pointer;
-    color: #007bff;
-    text-decoration: underline;
 }
 
 .words-list {
@@ -47,4 +45,8 @@
     border: 1px solid #007bff;
     width: 50%;
     border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
