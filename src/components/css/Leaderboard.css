@@ -35,8 +35,16 @@
     max-height: 300px;
     overflow-y: auto;
     padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .words-list li {
     margin: 0.2rem 0;
     font-family: monospace;
+    list-style: none;
+    padding: 10px;
+    border: 1px solid #007bff;
+    width: 50%;
+    border-radius: 20px;
 }
