@@ -11,6 +11,8 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, 
     const showPlayerPositionRow =
         currentDailyData?.playerPosition && currentDailyData.playerPosition.rank > 10;
 
+    console.log("Has Played Today -> "+(hasPlayedToday?"Yes":"No"));
+
     return (
         <div>
             {currentDailyData && currentDailyData.top20 && currentDailyData.top20.length > 0 ? (
