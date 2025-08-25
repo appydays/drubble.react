@@ -788,6 +788,7 @@ const Panagram = ({
                         playerId={playerId} // Use the playerId prop
                         isOpen={isLeaderboardModalOpen}
                         onClose={() => setIsLeaderboardModalOpen(false)}
+                        hasPlayedToday={hasPlayedToday}
                     />
                     <LeaguesPage
                         playerId={playerId} // Use the playerId prop

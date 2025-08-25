@@ -426,7 +426,9 @@
         "average-score": "Average Score",
         "not-logged-in": "Please sign up and log in to see {{siteName}} records."
       }
-    }
+    },
+    "words_used": "words used",
+    "no_words": "Words used are not available"
   },
   "help_modal": {
     "title": "How to play {{siteName}}",

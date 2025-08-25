@@ -24,3 +24,19 @@
         overflow:unset;
     }
 }
+
+.name.clickable {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.words-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-left: 1rem;
+}
+.words-list li {
+    margin: 0.2rem 0;
+    font-family: monospace;
+}

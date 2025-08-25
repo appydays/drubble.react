@@ -1,8 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next'; // Assuming you're using react-i18next for 't'
+import Modal from './Modal';
 
-function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView }) {
+function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, hasPlayedToday }) {
     const { t } = useTranslation(); // Initialize translation hook
+
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     // Determine if the player's position needs to be shown outside the top 20
     const showPlayerPositionRow =
@@ -11,7 +14,8 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView }
     return (
         <div>
             {currentDailyData && currentDailyData.top20 && currentDailyData.top20.length > 0 ? (
-                <table style={{ width: '100%' }}>
+                <>
+                    <table style={{ width: '100%' }}>
                     <thead>
                     <tr>
                         <th className="rank">{t('leaderboard.stats.table.position')}</th>
@@ -49,13 +53,36 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView }
                                 className="current-player" // Highlight the player's row
                             >
                                 <td className="rank">{currentDailyData.playerPosition.rank}</td>
-                                <td className="name">{currentDailyData.playerPosition.nickname}</td>
+                                <td className={`name ${hasPlayedToday ? "clickable" : ""}`}
+                                    onClick={() => {
+                                        if (hasPlayedToday) {
+                                            setSelectedPlayer(currentDailyData.playerPosition);
+                                        }
+                                    }}
+                                >{currentDailyData.playerPosition.nickname}</td>
                                 <td className="score">{currentDailyData.playerPosition.score}</td>
                             </tr>
                         </>
                     )}
                     </tbody>
                 </table>
+
+                    {/* Words-used Modal */}
+                    {selectedPlayer && (
+                        <Modal isOpen={true} onClose={() => setSelectedPlayer(null)}>
+                            <h3>{selectedPlayer.nickname}'s {t('leaderboard.words_used')}</h3>
+                            {selectedPlayer.words_used && selectedPlayer.words_used.length > 0 ? (
+                                <ul className="words-list">
+                                    {selectedPlayer.words_used.map((word, idx) => (
+                                        <li key={idx}>{word}</li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>{t('leaderboard.no_words')}</p>
+                            )}
+                        </Modal>
+                    )}
+                </>
             ) : (
                 <p>{t('leaderboard.stats.table.no-data')}</p>
             )}
