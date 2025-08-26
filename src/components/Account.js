@@ -11,6 +11,9 @@ import { useTranslation } from 'react-i18next';
 function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess, player, onPlayerUpdate }) {
 
     const [nickname, setNickname] = useState('');
+    const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+
     // New state for language level, default to null or a sensible initial value if player is not loaded
     const [languageLevel, setLanguageLevel] = useState(null);
     const [playerPrefReceiveNewsletter, setPlayerPrefReceiveNewsletter] = useState(false); // Initialize as boolean
@@ -178,6 +181,30 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
         if (typeof languageLevel !== 'number' || !Number.isInteger(languageLevel) || languageLevel < 1 || languageLevel > 3) {
             newErrors.language_level = t('account.validation.messages.language-level');
         }
+
+        if (!password.trim()) {
+            newErrors.password = t('auth.form.password.error-required');
+        } else {
+            if (password.length < 8) {
+                newErrors.password = t('auth.form.password.error-length');
+            }
+            if ((!/[A-Z]/.test(password)) || (!/[a-z]/.test(password)) || (!/\d/.test(password)) || (!/[^a-zA-Z0-9<>]/.test(password))) {
+                newErrors.password = (newErrors.password ? newErrors.password + " " : "") + t('auth.form.password.error-format');
+            }
+        }
+        if (password.trim()) { // Only validate if a password was entered
+            if (password.length < 8) {
+                newErrors.password = t('auth.form.password.error-length');
+            }
+            if ((!/[A-Z]/.test(password)) || (!/[a-z]/.test(password)) || (!/\d/.test(password)) || (!/[^a-zA-Z0-9<>]/.test(password))) {
+                newErrors.password = (newErrors.password ? newErrors.password + " " : "") + t('auth.form.password.error-format');
+            }
+
+            if (password !== passwordConfirm) {
+                newErrors.password_mismatch = t('auth.form.password.error_mismatch');
+            }
+        }
+
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length > 0) {
@@ -187,6 +214,8 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
         try {
             const data = await makeRequest(`/players/${player.id}/update`, 'POST', {
                 nickname: nickname,
+                password: password,
+                password_confirmation: passwordConfirm,
                 language_level: languageLevel, // Include language_level in the payload
                 pref_receive_newsletter: playerPrefReceiveNewsletter,
                 pref_receive_prompts: playerPrefReceivePrompts
@@ -269,6 +298,33 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                                 />
                                             </label>
                                             {errors.nickname && <span className="error">{errors.nickname}</span>}
+                                        </div>
+
+                                        <div className="form-field-group signup">
+                                            <label>
+                                                <span>{t('auth.form.password.label')}</span>
+                                                <input
+                                                    type="password"
+                                                    className={`${errors.password ? "error" : ""}`}
+                                                    value={password}
+                                                    placeholder={t('auth.form.password.placeholder')}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                />
+                                                {errors.password && <span className="error-message">{errors.password}</span>}
+                                            </label>
+
+                                            <label>
+                                                <span>{t('auth.form.password-confirm.label')}</span>
+                                                <input
+                                                    type="password"
+                                                    className={`${errors.passwordConfirm ? "error" : ""}`}
+                                                    value={passwordConfirm}
+                                                    placeholder={t('auth.form.password-confirm.placeholder')}
+                                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                                />
+                                                {errors.passwordConfirm &&
+                                                    <span className="error-message">{errors.passwordConfirm}</span>}
+                                            </label>
                                         </div>
 
                                         {/* Language Level Selector */}
