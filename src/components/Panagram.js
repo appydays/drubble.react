@@ -40,7 +40,7 @@ const Panagram = ({
                       setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
                       openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad,
                       handleOpenLeaguesModal,
-                      hasPlayedToday,
+                      hasPlayedToday,setHasPlayedToday
                   }) => {
 
     const baseUrl = process.env.REACT_APP_API_URL;
@@ -496,6 +496,7 @@ const Panagram = ({
             if (lastSubmittedWord.length > 0 && !isGameOverHandled.current) {
                 if (submittedWords.length >= 5) {
                     setIsGameOver(true);
+                    setHasPlayedToday(true);
                     setEndTime(Date.now());
                     isGameOverHandled.current = true;
 
@@ -596,6 +597,7 @@ const Panagram = ({
 
     useEffect(() => {
         if (isGameOver) {
+            setHasPlayedToday(true);
             let messageContent;
             // Use playerId and playerName directly
             if (!playerId) {
@@ -658,7 +660,7 @@ const Panagram = ({
                 isError: false
             });
         }
-    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats, playerId]);
+    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats, playerId, hasPlayedToday, setHasPlayedToday, t]);
 
 
     return (

@@ -17,7 +17,7 @@ const MainAppContent = ({
                             playerId, playerName, player, setPlayer, setPlayerId, setPlayerName, setIsGuest,
                             setPlayerPrefReceiveNewsletter, setPlayerPrefReceivePrompts,
                             openAccountModalOnGameLoad, setOpenAccountModalOnGameLoad, handleOpenLeaguesModal,
-                            hasPlayedToday
+                            hasPlayedToday, setHasPlayedToday
                         }) => (
     <>
         <Panagram
@@ -34,6 +34,7 @@ const MainAppContent = ({
             setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
             handleOpenLeaguesModal={handleOpenLeaguesModal}
             hasPlayedToday={hasPlayedToday}
+            setHasPlayedToday={setHasPlayedToday}
         />
     </>
 );
@@ -227,6 +228,7 @@ function App() {
                                     openAccountModalOnGameLoad={openAccountModalOnGameLoad}
                                     setOpenAccountModalOnGameLoad={setOpenAccountModalOnGameLoad}
                                     hasPlayedToday={hasPlayedToday}
+                                    setHasPlayedToday={setHasPlayedToday}
                                 />
                             )
                         }/>
