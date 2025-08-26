@@ -173,6 +173,7 @@ const Panagram = ({
         setPlayerName(playerData.nickname);
         setPlayerId(playerData.id);
         setIsGuest(false);
+        setHasPlayedToday(playerData.played_today);
         setPlayerPrefReceiveNewsletter(playerData.pref_receive_newsletter);
         setPlayerPrefReceivePrompts(playerData.pref_receive_prompts);
 
