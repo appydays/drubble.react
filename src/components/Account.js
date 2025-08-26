@@ -182,16 +182,6 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
             newErrors.language_level = t('account.validation.messages.language-level');
         }
 
-        if (!password.trim()) {
-            newErrors.password = t('auth.form.password.error-required');
-        } else {
-            if (password.length < 8) {
-                newErrors.password = t('auth.form.password.error-length');
-            }
-            if ((!/[A-Z]/.test(password)) || (!/[a-z]/.test(password)) || (!/\d/.test(password)) || (!/[^a-zA-Z0-9<>]/.test(password))) {
-                newErrors.password = (newErrors.password ? newErrors.password + " " : "") + t('auth.form.password.error-format');
-            }
-        }
         if (password.trim()) { // Only validate if a password was entered
             if (password.length < 8) {
                 newErrors.password = t('auth.form.password.error-length');
