@@ -501,7 +501,6 @@ const Panagram = ({
                     isGameOverHandled.current = true;
                     const updatedData = await updateGameStatus(true);
                     setGameOverStats(updatedData.stats);
-                    setHasPlayedToday(true);
                 } else {
                     // This block runs after a valid word is submitted or exchanged
                     // and it's NOT the final round.
