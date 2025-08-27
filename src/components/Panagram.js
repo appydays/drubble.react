@@ -659,7 +659,7 @@ const Panagram = ({
             });
             setHasPlayedToday(true);
         }
-    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats, playerId, hasPlayedToday, setHasPlayedToday, t]);
+    }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats, playerId, hasPlayedToday, t]);
 
 
     return (
