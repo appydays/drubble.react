@@ -497,12 +497,11 @@ const Panagram = ({
             if (lastSubmittedWord.length > 0 && !isGameOverHandled.current) {
                 if (submittedWords.length >= 5) {
                     setIsGameOver(true);
-                    setHasPlayedToday(true);
                     setEndTime(Date.now());
                     isGameOverHandled.current = true;
-
                     const updatedData = await updateGameStatus(true);
                     setGameOverStats(updatedData.stats);
+                    setHasPlayedToday(true);
                 } else {
                     // This block runs after a valid word is submitted or exchanged
                     // and it's NOT the final round.
@@ -598,7 +597,6 @@ const Panagram = ({
 
     useEffect(() => {
         if (isGameOver) {
-            setHasPlayedToday(true);
             let messageContent;
             // Use playerId and playerName directly
             if (!playerId) {
@@ -655,6 +653,7 @@ const Panagram = ({
                     </div>
                 );
             }
+            setHasPlayedToday(true);
             setMessage({
                 text: messageContent,
                 autoDismiss: 0,

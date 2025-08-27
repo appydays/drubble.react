@@ -291,6 +291,8 @@ function AccountSettingsModal({ isOpen, onClose, onSignupSuccess, onLoginSuccess
                                         </div>
 
                                         <div className="form-field-group signup">
+                                            <h5>{t('auth.form.password.title')}</h5>
+                                            <div>{t('auth.form.password.subtitle')}</div>
                                             <label>
                                                 <span>{t('auth.form.password.label')}</span>
                                                 <input
