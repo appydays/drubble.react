@@ -652,12 +652,12 @@ const Panagram = ({
                     </div>
                 );
             }
-            setHasPlayedToday(true);
             setMessage({
                 text: messageContent,
                 autoDismiss: 0,
                 isError: false
             });
+            setHasPlayedToday(true);
         }
     }, [isGameOver, i18n.language, score, submittedWords.length, playerName, endTime, gameOverStats, playerId, hasPlayedToday, setHasPlayedToday, t]);
 
