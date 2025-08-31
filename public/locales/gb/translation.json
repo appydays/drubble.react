@@ -279,6 +279,8 @@
         "error-length": "The password must be at least 8 characters.",
         "error-format": "Password must contain at least one uppercase letter, one lowercase letter, one number and one symbol (except < or >).",
         "error-mismatch": "Password and Password confirmation must match",
+        "title": "Password update",
+        "subtitle": "If you do not want to change your password, please leave this field blank.",
         "label": "Password",
         "placeholder": "Password"
       },
