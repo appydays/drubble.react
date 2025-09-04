@@ -23,13 +23,13 @@ const ReferralCodeSelect = ({ codes, siteName, selectedCode, onCodeChange, other
 
             {selectedCode === '99' && (
                 <div className="form-field-group referral">
-                    <label htmlFor="otherReferralText">{t('referral.other_label')}</label>
+                    <label htmlFor="otherReferralText">{t('referral.other.label')}</label>
                     <input
                         type="text"
                         id="otherReferralText"
                         name="referral_other"
                         value={otherText}
-                        placeholder={t('referral.other_placeholder', {siteName: siteName})}
+                        placeholder={t('referral.other.placeholder', {siteName: siteName})}
                         onChange={onOtherTextChange}
                         className="form-control"
                     />
