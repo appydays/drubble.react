@@ -6,7 +6,7 @@ import LanguageLevelSelect from "./LanguageLevelSelect";
 import CookieSettingsButton from "./CookieSettingsButton";
 import { useTranslation } from 'react-i18next';
 import FacebookLoginButton from "./FacebookLoginButton";
-import ReferralCodeSelect from './atoms/ReferralCodeSelect';
+import ReferralCodeSelect from './atoms/form/inputs/ReferralCodeSelect';
 
 const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [activeTab, setActiveTab] = useState("signin"); // Default to Sign In
