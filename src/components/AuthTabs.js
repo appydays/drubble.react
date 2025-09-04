@@ -22,8 +22,6 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [referral_from_code, setReferralFromCode] = useState(1);
     const [referral_other, setReferralOther] = useState(null);
 
-    const availableCodes = t('referral.codes', { returnObjects: true });
-
     const [errors, setErrors] = useState({});
     // Removed resetStep, verificationCode, passwordConfirm as they are no longer needed for frontend reset flow
     // const [resetStep, setResetStep] = useState("request"); // No longer needed
@@ -39,6 +37,8 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
     const { t, i18n } = useTranslation();
     const siteName = process.env.REACT_APP_SITE_NAME;
+
+    const availableCodes = t('referral.codes', { returnObjects: true });
 
     // Reset form fields and messages when switching tabs
     useEffect(() => {
