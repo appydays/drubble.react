@@ -723,7 +723,7 @@
     }
   },
   "referral": {
-    "title": "Where did you find us?",
+    "title": "How did you hear about us?",
     "placeholder": "Select a referrer..",
     "other": {
       "label": "Please specify:",

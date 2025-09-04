@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 const ReferralCodeSelect = ({ codes, siteName, selectedCode, onCodeChange, otherText, onOtherTextChange }) => {
     const { t } = useTranslation();
     return (
-        <div className="form-field-group form-group">
+        <div className="form-field-group referral">
             <label htmlFor="referralCode">{t('referral.title')}</label>
             <select
                 id="referralCode"
