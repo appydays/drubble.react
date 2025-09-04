@@ -57,21 +57,16 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     }, [activeTab]);
 
     const handleReferralChange = (e) => {
-        const { name, value } = e.target;
-        setReferralFromCode((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        // Directly set the new value from the event target
+        const { value } = e.target;
+        setReferralFromCode(value);
     };
 
     const handleReferralTextChange = (e) => {
-        const { name, value } = e.target;
-        setReferralOther((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        // Directly set the new value from the event target
+        const { value } = e.target;
+        setReferralOther(value);
     };
-
 
     // --- Social (Google, Facebook,Apple) Login Handler ---
     const handleSocialLogin = (data) => {
