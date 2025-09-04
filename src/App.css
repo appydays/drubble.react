@@ -795,6 +795,14 @@ button.submit {
   width: 85%;
 }
 
+
+@media (min-width: 968px) {
+    .modal-container.account .form-field-group.referral {
+        width: 50%;
+        margin: auto;
+    }
+}
+
 .modal-container.account .account__tabs button{
   border-radius: 2px 7px 0 0;
   border-top: 0.5px solid;

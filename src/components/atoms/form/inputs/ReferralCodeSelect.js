@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 const ReferralCodeSelect = ({ codes, siteName, selectedCode, onCodeChange, otherText, onOtherTextChange }) => {
     const { t } = useTranslation();
     return (
-        <div className="form-group">
+        <div className="form-field-group form-group">
             <label htmlFor="referralCode">{t('referral.title')}</label>
             <select
                 id="referralCode"
@@ -22,7 +22,7 @@ const ReferralCodeSelect = ({ codes, siteName, selectedCode, onCodeChange, other
             </select>
 
             {selectedCode === '99' && (
-                <div className="form-group">
+                <div className="form-field-group referral">
                     <label htmlFor="otherReferralText">{t('referral.other_label')}</label>
                     <input
                         type="text"
