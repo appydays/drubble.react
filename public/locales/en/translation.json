@@ -721,5 +721,47 @@
         }
       }
     }
+  },
+  "referral": {
+    "title": "Where did you find us?",
+    "placeholder": "Select a referrer..",
+    "other": {
+      "label": "Please specify:",
+      "placeholder": "Where did you hear about {{ siteName}}"
+    },
+    "codes": [
+      {
+        "id": "1",
+        "name": "Recommended by Family or Friends"
+      },
+      {
+        "id": "2",
+        "name": "Google"
+      },
+      {
+        "id": "3",
+        "name": "Other Search Engine"
+      },
+      {
+        "id": "10",
+        "name": "Facebook/Meta"
+      },
+      {
+        "id": "11",
+        "name": "Instagram"
+      },
+      {
+        "id": "12",
+        "name": "Twitter"
+      },
+      {
+        "id": "13",
+        "name": "LinkedIn"
+      },
+      {
+        "id": "99",
+        "name": "Other"
+      }
+    ]
   }
 }

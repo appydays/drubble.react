@@ -6,6 +6,7 @@ import LanguageLevelSelect from "./LanguageLevelSelect";
 import CookieSettingsButton from "./CookieSettingsButton";
 import { useTranslation } from 'react-i18next';
 import FacebookLoginButton from "./FacebookLoginButton";
+import ReferralCodeSelect from './atoms/ReferralCodeSelect';
 
 const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [activeTab, setActiveTab] = useState("signin"); // Default to Sign In
@@ -18,6 +19,10 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
     const [languageLevel, setLanguageLevel] = useState(1);
     const [pref_receive_newsletter, setPrefReceiveNewsletter] = useState(false);
     const [pref_receive_prompts, setPrefReceivePrompts] = useState(false);
+    const [referral_from_code, setReferralFromCode] = useState(1);
+    const [referral_other, setReferralOther] = useState(null);
+
+    const availableCodes = t('referral.codes', { returnObjects: true });
 
     const [errors, setErrors] = useState({});
     // Removed resetStep, verificationCode, passwordConfirm as they are no longer needed for frontend reset flow
@@ -50,6 +55,22 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
         // setPasswordConfirm(""); // No longer needed
         setShowForgotPasswordSuccessMessage(false); // Clear message on tab switch
     }, [activeTab]);
+
+    const handleReferralChange = (e) => {
+        const { name, value } = e.target;
+        setReferralFromCode((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleReferralTextChange = (e) => {
+        const { name, value } = e.target;
+        setReferralOther((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
 
     // --- Social (Google, Facebook,Apple) Login Handler ---
@@ -250,7 +271,9 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                         language_level: languageLevel,
                         pref_receive_newsletter: pref_receive_newsletter,
                         pref_receive_prompts: pref_receive_prompts,
-                        recaptcha_token: token
+                        recaptcha_token: token,
+                        referral_from_code: referral_from_code,
+                        referral_other: referral_other
                     }),
                 });
 
@@ -448,6 +471,16 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
 
                     {activeTab === "signup" && (
                         <>
+
+                            <ReferralCodeSelect
+                                codes={availableCodes}
+                                siteName={siteName}
+                                selectedCode={referral_from_code}
+                                onCodeChange={handleReferralChange}
+                                otherText={referral_other}
+                                onOtherTextChange={handleReferralTextChange}
+                            />
+
                             <LanguageLevelSelect
                                 onLevelChange={handleLanguageLevelChange}
                                 initialLevel={languageLevel}
