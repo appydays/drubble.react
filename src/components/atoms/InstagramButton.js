@@ -5,11 +5,7 @@ const InstagramButton = () => {
     const instagramUrl = `https://www.instagram.com/${instagramUsername}`;
 
     return (
-        <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-            <button>
-                Follow us on Instagram!
-            </button>
-        </a>
+        <a className="btn facebook" href={instagramUrl} target="_blank" rel="noopener noreferrer">Follow us on Instagram!</a>
     );
 };
 
