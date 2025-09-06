@@ -3,6 +3,7 @@ import { FaFacebook, FaEnvelope, FaMobileAlt } from "react-icons/fa";
 import './css/SocialShare.css';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
+import InstagramButton from "./atoms/InstagramButton";
 
 // Ensure these environment variables are correctly defined in your .env file
 // Example: REACT_APP_URL=https://your-app.com
@@ -119,7 +120,7 @@ const SocialShare = ({ score, playerName }) => {
                     url: siteUrlForNativeShare, // URL for the native share dialog
                 });
             } else {
-                Swal.fire(t('social-share.mobil.device.not-supported'), t('social-share.mobile.device.not-supported-text'), 'warning');
+                Swal.fire(t('social-share.mobile.device.not-supported'), t('social-share.mobile.device.not-supported-text'), 'warning');
             }
         } catch (err) {
             console.error("Share failed:", err);
@@ -136,6 +137,11 @@ const SocialShare = ({ score, playerName }) => {
         <div className="social-share">
             <h4>{t('social-share.title')}</h4>
             <div className="share-buttons">
+
+                {playerName = 'daibara' && (
+                    <InstagramButton />
+                )}
+
                 {/* Facebook Share Button (using FB.ui) */}
                 {false && fbSDKReady && (
                     <button
