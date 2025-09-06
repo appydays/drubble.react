@@ -138,9 +138,7 @@ const SocialShare = ({ score, playerName }) => {
             <h4>{t('social-share.title')}</h4>
             <div className="share-buttons">
 
-                {(playerName === 'daibara' || playerName === 'mrsP') && (
-                    <InstagramButton />
-                )}
+                <InstagramButton />
 
                 {/* Facebook Share Button (using FB.ui) */}
                 {false && fbSDKReady && (
