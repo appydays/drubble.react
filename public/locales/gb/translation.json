@@ -241,6 +241,9 @@
   },
   "auth": {
     "unexpected-error": "An unknown error occurred.",
+    "tabs": {
+      "register": "Register"
+    },
     "buttons": {
       "login": "Login",
       "register": "Click to Register",
@@ -430,7 +433,7 @@
         "not-logged-in": "Please sign up and log in to see {{siteName}} records."
       }
     },
-    "words_used": "words used",
+    "words_used": "{{playerName}}'s words used",
     "no_words": "Words used are not available"
   },
   "help_modal": {

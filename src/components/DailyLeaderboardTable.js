@@ -75,7 +75,7 @@ function DailyLeaderboardTable({ currentDailyData, playerId, selectedDailyView, 
                     {/* Words-used Modal */}
                     {selectedPlayer && (
                         <Modal isOpen={true} onClose={() => setSelectedPlayer(null)}>
-                            <h3>{selectedPlayer.nickname}'s {t('leaderboard.words_used')}</h3>
+                            <h3>{t('leaderboard.words_used',{playerName: selectedPlayer.nickname})}</h3>
                             <ul className="words-list">
                                 {(() => {
                                     try {

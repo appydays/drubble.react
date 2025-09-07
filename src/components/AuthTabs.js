@@ -326,7 +326,7 @@ const AuthTabs = ({ onSignupSuccess, onLoginSuccess }) => {
                     </button>
                     <button className={activeTab === "signup" ? "active key special" : "key special"}
                             onClick={() => setActiveTab("signup")}>
-                        {t('auth.buttons.register')}
+                        {t('auth.tabs.register')}
                     </button>
                 </div>
 
