@@ -65,8 +65,9 @@ function SplashHelpModal({ isOpen, onClose }) {
                         <p>{t('help_modal.account_paragraph_2')}</p>
                     </div>
                     <div>{t('help_modal.good_luck_message')}</div>
-                    <div><br/><br/></div>
+                    <div><br/></div>
                     <div>{t('help_modal.copyright_message')}</div>
+                    <div><br/><br/></div>
                 </div>
             </div>
         </Modal>
