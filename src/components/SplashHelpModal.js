@@ -66,6 +66,7 @@ function SplashHelpModal({ isOpen, onClose }) {
                     </div>
                     <div>{t('help_modal.good_luck_message')}</div>
                     <div><br/><br/></div>
+                    <div>{t('help_modal.copyright_message')}</div>
                 </div>
             </div>
         </Modal>

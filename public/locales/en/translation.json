@@ -452,7 +452,8 @@
     "rounds_paragraph_2": "After each word is entered, the letters used will be replaced by the corresponding type, vowel or consonant.",
     "account_paragraph_1": "You don't have to create an account to play; however, if you're not logged in, your score won't be added to the leaderboard!",
     "account_paragraph_2": "Registering to play will allow you to compete against your friends and family, see if you can beat them, or try to reach the top 10!",
-    "good_luck_message": "Thanks very much... and Good Luck!"
+    "good_luck_message": "Thank you... and Good Luck!",
+    "copyright_message": "© Copyright 2025 DP Digital Online Wales"
   },
   "privacy_policy": {
     "title": "Privacy Policy {{sitename}}",
