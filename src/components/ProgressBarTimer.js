@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import * as Tone from 'tone'; // Import Tone.js as a module
+import * as Tone from 'tone';
+import ProgressInfoBox from "./ProgressInfoBox"; // Import Tone.js as a module
 
-const ProgressBarTimer = ({ totalTime = 300, isSplashHelpModalOpen, isGameOver, onTimeUp }) => {
+const ProgressBarTimer = ({ totalTime = 300, isSplashHelpModalOpen, isGameOver, onTimeUp, gameScore, submittedWords }) => {
     const [timeLeft, setTimeLeft] = useState(totalTime);
     const [isToneReady, setIsToneReady] = useState(false); // State to track Tone.js readiness
     const [isMuted, setIsMuted] = useState(false); // New state for mute functionality
@@ -317,8 +318,13 @@ const ProgressBarTimer = ({ totalTime = 300, isSplashHelpModalOpen, isGameOver, 
                     </button>
                     <span className="sound-label on-label">ON</span>
                 </div>
-                <p style={{ fontSize: "18px" }}>{formatTime(timeLeft)}</p>
+                {/*<p style={{ fontSize: "18px" }}>{formatTime(timeLeft)}</p>*/}
             </div>
+            <ProgressInfoBox
+                gameScore={gameScore}
+                formattedTime={formatTime(timeLeft)}
+                submittedWordCount={submittedWords.length}
+            />
             <div className="progressbar-timer__bar">
                 <div
                     className={`progressbar-timer__overlay ${isPulsating ? 'pulsating-red' : ''}`}

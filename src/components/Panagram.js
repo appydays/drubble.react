@@ -25,8 +25,6 @@ import SettingsButton from "./atoms/SettingsButton";
 import AccountIcon from "./atoms/AccountIcon";
 import HelpButton from "./atoms/HelpButton";
 
-
-
 const letterWeights = {
     'A' : 12, 'E' : 16, 'I' : 9, 'O' : 8, 'U' : 4,
     'B' : 2, 'C' : 3, 'D' : 4, 'F' : 2, 'G' : 3, 'H' : 3, 'J' : 1, 'K' : 2,
@@ -673,6 +671,8 @@ const Panagram = ({
                     isSplashHelpModalOpen={isSplashHelpModalOpen}
                     isGameOver={isGameOver}
                     onTimeUp={handleTimeUp}
+                    gameScore={score}
+                    submittedWords={submittedWords}
                 />
 
                 <div className="tile-container daily-letters">
