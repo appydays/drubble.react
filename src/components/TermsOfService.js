@@ -16,12 +16,12 @@ function TermsOfService() {
             <h1>{t('terms.title', { siteName: siteName })}</h1>
             <p><strong>{t('terms.last_updated_label')}:</strong> {t('terms.last_updated_date')}</p>
 
-            <p>{t('terms.intro_para_1', { companyName: "DPDigital", siteName: siteName })}</p>
+            <p>{t('terms.intro_para_1', { companyName: "D PDigital Online Ltd", siteName: siteName })}</p>
             <p>{t('terms.intro_para_2')}</p>
             <p>{t('terms.intro_para_3')}</p>
 
             <h2>{t('terms.section_1_title')}</h2>
-            <p>{t('terms.section_1_para_1', { companyName: "DPDigital", siteName: siteName })}</p>
+            <p>{t('terms.section_1_para_1', { companyName: "DP Digital Online Ltd", siteName: siteName })}</p>
 
             <h2>{t('terms.section_2_title')}</h2>
             <p>{t('terms.section_2_para_1')}</p>
@@ -39,7 +39,7 @@ function TermsOfService() {
             </ul>
 
             <h2>{t('terms.section_4_title')}</h2>
-            <p>{t('terms.section_4_para_1', { companyName: "DPDigital" })}</p>
+            <p>{t('terms.section_4_para_1', { companyName: "DP Digital Online Ltd" })}</p>
 
             <h2>{t('terms.section_5_title')}</h2>
             <p>{t('terms.section_5_para_1')}</p>
@@ -51,10 +51,10 @@ function TermsOfService() {
 
             <h2>{t('terms.section_6_title')}</h2>
             <p>{t('terms.section_6_para_1')}</p>
-            <p>{t('terms.section_6_para_2', { companyName: "DPDigital" })}</p>
+            <p>{t('terms.section_6_para_2', { companyName: "DP Digital Online Ltd" })}</p>
 
             <h2>{t('terms.section_7_title')}</h2>
-            <p>{t('terms.section_7_para_1', { companyName: "DPDigital" })}</p>
+            <p>{t('terms.section_7_para_1', { companyName: "DP Digital Online Ltd" })}</p>
 
             <h2>{t('terms.section_8_title')}</h2>
             <p>
@@ -74,6 +74,13 @@ function TermsOfService() {
                 <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
             </p>
 
+            <div>
+                <p>DP Digital Online Ltd</p>
+                <p>Company number: 16897530</p>
+                <p>Registered in Wales</p>
+                <p>Registered Address:</p>
+                <p>International House, 10 Churchill Way, Cardiff, CF10 2HE</p>
+            </div>
         </div>
     );
 }
