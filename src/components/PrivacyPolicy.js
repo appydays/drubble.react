@@ -16,7 +16,7 @@ function PrivacyPolicy() {
 
             <p>
                 {t('privacy_policy.intro_para_1', {
-                    companyName: "DPDigital", // Hardcoded as per original HTML, make env var if dynamic
+                    companyName: "DP Digital Online Ltd", // Hardcoded as per original HTML, make env var if dynamic
                     sitename: sitename
                 })}
             </p>
@@ -24,7 +24,7 @@ function PrivacyPolicy() {
             <p>{t('privacy_policy.intro_para_2')}</p>
 
             <h2>{t('privacy_policy.section_1_title')}</h2>
-            <p>{t('privacy_policy.section_1_para_1', { companyName: "DPDigital" })}</p>
+            <p>{t('privacy_policy.section_1_para_1', { companyName: "DP Digital Online Ltd" })}</p>
             <p>
                 <strong>{t('privacy_policy.section_1_contact_email_label')}:</strong>
                 <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
@@ -79,7 +79,7 @@ function PrivacyPolicy() {
             <ul>
                 <li><strong>{t('privacy_policy.service_providers_heading')}:</strong> {t('privacy_policy.service_providers_text')}</li>
                 <li><strong>{t('privacy_policy.legal_reasons_heading')}:</strong> {t('privacy_policy.legal_reasons_text')}</li>
-                <li><strong>{t('privacy_policy.business_transfers_heading')}:</strong> {t('privacy_policy.business_transfers_text', { companyName: "DPDigital" })}</li>
+                <li><strong>{t('privacy_policy.business_transfers_heading')}:</strong> {t('privacy_policy.business_transfers_text', { companyName: "DP Digital Online" })}</li>
             </ul>
 
             <h2>{t('privacy_policy.section_5_title')}</h2>
@@ -118,6 +118,14 @@ function PrivacyPolicy() {
 
             <h2>{t('privacy_policy.section_11_title')}</h2>
             <p>{t('privacy_policy.section_11_para_1', { icoLink: "https://ico.org.uk/" })}</p>
+
+            <div>
+                <p>DP Digital Online Ltd</p>
+                <p>Company number: 16897530</p>
+                <p>Registered in Wales</p>
+                <p>Registered Address:</p>
+                <p>International House, 10 Churchill Way, Cardiff, CF10 2HE</p>
+            </div>
 
         </div>
     );
